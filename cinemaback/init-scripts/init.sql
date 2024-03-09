@@ -19,12 +19,12 @@ CREATE TABLE cinema.restriction
 );
 
 
--- Table: user
-CREATE TABLE cinema."user"
+-- Table: cinema_user
+CREATE TABLE cinema.cinema_user
 (
     id   serial       NOT NULL,
     name varchar(255) NOT NULL,
-    CONSTRAINT user_pk PRIMARY KEY (id)
+    CONSTRAINT cinema_user_pk PRIMARY KEY (id)
 );
 
 -- Table: country
@@ -151,7 +151,7 @@ CREATE TABLE cinema.reservation
 (
     id           serial  NOT NULL,
     screening_id int     NOT NULL,
-    user_id      int     NOT NULL,
+    cinema_user_id      int     NOT NULL,
     paid         boolean NOT NULL,
     active       boolean NOT NULL,
     CONSTRAINT reservation_pk PRIMARY KEY (id, paid)
@@ -170,171 +170,155 @@ CREATE TABLE cinema.reserved_seat
 
 
 -- foreign keys
--- Reference: Copy_of_movie_country_language (table: movie_language)
+
 ALTER TABLE cinema.movie_language
-    ADD CONSTRAINT Copy_of_movie_country_language
+    ADD CONSTRAINT language_id
         FOREIGN KEY (language_id)
-            REFERENCES language (id)
+            REFERENCES cinema.language (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: Copy_of_movie_country_language (table: movie_subtitles)
-ALTER TABLE cinema.movie_subtitles
-    ADD CONSTRAINT Copy_of_movie_country_language
-        FOREIGN KEY (language_id)
-            REFERENCES language (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE
-;
-
--- Reference: Copy_of_movie_country_movie (table: movie_language)
 ALTER TABLE cinema.movie_language
-    ADD CONSTRAINT Copy_of_movie_country_movie
+    ADD CONSTRAINT movie_id
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: Copy_of_movie_country_movie (table: movie_subtitles)
 ALTER TABLE cinema.movie_subtitles
-    ADD CONSTRAINT Copy_of_movie_country_movie
-        FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+    ADD CONSTRAINT language_id
+        FOREIGN KEY (language_id)
+            REFERENCES cinema.language (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: Table_3_country (table: movie_country)
+ALTER TABLE cinema.movie_subtitles
+    ADD CONSTRAINT movie_id
+        FOREIGN KEY (movie_id)
+            REFERENCES cinema.movie (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
 ALTER TABLE cinema.movie_country
-    ADD CONSTRAINT Table_3_country
+    ADD CONSTRAINT country_id
         FOREIGN KEY (country_id)
-            REFERENCES country (id)
+            REFERENCES cinema.country (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: Table_3_movie (table: movie_country)
 ALTER TABLE cinema.movie_country
-    ADD CONSTRAINT Table_3_movie
+    ADD CONSTRAINT movie_id
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
 ALTER TABLE cinema.movie_director
-    ADD CONSTRAINT Table_3_country
+    ADD CONSTRAINT director_id
         FOREIGN KEY (director_id)
-            REFERENCES director (id)
+            REFERENCES cinema.director (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
 ALTER TABLE cinema.movie_director
-    ADD CONSTRAINT Table_3_movie
+    ADD CONSTRAINT movie_id
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: movie_genre_genre (table: movie_genre)
 ALTER TABLE cinema.movie_genre
-    ADD CONSTRAINT movie_genre_genre
+    ADD CONSTRAINT genre_id
         FOREIGN KEY (genre_id)
-            REFERENCES genre (id)
+            REFERENCES cinema.genre (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: movie_genre_movie (table: movie_genre)
 ALTER TABLE cinema.movie_genre
-    ADD CONSTRAINT movie_genre_movie
+    ADD CONSTRAINT movie_id
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: movie_restriction_movie (table: movie_restriction)
 ALTER TABLE cinema.movie_restriction
-    ADD CONSTRAINT movie_restriction_movie
+    ADD CONSTRAINT movie_id
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: movie_restriction_restriction (table: movie_restriction)
 ALTER TABLE cinema.movie_restriction
     ADD CONSTRAINT movie_restriction_restriction
         FOREIGN KEY (restriction_id)
-            REFERENCES restriction (id)
+            REFERENCES cinema.restriction (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: reservation_screening (table: reservation)
 ALTER TABLE cinema.reservation
     ADD CONSTRAINT reservation_screening
         FOREIGN KEY (screening_id)
-            REFERENCES screening (id)
+            REFERENCES cinema.screening (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: reservation_user (table: reservation)
 ALTER TABLE cinema.reservation
     ADD CONSTRAINT reservation_user
-        FOREIGN KEY (user_id)
-            REFERENCES "user" (id)
+        FOREIGN KEY (cinema_user_id)
+            REFERENCES cinema.cinema_user (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: reserved_seat_reservation (table: reserved_seat)
 ALTER TABLE cinema.reserved_seat
     ADD CONSTRAINT reserved_seat_reservation
-        FOREIGN KEY (reservation_id, reservation_paid)
-            REFERENCES reservation (id, paid)
+        FOREIGN KEY (reservation_id)
+            REFERENCES cinema.reservation (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: reserved_seat_screening (table: reserved_seat)
 ALTER TABLE cinema.reserved_seat
     ADD CONSTRAINT reserved_seat_screening
         FOREIGN KEY (screening_id)
-            REFERENCES screening (id)
+            REFERENCES cinema.screening (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: reserved_seat_seat (table: reserved_seat)
 ALTER TABLE cinema.reserved_seat
-    ADD CONSTRAINT reserved_seat_seat
+    ADD CONSTRAINT reserved_seat
         FOREIGN KEY (seat_id)
-            REFERENCES seat (id)
+            REFERENCES cinema.seat (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: screening_hall (table: screening)
 ALTER TABLE cinema.screening
     ADD CONSTRAINT screening_hall
         FOREIGN KEY (hall_id)
-            REFERENCES hall (id)
+            REFERENCES cinema.hall (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: screening_movie (table: screening)
 ALTER TABLE cinema.screening
     ADD CONSTRAINT screening_movie
         FOREIGN KEY (movie_id)
-            REFERENCES movie (id)
+            REFERENCES cinema.movie (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -342,7 +326,7 @@ ALTER TABLE cinema.screening
 ALTER TABLE cinema.seat
     ADD CONSTRAINT hall_id
         FOREIGN KEY (hall_id)
-            REFERENCES hall (id)
+            REFERENCES cinema.hall (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
