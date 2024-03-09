@@ -16,6 +16,14 @@ INSERT INTO cinema.country (id, name)
 VALUES (default, 'Inglismaa');
 INSERT INTO cinema.country (id, name)
 VALUES (default, 'Soome');
+INSERT INTO cinema.country (id, name)
+VALUES (default, 'Iiri');
+INSERT INTO cinema.country (id, name)
+VALUES (default, 'Mehhiko');
+INSERT INTO cinema.country (id, name)
+VALUES (default, 'Peruu');
+INSERT INTO cinema.country (id, name)
+VALUES (default, 'Itaalia');
 
 INSERT INTO cinema.language (id, name)
 VALUES (default, 'prantsuse');
@@ -33,6 +41,10 @@ INSERT INTO cinema.language (id, name)
 VALUES (default, 'inglise');
 INSERT INTO cinema.language (id, name)
 VALUES (default, 'vene');
+INSERT INTO cinema.language (id, name)
+VALUES (default, 'itaalia');
+INSERT INTO cinema.language (id, name)
+VALUES (default, 'hispaania');
 
 INSERT INTO cinema.genre (id, name)
 VALUES (default, 'Tegevus');
@@ -58,6 +70,16 @@ INSERT INTO cinema.genre (id, name)
 VALUES (default, 'Lastefilm');
 INSERT INTO cinema.genre (id, name)
 VALUES (default, 'Animafilm');
+INSERT INTO cinema.genre (id, name)
+VALUES (default, 'Müsteerium');
+INSERT INTO cinema.genre (id, name)
+VALUES (default, 'Biograafiline');
+INSERT INTO cinema.genre (id, name)
+VALUES (default, 'Seiklus');
+INSERT INTO cinema.genre (id, name)
+VALUES (default, 'Pere');
+INSERT INTO cinema.genre (id, name)
+VALUES (default, 'Dokumentaal');
 
 INSERT INTO cinema.restriction (id, name)
 VALUES (default, 'Perefilm');
@@ -88,7 +110,6 @@ INSERT INTO cinema.director (id, name)
 VALUES (default, 'Margus Paju');
 INSERT INTO cinema.director (id, name)
 VALUES (default, 'Anna Hints');
-
 
 INSERT INTO cinema.movie (id, title, description, length, release_year)
 VALUES (default, 'Blue Velvet',
@@ -127,4 +148,77 @@ INSERT INTO cinema.movie (id, title, description, length, release_year)
 VALUES (default, 'Savvusanna sõsarad',
         'Esimese Eesti dokumentaalfilmina maineka Sundance´i filmifestivali võistlusprogrammis esilinastunud „Savvusanna sõsarad“ on kaasaegne portreefilm naistest, kes suitsusauna kaitsvas pimeduses kokku tulevad, oma sügavamaid saladusi jagavad ning kehasse kogunenud häbi ja valu maha pesevad.',
             89, 2023);
+
+
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 1, 7);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 2, 2);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 2, 11);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 2, 12);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 3, 13);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 4, 5);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 4, 2);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 4, 3);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 5, 10);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 6, 4);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 7, 2);
+INSERT INTO cinema.movie_country (id, movie_id, country_id) VALUES (default, 8, 4);
+
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 1, 5);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 1, 13);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 2, 1);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 2, 15);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 2, 14);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 3, 15);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 4, 14);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 4, 5);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 4, 4);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 5, 5);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 5, 3);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 5, 6);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 6, 1);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 6, 15);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 6, 16);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 7, 14);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 7, 5);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 7, 4);
+INSERT INTO cinema.movie_genre (id, movie_id, genre_id) VALUES (default, 8, 17);
+
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 1, 1);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 2, 2);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 3, 3);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 4, 4);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 5, 5);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 6, 6);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 7, 2);
+INSERT INTO cinema.movie_director (id, movie_id, director_id) VALUES (default, 8, 7);
+
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 1, 7);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 2, 2);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 3, 7);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 3, 9);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 3, 10);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 4, 5);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 4, 2);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 5, 7);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 6, 4);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 7, 2);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 7, 7);
+INSERT INTO cinema.movie_language (id, movie_id, language_id) VALUES (default, 8, 4);
+
+INSERT INTO cinema.movie_restriction (id, movie_id, restriction_id) VALUES (default, 1, 4);
+
+-- DO
+-- $$
+--     BEGIN
+--         FOR i IN 1..12 LOOP
+--                 FOR j IN 1..10 LOOP
+--                         INSERT INTO cinema.seat (id, hall_id, row, number) VALUES (default, 1, 1, 1); -- Omitting 'id' column as it's set to default
+--                     END LOOP;
+--             END LOOP;
+--     END
+-- $$;
+
+
+
+
 

@@ -339,9 +339,8 @@ ALTER TABLE cinema.screening
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: seat_hall (table: seat)
 ALTER TABLE cinema.seat
-    ADD CONSTRAINT seat_hall
+    ADD CONSTRAINT hall_id
         FOREIGN KEY (hall_id)
             REFERENCES hall (id)
             NOT DEFERRABLE
