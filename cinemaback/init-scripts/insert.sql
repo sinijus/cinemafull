@@ -149,10 +149,28 @@ INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (5, 7);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (6, 4);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (7, 2);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (7, 7);
-
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (8, 4);
 
-INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (1, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (1, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (1, 8);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (2, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (2, 7);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (3, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (3, 8);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (4, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (4, 7);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (5, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (6, 7);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (6, 2);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (7, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (7, 7);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 4);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 7);
+
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (1, 2);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (2, 2);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (6, 1);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (4, 4);
 
 DO
 $$

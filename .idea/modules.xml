@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cinemaback.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cinemaback.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/cinemafront.iml" filepath="$PROJECT_DIR$/cinemafront.iml" />
       <module fileurl="file://$PROJECT_DIR$/cinemafull.iml" filepath="$PROJECT_DIR$/cinemafull.iml" />
     </modules>

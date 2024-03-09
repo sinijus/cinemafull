@@ -3,5 +3,7 @@
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <option name="reverseEngineeringLastDbConnectionId" value="b0f0078f-d22e-4157-9d18-f5b184a51866__postgres_cinema" />
+    <option name="reLastEntityCreationPackage" value="cinemaback/src/main/java/com/jaanussinivali/cinemaback" />
   </component>
 </project>
