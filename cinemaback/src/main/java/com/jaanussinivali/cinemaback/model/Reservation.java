@@ -10,8 +10,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "reservation", schema = "cinema")
 public class Reservation {
-    @EmbeddedId
-    private ReservationId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -22,6 +24,10 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cinema_user_id", nullable = false)
     private CinemaUser cinemaUser;
+
+    @NotNull
+    @Column(name = "paid", nullable = false)
+    private Boolean paid = false;
 
     @NotNull
     @Column(name = "active", nullable = false)

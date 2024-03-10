@@ -41,7 +41,6 @@ INSERT INTO cinema.genre (name) VALUES ('Seiklus');
 INSERT INTO cinema.genre (name) VALUES ('Pere');
 INSERT INTO cinema.genre (name) VALUES ('Dokumentaal');
 
-INSERT INTO cinema.restriction (name) VALUES ('Perefilm');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 12 a. keelatud');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 14 a. keelatud');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 16 a. keelatud');
