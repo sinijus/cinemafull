@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DirectorResponse implements Serializable {
-    private Integer directorId;
+    private Integer id;
     @NotNull
     @Size(max = 255)
-    private String directorName;
+    private String name;
 }

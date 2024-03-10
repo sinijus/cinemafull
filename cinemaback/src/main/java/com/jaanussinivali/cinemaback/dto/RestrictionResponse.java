@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestrictionResponse implements Serializable {
-    private Integer restrictionId;
+    private Integer id;
     @NotNull
     @Size(max = 255)
-    private String restrictionName;
+    private String name;
 }

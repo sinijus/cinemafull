@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LanguageResponse implements Serializable {
-    private Integer languageId;
+    private Integer id;
     @NotNull
     @Size(max = 255)
-    private String languageName;
+    private String name;
 }

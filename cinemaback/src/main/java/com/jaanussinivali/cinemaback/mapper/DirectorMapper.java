@@ -8,8 +8,7 @@ import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface DirectorMapper {
-    @Mapping(source = "id", target = "directorId")
-    @Mapping(source = "name", target = "directorName")
+
     DirectorResponse toDirectorResponse (Director director);
     List<DirectorResponse> toDirectorsResponse (List<Director> directors);
 

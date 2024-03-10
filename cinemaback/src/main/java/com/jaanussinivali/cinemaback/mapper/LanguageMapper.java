@@ -9,8 +9,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface LanguageMapper {
 
-    @Mapping(source = "id", target = "languageId")
-    @Mapping(source = "name", target = "languageName")
+
     LanguageResponse toLanguageResponse(Language language);
     List<LanguageResponse> toLanguagesResponse(List<Language> languages);
 

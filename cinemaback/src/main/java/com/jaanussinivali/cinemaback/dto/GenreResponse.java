@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenreResponse implements Serializable {
-    private Integer genreId;
+    private Integer id;
     @NotNull
     @Size(max = 255)
-    private String genreName;
+    private String name;
 }
