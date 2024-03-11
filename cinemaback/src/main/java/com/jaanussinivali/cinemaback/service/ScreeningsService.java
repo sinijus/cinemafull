@@ -30,22 +30,6 @@ public class ScreeningsService {
     @Resource
     private MovieRestrictionService movieRestrictionService;
 
-
-    @Resource
-    private DirectorService directorService;
-
-    @Resource
-    private GenreService genreService;
-
-    @Resource
-    private LanguageService languageService;
-
-    @Resource
-    private RestrictionService restrictionService;
-
-    @Resource
-    private HallService hallService;
-
     @Resource
     private ScreeningMapper screeningMapper;
 
@@ -126,13 +110,14 @@ public class ScreeningsService {
 
         for (Screening screening : filteredScreenings) {
             Integer movieId = screening.getMovie().getId();
-            if (!directorsFilteredMovieIds.isEmpty() && !directorsFilteredMovieIds.contains(movieId)) break;
-            else if (!genresFilteredMovieIds.isEmpty() && !genresFilteredMovieIds.contains(movieId)) break;
-            else if (!languagesFilteredMovieIds.isEmpty() && !languagesFilteredMovieIds.contains(movieId)) break;
-            else if (!restrictionsFilteredMovieIds.isEmpty() && !restrictionsFilteredMovieIds.contains(movieId)) break;
+            if (!directorsFilteredMovieIds.isEmpty() && !directorsFilteredMovieIds.contains(movieId)) continue;
+            else if (!genresFilteredMovieIds.isEmpty() && !genresFilteredMovieIds.contains(movieId)) continue;
+            else if (!languagesFilteredMovieIds.isEmpty() && !languagesFilteredMovieIds.contains(movieId)) continue;
+            else if (!restrictionsFilteredMovieIds.isEmpty() && !restrictionsFilteredMovieIds.contains(movieId))
+                continue;
 
             ScreeningResponse screeningResponse = screeningMapper.toScreeningResponse(screening);
-            getAndSetScreeningResponse(movieId,screeningResponse);
+            getAndSetScreeningResponse(movieId, screeningResponse);
             filteredScreeningResults.add(screeningResponse);
         }
 

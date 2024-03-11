@@ -44,6 +44,7 @@ INSERT INTO cinema.genre (name) VALUES ('Dokumentaal');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 12 a. keelatud');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 14 a. keelatud');
 INSERT INTO cinema.restriction (name) VALUES ('Alla 16 a. keelatud');
+INSERT INTO cinema.restriction (name) VALUES ('Piirangud puuduvad');
 
 INSERT INTO cinema.cinema_user (name) VALUES ('testkasutaja');
 
@@ -168,7 +169,12 @@ INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 7);
 
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (1, 2);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (2, 2);
-INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (6, 1);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (6, 4);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (3, 4);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (4, 3);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (5, 4);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (7, 4);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (8, 4);
 
 DO
 $$
