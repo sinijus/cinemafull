@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ScreeningsService {
@@ -30,8 +29,6 @@ public class ScreeningsService {
 
     @Resource
     private MovieRestrictionService movieRestrictionService;
-
-
 
 
     @Resource
@@ -59,18 +56,29 @@ public class ScreeningsService {
 
             Movie movie = movieService.findMovieById(movieId);
 
-            List<MovieDirector> movieDirectors = movieDirectorService.findDirectorsByMovieId(movieId);
+            List<MovieDirector> movieDirectors = movieDirectorService.findMovieDirectorsByMovieId(movieId);
             List<Director> directors = new ArrayList<>();
             for (MovieDirector movieDirector : movieDirectors) {
-                Director director = directorService.findDirectorById(movieDirector.getDirector().getId());
-                directors.add(director);
+                directors.add(movieDirector.getDirector());
             }
 
+            List<MovieGenre> movieGenres = movieGenreService.findMovieGenresByMovieId(movieId);
+            List<Genre> genres = new ArrayList<>();
+            for (MovieGenre movieGenre : movieGenres) {
+                genres.add(movieGenre.getGenre());
+            }
 
+            List<MovieLanguage> movieLanguages = movieLanguageService.findMovieLanguagesByMovieId(movieId);
+            List<Language> languages = new ArrayList<>();
+            for (MovieLanguage movieLanguage : movieLanguages) {
+                languages.add(movieLanguage.getLanguage());
+            }
 
-
-
-
+            List<MovieRestriction> movieRestrictions = movieRestrictionService.findMovieRestrictionsByMovieId(movieId);
+            List<Restriction> restrictions = new ArrayList<>();
+            for (MovieRestriction movieRestriction : movieRestrictions) {
+                restrictions.add(movieRestriction.getRestriction());
+            }
         }
 
     }

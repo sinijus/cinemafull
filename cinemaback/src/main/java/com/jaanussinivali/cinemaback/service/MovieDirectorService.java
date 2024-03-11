@@ -11,7 +11,7 @@ import java.util.List;
 public class MovieDirectorService {
     @Resource
     private MovieDirectorRepository movieDirectorRepository;
-    public List<MovieDirector> findDirectorsByMovieId(Integer movieId) {
+    public List<MovieDirector> findMovieDirectorsByMovieId(Integer movieId) {
         return movieDirectorRepository.findMovieDirectorsByMovieId(movieId);
     }
 }
