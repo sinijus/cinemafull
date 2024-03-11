@@ -14,4 +14,8 @@ public class MovieGenreService {
     public List<MovieGenre> findMovieGenresByMovieId(Integer movieId) {
         return movieGenreRepository.findMovieGenresByMovieId(movieId);
     }
+
+    public List<Integer> findFilteredGenresMovieIds(Integer genreId) {
+        return movieGenreRepository.findMovieGenresMovieIdsByGenreId(genreId);
+    }
 }

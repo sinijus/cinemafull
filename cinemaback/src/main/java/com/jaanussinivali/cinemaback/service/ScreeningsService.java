@@ -110,4 +110,27 @@ public class ScreeningsService {
         return screeningsResponse;
 
     }
+
+
+    public void findFilteredScreenings(FilteredScreeningRequest request) {
+        List<ScreeningResponse> filteredScreeningResults = new ArrayList<>();
+        List<Screening> filteredScreenings = screeningService.findFilteredScreeningsMovieIds(request);
+        List<Integer> directorsFilteredMovieIds = movieDirectorService.findMovieDirectorsMovieIds(request.getDirectorId());
+        List<Integer> genresFilteredMovieIds = movieGenreService.findFilteredGenresMovieIds(request.getGenreId());
+        List<Integer> languagesFilteredMovieIds = movieLanguageService.findFilteredLanguagesMovieIds(request.getLanguageId());
+        List<Integer> restrictionsFilteredMovieIds = movieRestrictionService.findFilteredRestrictionsMovieIds(request.getRestrictionId());
+
+        for (Screening screening : filteredScreenings) {
+            Integer movieId = screening.getMovie().getId();
+            if (!directorsFilteredMovieIds.isEmpty() && !directorsFilteredMovieIds.contains(movieId)) break;
+            else if (!genresFilteredMovieIds.isEmpty() && !genresFilteredMovieIds.contains(movieId)) break;
+            else if (!languagesFilteredMovieIds.isEmpty() && !languagesFilteredMovieIds.contains(movieId)) break;
+            else if (!restrictionsFilteredMovieIds.isEmpty() && !restrictionsFilteredMovieIds.contains(movieId)) break;
+            filteredScreeningResults.add(screeningMapper.toScreeningResponse(screening));
+        }
+
+
+
+    }
+
 }

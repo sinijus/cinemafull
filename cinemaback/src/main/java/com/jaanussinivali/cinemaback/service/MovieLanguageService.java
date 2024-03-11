@@ -15,4 +15,8 @@ public class MovieLanguageService {
         return movieLanguageRepository.findMovieLanguagesByMovieId(movieId);
 
     }
+
+    public List<Integer> findFilteredLanguagesMovieIds(Integer languageId) {
+        return movieLanguageRepository.findMovieLanguagesMovieIdsByLanguageId(languageId);
+    }
 }

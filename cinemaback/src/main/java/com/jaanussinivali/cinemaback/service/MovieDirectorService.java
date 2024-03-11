@@ -14,4 +14,9 @@ public class MovieDirectorService {
     public List<MovieDirector> findMovieDirectorsByMovieId(Integer movieId) {
         return movieDirectorRepository.findMovieDirectorsByMovieId(movieId);
     }
+
+    public List<Integer> findMovieDirectorsMovieIds(Integer directorId) {
+        return movieDirectorRepository.findMovieDirectorsMovieIdsByDirectorId(directorId);
+
+    }
 }

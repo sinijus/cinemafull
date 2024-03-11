@@ -14,4 +14,8 @@ public class MovieRestrictionService {
     public List<MovieRestriction> findMovieRestrictionsByMovieId(Integer movieId) {
         return movieRestrictionRepository.findMovieRestrictionsByMovieId(movieId);
     }
+
+    public List<Integer> findFilteredRestrictionsMovieIds(Integer restrictionId) {
+        return movieRestrictionRepository.findMovieRestrictionsMovieIdsByRestrictionId(restrictionId);
+    }
 }
