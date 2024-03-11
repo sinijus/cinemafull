@@ -27,17 +27,17 @@ public class ScreeningController {
 
     @GetMapping("/filtered-screenings")
     @Operation(summary = """
-            Otsib seansse koos filmide infoga, 
+            Otsib seansse koos filmide infoga,
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
             """)
-    public void findFilteredScreenings(@RequestParam(defaultValue = "0:00") LocalTime startTime,
-                                       @RequestParam(defaultValue = "24:00") LocalTime endTime,
-                                       @RequestParam(defaultValue = "2024-05-06") LocalDate startDate,
-                                       @RequestParam(defaultValue = "2024-05-12") LocalDate endDate,
-                                       @RequestParam(defaultValue = "0") Integer directorId,
-                                       @RequestParam(defaultValue = "0") Integer genreId,
-                                       @RequestParam(defaultValue = "0") Integer languageId,
-                                       @RequestParam(defaultValue = "0") Integer restrictionId
+    public List<ScreeningResponse> findFilteredScreenings(@RequestParam(defaultValue = "#{LocalTime.parse(\"00:00\")}") LocalTime startTime,
+                                                          @RequestParam(defaultValue = "24:00") LocalTime endTime,
+                                                          @RequestParam(defaultValue = "2024-05-06") LocalDate startDate,
+                                                          @RequestParam(defaultValue = "2024-05-12") LocalDate endDate,
+                                                          @RequestParam(defaultValue = "0") Integer directorId,
+                                                          @RequestParam(defaultValue = "0") Integer genreId,
+                                                          @RequestParam(defaultValue = "0") Integer languageId,
+                                                          @RequestParam(defaultValue = "0") Integer restrictionId
     ) {
         FilteredScreeningRequest request = FilteredScreeningRequest.builder()
                 .startTime(startTime)
@@ -50,6 +50,6 @@ public class ScreeningController {
                 .restrictionId(restrictionId)
                 .build();
 
-        screeningsService.findFilteredScreenings(request);
+        return screeningsService.findFilteredScreenings(request);
     }
 }
