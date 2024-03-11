@@ -44,6 +44,4 @@ public class MovieController {
     public List<RestrictionResponse> findAllRestrictions() {
         return movieService.findAllRestrictions();
     }
-
-
 }
