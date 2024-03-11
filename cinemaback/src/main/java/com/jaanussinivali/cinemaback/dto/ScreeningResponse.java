@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * DTO for {@link Screening}
@@ -26,4 +27,9 @@ public class ScreeningResponse implements Serializable {
     private LocalDate date;
     @NotNull
     private LocalTime time;
+    private List<DirectorResponse> directors;
+    private List<GenreResponse> genres;
+    private List<LanguageResponse> languages;
+    private List<RestrictionResponse> restrictions;
+
 }
