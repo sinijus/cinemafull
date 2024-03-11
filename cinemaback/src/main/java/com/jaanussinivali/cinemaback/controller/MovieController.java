@@ -13,35 +13,35 @@ import java.util.List;
 public class MovieController {
 
     @Resource
-    private MoviesService movieService;
+    private MoviesService moviesService;
 
     @GetMapping("/countries")
     @Operation(summary = "Leiab kõik riigid.")
     public List<CountryResponse> findAllCountries() {
-        return movieService.findAllCountries();
+        return moviesService.findAllCountries();
     }
 
     @GetMapping("/genres")
     @Operation(summary = "Leiab kõik žanrid.")
     public List<GenreResponse> findAllGenres() {
-        return movieService.findAllGenres();
+        return moviesService.findAllGenres();
     }
 
     @GetMapping("/directors")
     @Operation(summary = "Leiab kõik režissöörid.")
     public List<DirectorResponse> findAllDirectors() {
-        return movieService.findAllDirectors();
+        return moviesService.findAllDirectors();
     }
 
     @GetMapping("/languages")
     @Operation(summary = "Leiab kõik keeled")
     public List<LanguageResponse> findAllLanguages() {
-        return movieService.findAllLanguages();
+        return moviesService.findAllLanguages();
     }
 
     @GetMapping("/restrictions")
     @Operation(summary = "Leiab kõik piirangud")
     public List<RestrictionResponse> findAllRestrictions() {
-        return movieService.findAllRestrictions();
+        return moviesService.findAllRestrictions();
     }
 }

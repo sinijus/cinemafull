@@ -13,12 +13,12 @@ import java.util.List;
 public class ScreeningController {
 
     @Resource
-    private ScreeningsService screeningService;
+    private ScreeningsService screeningsService;
 
     @GetMapping("/screenings")
     @Operation(summary = "Otsib kõik seanssid koos filmide infoga")
     public List<ScreeningResponse> findAllMovieScreenings() {
-        return screeningService.findAllMovieScreenings();
+        return screeningsService.findAllMovieScreenings();
     }
 
 }

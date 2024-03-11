@@ -169,7 +169,6 @@ INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 7);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (1, 2);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (2, 2);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (6, 1);
-INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (4, 4);
 
 DO
 $$
@@ -182,6 +181,23 @@ $$
     END
 $$;
 
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (2, 1, '2024-05-06', '19:00' );
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (7, 1, '2024-05-07', '19:00' );
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (5, 1, '2024-05-08', '19:00' );
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (1, 1, '2024-05-09', '19:00');
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (5, 1, '2024-05-10', '18:00' );
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (3, 1, '2024-05-10', '21:30' );
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-11', '12:00');
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (8, 1, '2024-05-11', '16:00');
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-11', '20:00');
+
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-12', '12:00');
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-12', '16:00');
 
 
 

@@ -44,6 +44,9 @@ public class ScreeningsService {
     private RestrictionService restrictionService;
 
     @Resource
+    private HallService hallService;
+
+    @Resource
     private ScreeningMapper screeningMapper;
 
     @Resource
@@ -63,7 +66,7 @@ public class ScreeningsService {
         List<ScreeningResponse> screeningsResponse = new ArrayList<>();
         List<Screening> screenings = screeningService.findAllScreenings();
         for (Screening screening : screenings) {
-            ScreeningResponse screeningResponse = new ScreeningResponse();
+            ScreeningResponse screeningResponse = screeningMapper.toScreeningResponse(screening);
             Integer movieId = screening.getMovie().getId();
 
             Movie movie = movieService.findMovieById(movieId);
