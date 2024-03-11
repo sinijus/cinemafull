@@ -1,63 +1,27 @@
 package com.jaanussinivali.cinemaback.service;
 
-import com.jaanussinivali.cinemaback.dto.*;
-import com.jaanussinivali.cinemaback.mapper.*;
-import com.jaanussinivali.cinemaback.model.*;
+import com.jaanussinivali.cinemaback.exception.MovieNotFoundException;
+import com.jaanussinivali.cinemaback.model.Movie;
+import com.jaanussinivali.cinemaback.repository.MovieRepository;
+import com.jaanussinivali.cinemaback.util.ErrorMessage;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
+
 public class MovieService {
-    @Resource
-    private CountryService countryService;
-    @Resource
-    private GenreService genreService;
-    @Resource
-    private DirectorService directorService;
-    @Resource
-    private LanguageService languageService;
-    @Resource
-    private RestrictionService restrictionService;
 
     @Resource
-    private CountryMapper countryMapper;
-    @Resource
-    private GenreMapper genreMapper;
-    @Resource
-    private DirectorMapper directorMapper;
+    private MovieRepository movieRepository;
 
-    @Resource
-    private LanguageMapper languageMapper;
-    @Resource
-    private RestrictionMapper restrictionMapper;
-
-
-    public List<CountryResponse> findAllCountries() {
-        List<Country> countries = countryService.findAllCountries();
-        return countryMapper.toCountriesResponse(countries);
-    }
-
-    public List<GenreResponse> findAllGenres() {
-        List<Genre> genres = genreService.findAllGenres();
-        return genreMapper.toGenresResponse(genres);
-    }
-
-    public List<DirectorResponse> findAllDirectors() {
-        List<Director> directors = directorService.findAllDirectors();
-        return directorMapper.toDirectorsResponse(directors);
-
-    }
-
-    public List<LanguageResponse> findAllLanguages() {
-        List<Language> languages = languageService.findAllLanguages();
-        return languageMapper.toLanguagesResponse(languages);
-
-    }
-
-    public List<RestrictionResponse> findAllRestrictions() {
-        List<Restriction> restrictions = restrictionService.findAllRestrictions();
-        return restrictionMapper.toRestrictionsResponse(restrictions);
+    public Movie findMovieById(Integer movieId) {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new MovieNotFoundException(ErrorMessage.MOVIE_NOT_FOUND.getMessage());
+        } else {
+            return movieOptional.get();
+        }
     }
 }

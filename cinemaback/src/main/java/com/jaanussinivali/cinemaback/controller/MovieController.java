@@ -1,7 +1,7 @@
 package com.jaanussinivali.cinemaback.controller;
 
 import com.jaanussinivali.cinemaback.dto.*;
-import com.jaanussinivali.cinemaback.service.MovieService;
+import com.jaanussinivali.cinemaback.service.MoviesService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MovieController {
 
     @Resource
-    private MovieService movieService;
+    private MoviesService movieService;
 
     @GetMapping("/countries")
     @Operation(summary = "Leiab kõik riigid.")
