@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScreeningResponse implements Serializable {
+public class ScreeningListResponse implements Serializable {
     private Integer id;
     private Integer movieId;
     private String movieTitle;
