@@ -1,8 +1,23 @@
 <template>
-  <v-card :subtitle="`Subtitle for Content ${screening.movieTitle}`"
-          :title="`Content ${screening.movieTitle}`"
-          text="..."
-          variant="tonal">
+  <v-card variant="tonal">
+    <v-col align-self="start">
+      <v-row>
+        <v-card-title> {{ screening.date }}</v-card-title>
+      </v-row>
+      <v-row>
+        <v-card-title> {{ time(screening.time) }}</v-card-title>
+      </v-row>
+    </v-col>
+    <v-col align-self="center">
+      <v-row>
+        <v-card-title> {{screening.movieTitle}}</v-card-title>
+      </v-row>
+      <v-row v-for="director in screening.directors" :key="director">
+        <v-card-subtitle> {{director.name}}</v-card-subtitle>
+      </v-row>
+
+    </v-col>
+
   </v-card>
 </template>
 <script>
@@ -47,7 +62,12 @@ export default {
         }
       ]
     },
-    tab: 0
+  },
+  methods: {
+    time(time) {
+      return "" + time.hour + ":" + time.minute
+    }
+
 
   }
 }

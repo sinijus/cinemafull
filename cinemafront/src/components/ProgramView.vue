@@ -7,19 +7,33 @@
     </v-tabs>
     <v-window v-model="tab">
       <v-card class="mx-auto" color="#212121" max-width="800">
-        <v-layout>
-          <v-main>
-            <v-window-item v-for="n in 3" :key="n" :value="n">
-              <v-container fluid>
-                <v-row dense>
-                  <v-col v-for="screening in screenings" :key="screening" cols="12">
-                    <ScreeningListItem :screening="screening" :tab="tab"/>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-window-item>
-          </v-main>
-        </v-layout>
+        <v-window-item :value="1">
+          <v-container fluid>
+            <v-row dense>
+              <v-col v-for="n in 5" :key="n" cols="12">
+                RECENT
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-window-item>
+        <v-window-item :value="2">
+          <v-container fluid>
+            <v-row dense>
+              <v-col v-for="screening in screenings" :key="screening" cols="12">
+                <ScreeningListItem :screening="screening"/>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-window-item>
+        <v-window-item :value="3">
+          <v-container fluid>
+            <v-row dense>
+              <v-col cols="12">
+                <ScreeningListItem :screening="screenings[1]"/>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-window-item>
       </v-card>
     </v-window>
   </v-card>
