@@ -12,12 +12,8 @@
             <v-window-item v-for="n in 3" :key="n" :value="n">
               <v-container fluid>
                 <v-row dense>
-                  <v-col v-for="n in 12" :key="n" cols="12">
-                    <v-card
-                      :subtitle="`Subtitle for Content ${n}`"
-                      :title="`Content ${n}`"
-                      text="Lorem ipsum dolor sit amet consectetur, adipisicing elit.?"
-                    ></v-card>
+                  <v-col v-for="screening in screenings" :key="screening" cols="12">
+                    <ScreeningListItem :screening="screening" :tab="tab"/>
                   </v-col>
                 </v-row>
               </v-container>
@@ -30,11 +26,68 @@
 </template>
 
 <script>
+import ScreeningListItem from "@/components/ScreeningListItem.vue";
+
 export default {
   name: "ProgramView",
+  components: {ScreeningListItem},
 
-  data: () => ({
-    tab: null,
-  }),
+  data() {
+    return {
+      tab: null,
+      screenings: [
+        {
+          id: 0,
+          movieId: 0,
+          movieTitle: '',
+          movieReleaseYear: 0,
+          hallName: '',
+          date: '2024-03-12',
+          time: {
+            hour: 0,
+            minute: 0,
+            second: 0,
+            nano: 0
+          },
+          directors: [
+            {
+              id: 0,
+              name: ''
+            }
+          ],
+          genres: [
+            {
+              id: 0,
+              name: ''
+            }
+          ],
+          languages: [
+            {
+              id: 0,
+              name: ''
+            }
+          ],
+          restrictions: [
+            {
+              id: 0,
+              name: ''
+            }
+          ]
+        }
+      ]
+    }
+  },
+  methods: {
+    getMovieScreenings: function () {
+      this.$http.get("/api/screenings"
+      ).then(response => {
+        this.screenings = response.data
+      }).catch(() => {
+      })
+    },
+  },
+  beforeMount() {
+    this.getMovieScreenings()
+  }
 }
 </script>
