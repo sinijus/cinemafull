@@ -1,6 +1,6 @@
 <template>
-  <ProgramView v-show="showProgramView" @event-change-page="changePage"/>
-  <ScreeningReservationView v-if="!showProgramView" :screeningId="screeningId"  @event-change-page="changePage" ></ScreeningReservationView>
+  <ProgramView v-if="showProgramView" @event-change-page="changePage"/>
+  <ScreeningReservationView v-if="!showProgramView" :screeningId="screeningId"  @event-change-page="changePage" />
 </template>
 
 <script>

@@ -1,16 +1,16 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
-      <v-tab :value="1" @click="emitChangeView"> <-</v-tab>
+      <v-tab :value="1" @click="emitChangeView">←</v-tab>
       <v-tab :value="2">Seanss</v-tab>
       <v-tab v-if="isTimeToReserveSeats" :value="3">Broneeri</v-tab>
     </v-tabs>
-    <v-window v-model="tab">
+    <v-window v-if="isMovieScreeningLoaded" v-model="tab">
       <v-card class="mx-auto" color="#212121" max-width="800">
         <v-window-item :value="2">
           <v-container fluid>
             <v-row dense>
-              <ScreeningDescription :movieScreening="movieScreening" />
+              <ScreeningDescriptionItem :movieScreening="movieScreening"/>
             </v-row>
           </v-container>
         </v-window-item>
@@ -25,17 +25,19 @@
 </template>
 
 <script>
-import ScreeningDescription from "@/components/ScreeningDescription.vue";
+import ScreeningDescriptionItem from "@/components/ScreeningDescriptionItem.vue";
 
 export default {
   name: "ScreeningReservationView",
-  components: {ScreeningDescription},
+  components: {ScreeningDescriptionItem},
   props: {
     screeningId: 0
   },
   data() {
     return {
+      tab: 1,
       isTimeToReserveSeats: false,
+      isMovieScreeningLoaded: false,
       movieScreening: {
         id: 0,
         movieId: 0,
@@ -87,13 +89,14 @@ export default {
   },
   methods: {
     getMovieScreening() {
-      this.$http.get("/some/path", {
+      this.$http.get("/api/screening", {
           params: {
             screeningId: this.screeningId,
           }
         }
       ).then(response => {
         this.movieScreening = response.data
+        this.isMovieScreeningLoaded = true
       }).catch(error => {
         alert("Otsitavat seanssi ei leitud")
         // const errorResponseBody = error.response.data

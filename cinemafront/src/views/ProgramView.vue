@@ -30,7 +30,7 @@
           <v-container fluid>
             <v-row  dense>
               <v-col cols="12">
-                <ScreeningListItem :screening="screenings[1]"/>
+                <ScreeningListItem :screening="screenings[1]" @click="emitChangeView(screenings[1].id)"/>
               </v-col>
             </v-row>
           </v-container>
