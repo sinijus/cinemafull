@@ -10,8 +10,8 @@
         <v-window-item :value="1">
           <v-container fluid>
             <v-row dense>
-              <v-col v-for="n in 5" :key="n" cols="12">
-                RECENT
+              <v-col v-for="recentScreening in recentScreenings" :key="n" cols="12">
+                <ScreeningReservationItem :recentScreening="recentScreening"/>
               </v-col>
             </v-row>
           </v-container>
@@ -41,10 +41,11 @@
 
 <script>
 import ScreeningListItem from "@/components/ScreeningListItem.vue";
+import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue";
 
 export default {
   name: "ProgramView",
-  components: {ScreeningListItem},
+  components: {ScreeningReservationItem, ScreeningListItem},
 
   data() {
     return {
@@ -83,7 +84,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      recentScreenings: [1],
     }
   },
   methods: {

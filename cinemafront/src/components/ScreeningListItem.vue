@@ -1,31 +1,38 @@
 <template>
   <v-card variant="tonal">
-    <v-col cols="6">
-      <v-row>
-        <v-card-title> {{ getDayName(screening.date) }}</v-card-title>
-        <v-card-title> {{ reformatDate(screening.date) }}</v-card-title>
-        <v-card-title> {{ reformatTime(screening.time) }}</v-card-title>
-      </v-row>
-      <v-row>
-        <v-card-title> {{ screening.movieTitle }}</v-card-title>
-        <v-card-title> ({{ screening.movieReleaseYear }})</v-card-title>
-      </v-row>
-      <v-row v-for="director in screening.directors" :key="director">
-        <v-card-title> {{ director.name }}</v-card-title>
-      </v-row>
-    </v-col>
-    <v-col cols="6">
-      <v-col v-for="genre in screening.genres" :key="genre">
-        <v-card-text> {{ genre.name }}</v-card-text>
-      </v-col>
-      <v-row v-for="language in screening.languages" :key="language">
-        <v-card-text> {{ language.name }}</v-card-text>
-      </v-row>
-        <v-card-text> Piirangud: {{ screening.restrictions[0].name }}</v-card-text>
-    </v-col>
-
+    <section>
+      <v-card-title>
+        <div>
+          {{ getDayName(screening.date) }} {{ reformatDate(screening.date) }} {{ reformatTime(screening.time) }}
+        </div>
+        <div>
+          {{ screening.movieTitle }} ({{ screening.movieReleaseYear }})
+        </div>
+      </v-card-title>
+      <div>
+        <template v-for="director in screening.directors" :key="director">
+          <v-card-subtitle> {{ director.name }}</v-card-subtitle>
+        </template>
+      </div>
+      <v-card-text>
+        <div> Žanr:
+          <template v-for="genre in screening.genres" :key="genre">
+            <span>{{ genre.name }}</span>
+            <span> - </span>
+          </template>
+        </div>
+        <div> Keel:
+          <template v-for="language in screening.languages" :key="language">
+            <span> {{ language.name }} keel</span>
+            <span> - </span>
+          </template>
+        </div>
+        <div> Piirangud: {{ screening.restrictions[0].name }}</div>
+      </v-card-text>
+    </section>
   </v-card>
 </template>
+
 <script>
 import {weekdayPrefixes} from "@/assets/text";
 
