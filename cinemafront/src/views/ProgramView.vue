@@ -21,7 +21,7 @@
           <v-container fluid>
             <v-row  dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
-                <ScreeningListItem :screening="screening"/>
+                <ScreeningListItem :screening="screening" @click="emitChangeView(screening.id)"/>
               </v-col>
             </v-row>
           </v-container>
@@ -98,6 +98,9 @@ export default {
         this.screeningsLoaded = true
       }).catch(() => {
       })
+    },
+    emitChangeView(screeningId) {
+      this.$emit("event-change-page", screeningId)
     },
   },
   beforeMount() {

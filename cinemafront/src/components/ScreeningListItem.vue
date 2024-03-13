@@ -27,14 +27,15 @@
             <span> - </span>
           </template>
         </div>
-        <div> Piirangud: {{ screening.restrictions[0].name }}</div>
+        <div v-if="restrictionIsApplied"> {{screening.restrictions[0].name }}</div>
       </v-card-text>
     </section>
   </v-card>
 </template>
 
 <script>
-import {weekdayPrefixes} from "@/assets/text";
+import {notRestrictionAppliedText} from "@/assets/text";
+import {getDayName, reformatDate, reformatTime} from "@/assets/method";
 
 export default {
   name: 'ScreeningListItem',
@@ -78,21 +79,18 @@ export default {
       ]
     },
   },
+  data() {
+    return{
+      restrictionIsApplied: true
+    }
+  },
   methods: {
-    reformatDate(dateString) {
-      const [year, month, day] = dateString.split('-');
-      const formattedDay = day.startsWith('0') ? day.slice(1) : day;
-      const formattedMonth = month.startsWith('0') ? month.slice(1) : month;
-      return `${formattedDay}.${formattedMonth}.${year}`;
-    },
-    reformatTime(timeString) {
-      const [hour, minute] = timeString.split(':');
-      return `${hour}:${minute}`
-    },
-    getDayName(dateString) {
-      const date = new Date(dateString);
-      const weekdayIndex = date.getDay();
-      return weekdayPrefixes[weekdayIndex];
+    reformatTime,
+    reformatDate,
+    getDayName,
+
+    verifyRestriction(restriction) {
+      this.restrictionIsApplied = restriction === notRestrictionAppliedText
     },
   }
 }
