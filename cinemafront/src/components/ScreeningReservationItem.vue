@@ -7,7 +7,7 @@
 export default {
   name: "ScreeningReservationItem",
   props: {
-    recentScreening: [1]
+    recentScreening: {}
   },
 }
 </script>
