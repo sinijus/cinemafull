@@ -1,13 +1,14 @@
 <template>
   <v-card>
-    <v-tabs v-model="tabs" align-tabs="center" color="#FFFFFF">
-      <v-tab :id="1">Hiljutised</v-tab>
-      <v-tab :id="2">Programm</v-tab>
-      <v-tab :id="3">Soovitused</v-tab>
+    <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
+      <v-tab :value="1">Hiljutised</v-tab>
+      <v-tab :value="2">Programm</v-tab>
+      <v-tab :value="3">Soovitused</v-tab>
     </v-tabs>
-    <v-window v-model="tabs" >
-      <v-card class="mx-auto" color="#212121" max-width="800">
-        <v-window-item :id="1">
+
+    <v-window v-model="tab">
+      <v-card v-if="screeningsLoaded" class="mx-auto" color="#212121" max-width="800">
+        <v-window-item :value="1">
           <v-container fluid>
             <v-row dense>
               <v-col v-for="recentScreening in recentScreenings" :key="recentScreening" cols="12">
@@ -16,18 +17,18 @@
             </v-row>
           </v-container>
         </v-window-item>
-        <v-window-item :id="2">
+        <v-window-item :value="2">
           <v-container fluid>
-            <v-row dense>
+            <v-row  dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
-                <ScreeningListItem :screening="screening" @click=""/>
+                <ScreeningListItem :screening="screening"/>
               </v-col>
             </v-row>
           </v-container>
         </v-window-item>
-        <v-window-item :id="3">
+        <v-window-item :value="3">
           <v-container fluid>
-            <v-row dense>
+            <v-row  dense>
               <v-col cols="12">
                 <ScreeningListItem :screening="screenings[1]"/>
               </v-col>
@@ -49,8 +50,7 @@ export default {
 
   data() {
     return {
-      active_tab: 1,
-      tabs: null,
+      tab: 2,
       screenings: [
         {
           id: 0,
@@ -86,6 +86,7 @@ export default {
           ]
         }
       ],
+      screeningsLoaded: false,
       recentScreenings: [1],
     }
   },
@@ -94,6 +95,7 @@ export default {
       this.$http.get("/api/screenings"
       ).then(response => {
         this.screenings = response.data
+        this.screeningsLoaded = true
       }).catch(() => {
       })
     },

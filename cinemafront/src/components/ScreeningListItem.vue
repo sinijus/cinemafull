@@ -10,19 +10,19 @@
         </div>
       </v-card-title>
       <div>
-        <template v-for="director in screening.directors" :key="director">
+        <template v-for="director in screening.directors" :key="director.id">
           <v-card-subtitle> {{ director.name }}</v-card-subtitle>
         </template>
       </div>
       <v-card-text>
         <div> Žanr:
-          <template v-for="genre in screening.genres" :key="genre">
+          <template v-for="genre in screening.genres" :key="genre.id">
             <span>{{ genre.name }}</span>
             <span> - </span>
           </template>
         </div>
         <div> Keel:
-          <template v-for="language in screening.languages" :key="language">
+          <template v-for="language in screening.languages" :key="language.id">
             <span> {{ language.name }} keel</span>
             <span> - </span>
           </template>
