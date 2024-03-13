@@ -1,11 +1,11 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
-      <v-tab :value="1">Recent</v-tab>
-      <v-tab :value="2">Program</v-tab>
-      <v-tab :value="3">Recommendations</v-tab>
+      <v-tab :value="1">Hiljutised</v-tab>
+      <v-tab :value="2">Programm</v-tab>
+      <v-tab :value="3">Soovitused</v-tab>
     </v-tabs>
-    <v-window v-model="tab">
+    <v-window v-model="tab" >
       <v-card class="mx-auto" color="#212121" max-width="800">
         <v-window-item :value="1">
           <v-container fluid>
@@ -20,7 +20,7 @@
           <v-container fluid>
             <v-row dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
-                <ScreeningListItem :screening="screening"/>
+                <ScreeningListItem :screening="screening" @click=""/>
               </v-col>
             </v-row>
           </v-container>
