@@ -56,13 +56,8 @@ export default {
           movieTitle: '',
           movieReleaseYear: 0,
           hallName: '',
-          date: '2024-03-12',
-          time: {
-            hour: 0,
-            minute: 0,
-            second: 0,
-            nano: 0
-          },
+          date: '',
+          time: '',
           directors: [
             {
               id: 0,
