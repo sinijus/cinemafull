@@ -1,22 +1,22 @@
 <template>
   <v-card>
-    <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
-      <v-tab :value="1">Hiljutised</v-tab>
-      <v-tab :value="2">Programm</v-tab>
-      <v-tab :value="3">Soovitused</v-tab>
+    <v-tabs v-model="tabs" align-tabs="center" color="#FFFFFF">
+      <v-tab :id="1">Hiljutised</v-tab>
+      <v-tab :id="2">Programm</v-tab>
+      <v-tab :id="3">Soovitused</v-tab>
     </v-tabs>
-    <v-window v-model="tab" >
+    <v-window v-model="tabs" >
       <v-card class="mx-auto" color="#212121" max-width="800">
-        <v-window-item :value="1">
+        <v-window-item :id="1">
           <v-container fluid>
             <v-row dense>
-              <v-col v-for="recentScreening in recentScreenings" :key="n" cols="12">
+              <v-col v-for="recentScreening in recentScreenings" :key="recentScreening" cols="12">
                 <ScreeningReservationItem :recentScreening="recentScreening"/>
               </v-col>
             </v-row>
           </v-container>
         </v-window-item>
-        <v-window-item :value="2">
+        <v-window-item :id="2">
           <v-container fluid>
             <v-row dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
@@ -25,7 +25,7 @@
             </v-row>
           </v-container>
         </v-window-item>
-        <v-window-item :value="3">
+        <v-window-item :id="3">
           <v-container fluid>
             <v-row dense>
               <v-col cols="12">
@@ -49,7 +49,8 @@ export default {
 
   data() {
     return {
-      tab: null,
+      active_tab: 1,
+      tabs: null,
       screenings: [
         {
           id: 0,
