@@ -1,6 +1,7 @@
 package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.dto.FilteredScreeningRequest;
+import com.jaanussinivali.cinemaback.exception.ScreeningNotFoundException;
 import com.jaanussinivali.cinemaback.model.Screening;
 import com.jaanussinivali.cinemaback.repository.ScreeningRepository;
 import com.jaanussinivali.cinemaback.util.ErrorMessage;
