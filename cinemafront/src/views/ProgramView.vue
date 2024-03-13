@@ -5,7 +5,7 @@
       <v-tab :value="2">Programm</v-tab>
       <v-tab :value="3">Soovitused</v-tab>
     </v-tabs>
-
+    <FilterSearchField/>
     <v-window v-model="tab">
       <v-card v-if="screeningsLoaded" class="mx-auto" color="#212121" max-width="800">
         <v-window-item :value="1">
@@ -43,10 +43,11 @@
 <script>
 import ScreeningListItem from "@/components/ScreeningListItem.vue";
 import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue";
+import FilterSearchField from "@/components/FilterSearchField.vue";
 
 export default {
   name: "ProgramView",
-  components: {ScreeningReservationItem, ScreeningListItem},
+  components: {FilterSearchField, ScreeningReservationItem, ScreeningListItem},
 
   data() {
     return {

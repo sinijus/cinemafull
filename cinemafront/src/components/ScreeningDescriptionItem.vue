@@ -49,8 +49,23 @@
       </v-card-text>
     </section>
     <v-card-actions>
-
+      <v-responsive class="mx-auto" max-width="344">
+        <v-text-field
+          hint="Sisesta kohtade arv"
+          label="Kohad"
+          type="number"
+          :min="numberOfSeatsMinValue"
+          :rules="numberOfSeatsRules"
+          v-model="numberOfSeats"
+        ></v-text-field>
+      </v-responsive>
     </v-card-actions>
+    <v-row justify="center">
+      <v-col cols="auto">
+        <v-btn size="x-large" variant="tonal" @Click="emitValidateAndMakeReservation(this.numberOfSeats)">Broneeri
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -64,9 +79,21 @@ export default {
   },
   data() {
     return {
-      restrictionIsApplied: true
+      restrictionIsApplied: true,
+      numberOfSeats: 1,
+      numberOfSeatsMinValue: 1,
+      numberOfSeatsRules: [
+        v => (v && v > 0) || "Vähemalt üks koht peab olema valitud"
+      ]
     }
   },
-  methods: {reformatTime, reformatDate, getDayName}
+  methods: {
+    emitValidateAndMakeReservation(numberOfSeats) {
+      this.$emit("event-validate-and-make-reservation", numberOfSeats)
+    },
+    reformatTime,
+    reformatDate,
+    getDayName
+  }
 }
 </script>

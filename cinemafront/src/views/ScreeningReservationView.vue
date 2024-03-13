@@ -10,7 +10,8 @@
         <v-window-item :value="2">
           <v-container fluid>
             <v-row dense>
-              <ScreeningDescriptionItem :movieScreening="movieScreening"/>
+              <ScreeningDescriptionItem :movieScreening="movieScreening"
+                                        @event-validate-and-make-reservation="validateAndMakeReservation"/>
             </v-row>
           </v-container>
         </v-window-item>
@@ -36,7 +37,6 @@ export default {
   data() {
     return {
       tab: 1,
-      isTimeToReserveSeats: false,
       isMovieScreeningLoaded: false,
       movieScreening: {
         id: 0,
@@ -84,7 +84,9 @@ export default {
             name: ''
           }
         ]
-      }
+      },
+      isTimeToReserveSeats: false,
+      numberOfReservedSeats: 1,
     }
   },
   methods: {
@@ -104,6 +106,12 @@ export default {
     },
     emitChangeView() {
       this.$emit("event-change-page")
+    },
+    validateAndMakeReservation(numberOfSeats) {
+      this.numberOfReservedSeats = numberOfSeats
+      // make reservation if there are enough seats available
+      this.isTimeToReserveSeats = true
+      this.tab = 2
     },
   },
   beforeMount() {
