@@ -1,66 +1,75 @@
 <template>
   <v-row justify="center">
-    <form @submit.prevent="submit">
-      <v-container>
-        <v-col cols="12">
-          <v-row align="center" style="height: 120px;">
-            <v-select
-              clearable
-              :item-props="itemProps"
-              :items="languages"
-              label="Language"
-              variant="outlined"
-              direction="horizontal"
-            >Language
-            </v-select>
-            <v-select
-              clearable
-              :item-props="itemProps"
-              :items="genres"
-              label="Genre"
-              :v-model="selectedGenreId"
-              variant="outlined"
-            ></v-select>
-            <v-select
-              clearable
-              :item-props="itemProps"
-              :items="directors"
-              label="Director"
-              :v-model="selectedDirectorId"
-              variant="outlined"
-            ></v-select>
-            <v-select
-              clearable
-              :item-props="itemProps"
-              :items="restrictions"
-              label="restriction"
-              :v-model="selectedRestrictionId"
-              variant="outlined"
-            ></v-select>
-
-          </v-row>
-          <v-row style="height:60px" align="center">
-            <template>
-              <v-range-slider
-                v-model="range"
-                :max="24"
-                :min="0"
-                :step="1"
-                class="align-center"
-                hide-details
-              >
-              </v-range-slider>
-            </template>
-            <v-btn variant="tonal" @click="handleReset"> clear</v-btn>
-            <v-btn variant="tonal" type="submit"> submit</v-btn>
-          </v-row>
+    <!-- First Row: Select Elements -->
+    <v-container>
+      <v-row align="center" style="height: 120px;">
+        <v-col cols="3">
+          <v-select
+            clearable
+            :item-props="itemProps"
+            :items="languages"
+            label="Language"
+            variant="outlined"
+            direction="horizontal"
+          >Language
+          </v-select>
         </v-col>
+        <v-col cols="3">
+          <v-select
+            clearable
+            :item-props="itemProps"
+            :items="genres"
+            label="Genre"
+            :v-model="selectedGenreId"
+            variant="outlined"
+          ></v-select>
+        </v-col>
+        <v-col cols="3">
+          <v-select
+            clearable
+            :item-props="itemProps"
+            :items="directors"
+            label="Director"
+            :v-model="selectedDirectorId"
+            variant="outlined"
+          ></v-select>
+        </v-col>
+        <v-col cols="3">
+          <v-select
+            clearable
+            :item-props="itemProps"
+            :items="restrictions"
+            label="restriction"
+            :v-model="selectedRestrictionId"
+            variant="outlined"
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
 
-      </v-container>
-
-    </form>
+    <!-- Second Row: Range Slider and Buttons -->
+    <v-container>
+      <v-row align="center">
+        <v-col cols="10">
+          <v-range-slider
+            v-model="range"
+            :max="24"
+            :min="0"
+            :step="1"
+            class="align-center"
+            hide-details
+          >
+          </v-range-slider>
+        </v-col>
+        <v-col cols="1">
+          <v-btn variant="outlined" @click="handleReset">Clear</v-btn>
+        </v-col>
+        <v-col cols="1">
+          <v-btn variant="tonal" type="submit">Filter</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-row>
-
 
 </template>
 
