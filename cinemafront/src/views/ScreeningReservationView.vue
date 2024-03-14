@@ -104,14 +104,29 @@ export default {
         // const errorResponseBody = error.response.data
       })
     },
+    createScreeningReservation() {
+      this.$http.post("/api/reservation", null, {
+          params: {
+            screeningId: this.movieScreening.id,
+            numberOfSeats: this.numberOfReservedSeats
+          }
+        }
+      ).then(response => {
+        const responseBody = response.data
+      }).catch(error => {
+        const errorResponseBody = error.response.data
+      })
+    },
     emitChangeView() {
       this.$emit("event-change-page")
     },
     validateAndMakeReservation(numberOfSeats) {
+
       this.numberOfReservedSeats = numberOfSeats
+      this.createScreeningReservation()
       // make reservation if there are enough seats available
-      this.isTimeToReserveSeats = true
-      this.tab = 2
+      // this.isTimeToReserveSeats = true
+      // this.tab = 2
     },
   },
   beforeMount() {
