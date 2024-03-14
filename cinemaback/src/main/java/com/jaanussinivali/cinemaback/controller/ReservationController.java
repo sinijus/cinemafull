@@ -1,7 +1,8 @@
 package com.jaanussinivali.cinemaback.controller;
 
 import com.jaanussinivali.cinemaback.exception.ApiError;
-import com.jaanussinivali.cinemaback.model.ReservationResponse;
+import com.jaanussinivali.cinemaback.dto.ReservationResponse;
+import com.jaanussinivali.cinemaback.service.ReservationsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

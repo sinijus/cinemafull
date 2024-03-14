@@ -3,7 +3,7 @@ package com.jaanussinivali.cinemaback.service;
 import com.jaanussinivali.cinemaback.exception.DataNotFoundException;
 import com.jaanussinivali.cinemaback.model.Director;
 import com.jaanussinivali.cinemaback.repository.DirectorRepository;
-import com.jaanussinivali.cinemaback.util.ErrorMessage;
+import com.jaanussinivali.cinemaback.exception.Error;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class DirectorService {
     public Director findDirectorById(Integer id) {
         Optional<Director> directorOptional = directorRepository.findById(id);
         if (directorOptional.isEmpty()) {
-            throw new DataNotFoundException(ErrorMessage.DIRECTOR_NOT_FOUND.getMessage(), ErrorMessage.DIRECTOR_NOT_FOUND.getErrorCode());
+            throw new DataNotFoundException(Error.DIRECTOR_NOT_FOUND.getMessage(), Error.DIRECTOR_NOT_FOUND.getErrorCode());
         } else {
             return directorOptional.get();
         }

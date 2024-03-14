@@ -1,9 +1,9 @@
-package com.jaanussinivali.cinemaback.controller;
+package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.exception.DataNotFoundException;
 import com.jaanussinivali.cinemaback.model.CinemaUser;
-import com.jaanussinivali.cinemaback.model.CinemaUserRepository;
-import com.jaanussinivali.cinemaback.util.ErrorMessage;
+import com.jaanussinivali.cinemaback.repository.CinemaUserRepository;
+import com.jaanussinivali.cinemaback.exception.Error;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class CinemaUserService {
     public CinemaUser findUser(Integer userId) {
         Optional<CinemaUser> cinemaUserOptional = cinemaUserRepository.findById(userId);
         if (cinemaUserOptional.isEmpty()) {
-            throw new DataNotFoundException(ErrorMessage.USER_NOT_FOUND.getMessage(), ErrorMessage.USER_NOT_FOUND.getErrorCode());
+            throw new DataNotFoundException(Error.USER_NOT_FOUND.getMessage(), Error.USER_NOT_FOUND.getErrorCode());
         }
         return cinemaUserOptional.get();
     }

@@ -1,5 +1,6 @@
-package com.jaanussinivali.cinemaback.model;
+package com.jaanussinivali.cinemaback.dto;
 
+import com.jaanussinivali.cinemaback.model.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

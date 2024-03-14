@@ -1,9 +1,8 @@
-package com.jaanussinivali.cinemaback.controller;
+package com.jaanussinivali.cinemaback.service;
 
+import com.jaanussinivali.cinemaback.dto.ReservationResponse;
+import com.jaanussinivali.cinemaback.mapper.ReservationMapper;
 import com.jaanussinivali.cinemaback.model.*;
-import com.jaanussinivali.cinemaback.service.HallService;
-import com.jaanussinivali.cinemaback.service.MovieService;
-import com.jaanussinivali.cinemaback.service.ScreeningService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

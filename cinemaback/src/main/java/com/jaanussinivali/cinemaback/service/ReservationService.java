@@ -1,4 +1,4 @@
-package com.jaanussinivali.cinemaback.controller;
+package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.model.Reservation;
 import com.jaanussinivali.cinemaback.repository.ReservationRepository;

@@ -4,7 +4,7 @@ import com.jaanussinivali.cinemaback.dto.FilteredScreeningRequest;
 import com.jaanussinivali.cinemaback.exception.DataNotFoundException;
 import com.jaanussinivali.cinemaback.model.Screening;
 import com.jaanussinivali.cinemaback.repository.ScreeningRepository;
-import com.jaanussinivali.cinemaback.util.ErrorMessage;
+import com.jaanussinivali.cinemaback.exception.Error;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class ScreeningService {
 
         Optional<Screening> screeningOptional = screeningRepository.findById(screeningId);
         if (screeningOptional.isEmpty())
-            throw new DataNotFoundException(ErrorMessage.SCREENING_NOT_FOUND.getMessage(), ErrorMessage.SCREENING_NOT_FOUND.getErrorCode());
+            throw new DataNotFoundException(Error.SCREENING_NOT_FOUND.getMessage(), Error.SCREENING_NOT_FOUND.getErrorCode());
         else return screeningOptional.get();
     }
 }
