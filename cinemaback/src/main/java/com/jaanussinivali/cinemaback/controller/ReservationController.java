@@ -37,7 +37,7 @@ public class ReservationController {
     public SeatReservationResponse validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
                                                                             @RequestParam Integer reservationId,
                                                                             @RequestParam Integer hallId,
-                                                                            @RequestParam Integer numberOfSeatsRequest) {
+                                                                            @RequestParam(defaultValue = "1") Integer numberOfSeatsRequest) {
         return reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, reservationId, hallId, numberOfSeatsRequest);
     }
 

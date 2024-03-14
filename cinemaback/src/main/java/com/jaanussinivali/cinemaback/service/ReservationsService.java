@@ -99,7 +99,8 @@ public class ReservationsService {
             }
             seatObjectHall.add(row);
         }
-        List<Integer> offeredSeatsForReservation = SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall);
+        List<Integer> offeredSeatsForReservation =
+                SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall, numberOfRows, seatsInARow);
 
 
         //TODO reserve offered seats through reservation
