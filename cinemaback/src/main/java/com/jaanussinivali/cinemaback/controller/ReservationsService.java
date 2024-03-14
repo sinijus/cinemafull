@@ -1,0 +1,55 @@
+package com.jaanussinivali.cinemaback.controller;
+
+import com.jaanussinivali.cinemaback.model.*;
+import com.jaanussinivali.cinemaback.service.HallService;
+import com.jaanussinivali.cinemaback.service.MovieService;
+import com.jaanussinivali.cinemaback.service.ScreeningService;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ReservationsService {
+
+    @Resource
+    private ReservationService reservationService;
+
+    @Resource
+    private ScreeningService screeningService;
+
+    @Resource
+    private CinemaUserService cinemaUserService;
+
+    @Resource
+    private MovieService movieService;
+
+    @Resource
+    private HallService hallService;
+
+    @Resource
+    private SeatService seatService;
+
+    @Resource
+    private ReservationMapper reservationMapper;
+
+
+    public ReservationResponse findOrCreateScreeningReservation(Integer screeningId, Integer userId) {
+        boolean reservationExists = reservationService.activeReservationWithUserIdAndScreeningIdExists(userId, screeningId);
+        Reservation reservation;
+        if (reservationExists) {
+            reservation = reservationService.findReservationByUserIdAndScreeningId(userId, screeningId);
+        } else {
+            reservation = new Reservation();
+            CinemaUser user = cinemaUserService.findUser(userId);
+            Screening screening = screeningService.findScreening(screeningId);
+            Hall hall = hallService.findHall(screening.getHall().getId());
+            Movie movie = movieService.findMovie(screening.getMovie().getId());
+            screening.setMovie(movie);
+            screening.setHall(hall);
+            reservation.setScreening(screening);
+            reservation.setCinemaUser(user);
+            reservation.setActive(true);
+            reservationService.saveNewReservation(reservation);
+        }
+        return reservationMapper.toReservationResponse(reservation);
+    }
+}

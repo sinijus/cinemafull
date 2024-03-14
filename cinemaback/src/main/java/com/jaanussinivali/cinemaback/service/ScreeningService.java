@@ -1,7 +1,7 @@
 package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.dto.FilteredScreeningRequest;
-import com.jaanussinivali.cinemaback.exception.ScreeningNotFoundException;
+import com.jaanussinivali.cinemaback.exception.DataNotFoundException;
 import com.jaanussinivali.cinemaback.model.Screening;
 import com.jaanussinivali.cinemaback.repository.ScreeningRepository;
 import com.jaanussinivali.cinemaback.util.ErrorMessage;
@@ -29,7 +29,7 @@ public class ScreeningService {
 
         Optional<Screening> screeningOptional = screeningRepository.findById(screeningId);
         if (screeningOptional.isEmpty())
-            throw new ScreeningNotFoundException(ErrorMessage.SCREENING_NOT_FOUND.getMessage());
+            throw new DataNotFoundException(ErrorMessage.SCREENING_NOT_FOUND.getMessage(), ErrorMessage.SCREENING_NOT_FOUND.getErrorCode());
         else return screeningOptional.get();
     }
 }

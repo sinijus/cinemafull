@@ -67,7 +67,7 @@ public class ScreeningsService {
     }
 
     private void getAndSetScreeningListResponse(Integer movieId, ScreeningListResponse screeningListResponse) {
-        Movie movie = movieService.findMovieById(movieId);
+        Movie movie = movieService.findMovie(movieId);
         List<DirectorResponse> directorsResponse = getAndSetDirectorsResponse(movieId);
         List<GenreResponse> genresResponse = getAndSetGenresResponse(movieId);
         List<LanguageResponse> languagesResponse = getAndSetLanguagesResponse(movieId);
@@ -126,7 +126,7 @@ public class ScreeningsService {
     }
 
     private void getAndSetScreeningInfoResponse(Integer movieId, ScreeningInfoResponse screeningInfoResponse) {
-        Movie movie = movieService.findMovieById(movieId);
+        Movie movie = movieService.findMovie(movieId);
         List<DirectorResponse> directorsResponse = getAndSetDirectorsResponse(movieId);
         List<GenreResponse> genresResponse = getAndSetGenresResponse(movieId);
         List<LanguageResponse> languagesResponse = getAndSetLanguagesResponse(movieId);
