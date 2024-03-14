@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,14 +30,14 @@ public class ReservationController {
         return reservationsService.findOrCreateScreeningReservation(screeningId, userId);
     }
 
-//    @PostMapping("/reservation-seats")
-//    @Operation(summary = "Kontrollib kas valitud arv vabu kohti on saadaval ning ning tagastab saali plaani koos vabade kohtadega")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "403", description = "Uue reserveeringu tegemine ei õnnestunud",
-//                    content = @Content(schema = @Schema(implementation = ApiError.class)))})
-//    public void muuNimi(@RequestParam Integer screeningId, @RequestParam Integer numberOfSeats) {
-//
-//    }
+    @PostMapping("/reservation-seats")
+    @Operation(summary = "Kontrollib kas valitud arv vabu kohti on saadaval, broneerib need ning tagastab saali plaani koos vabade kohtadega")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Istekohtade lisamine ei õnnestunud",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId, @RequestParam Integer userId, @RequestParam Integer numberOfSeats) {
+        reservationsService.validateAndAddReservedSeatsToReservation(screeningId, userId, numberOfSeats);
+    }
 
 }

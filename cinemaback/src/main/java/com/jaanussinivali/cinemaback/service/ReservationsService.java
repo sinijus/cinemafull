@@ -60,4 +60,8 @@ public class ReservationsService {
         reservation.setCinemaUser(user);
         reservation.setActive(true);
     }
+
+    public void validateAndAddReservedSeatsToReservation(Integer screeningId, Integer userId, Integer numberOfSeats) {
+
+    }
 }
