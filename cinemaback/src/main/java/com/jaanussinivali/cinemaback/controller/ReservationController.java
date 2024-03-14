@@ -1,5 +1,6 @@
 package com.jaanussinivali.cinemaback.controller;
 
+import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
 import com.jaanussinivali.cinemaback.exception.ApiError;
 import com.jaanussinivali.cinemaback.dto.ReservationResponse;
 import com.jaanussinivali.cinemaback.service.ReservationsService;
@@ -33,12 +34,11 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Istekohtade lisamine ei õnnestunud",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
-                                                         @RequestParam Integer userId,
-                                                         @RequestParam Integer reservationId,
-                                                         @RequestParam Integer hallId,
-                                                         @RequestParam Integer numberOfSeatsRequest) {
-        reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, userId, reservationId,hallId, numberOfSeatsRequest);
+    public SeatReservationResponse validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
+                                                                            @RequestParam Integer reservationId,
+                                                                            @RequestParam Integer hallId,
+                                                                            @RequestParam Integer numberOfSeatsRequest) {
+        return reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, reservationId, hallId, numberOfSeatsRequest);
     }
 
 //    @PutMapping("reservation-seats")

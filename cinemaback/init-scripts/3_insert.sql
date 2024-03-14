@@ -47,6 +47,7 @@ INSERT INTO cinema.restriction (name) VALUES ('Alla 16 a. keelatud');
 INSERT INTO cinema.restriction (name) VALUES ('Piirangud puuduvad');
 
 INSERT INTO cinema.cinema_user (name) VALUES ('testkasutaja');
+INSERT INTO cinema.cinema_user (name) VALUES ('kasutaja kes reserveeris randomiga kohti kõikidele seanssidele');
 
 INSERT INTO cinema.hall (name, seats_no) VALUES ('Peasaal', 120);
 
@@ -176,34 +177,42 @@ INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (5, 4);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (7, 4);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (8, 4);
 
+--Järgmine INSERT on pärit stackoverflow-st, tõlge postgrSQL dialekti ChatGPT
 DO
 $$
     BEGIN
         FOR i IN 1..12 LOOP
                 FOR j IN 1..10 LOOP
-                        INSERT INTO cinema.seat (hall_id, row, number) VALUES (1, i, j); -- Omitting 'id' column as it's set to default
+                        INSERT INTO cinema.seat (hall_id, row, number) VALUES (1, i, j);
                     END LOOP;
             END LOOP;
     END
 $$;
 
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (2, 1, '2024-05-06', '19:00' );
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (7, 1, '2024-05-07', '19:00' );
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (5, 1, '2024-05-08', '19:00' );
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (1, 1, '2024-05-09', '19:00');
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (5, 1, '2024-05-10', '18:00' );
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (3, 1, '2024-05-10', '21:30' );
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-11', '12:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (8, 1, '2024-05-11', '16:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-11', '20:00');
-
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-12', '12:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-12', '16:00');
+
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (1, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (2, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (3, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (4, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (5, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (6, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (7, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (8, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (9, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (10, 2, false, true);
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (11, 2, false, true);
+
 
 
 

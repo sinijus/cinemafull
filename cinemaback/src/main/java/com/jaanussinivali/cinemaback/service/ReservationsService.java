@@ -1,12 +1,13 @@
 package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.dto.ReservationResponse;
+import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
 import com.jaanussinivali.cinemaback.dto.SeatResponse;
 import com.jaanussinivali.cinemaback.exception.BusinessException;
 import com.jaanussinivali.cinemaback.exception.Error;
 import com.jaanussinivali.cinemaback.mapper.ReservationMapper;
-import com.jaanussinivali.cinemaback.mapper.SeatMapper;
 import com.jaanussinivali.cinemaback.model.*;
+import com.jaanussinivali.cinemaback.util.SeatSelectionGenerator;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +37,6 @@ public class ReservationsService {
 
     @Resource
     private ReservationMapper reservationMapper;
-
-    @Resource
-    private SeatMapper seatMapper;
-
 
     public ReservationResponse findOrCreateScreeningReservation(Integer screeningId, Integer userId) {
         boolean reservationExists = reservationService.activeReservationWithUserIdAndScreeningIdExists(userId, screeningId);
@@ -71,7 +68,7 @@ public class ReservationsService {
         reservation.setActive(true);
     }
 
-    public void validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer userId, Integer reservationId, Integer hallId, Integer numberOfSeatsRequest) {
+    public SeatReservationResponse validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer reservationId, Integer hallId, Integer numberOfSeatsRequest) {
         List<Seat> seats = seatService.findSeatsByHallId(hallId);
         List<ReservedSeat> reservedSeats = seatService.findReservedSeatsByScreeningId(screeningId);
         validateNumberOfSeatsRequestedIsAvailable(numberOfSeatsRequest, seats, reservedSeats);
@@ -80,30 +77,52 @@ public class ReservationsService {
         Integer numberOfRows = lastSeat.getRow();
         Integer seatsInARow = lastSeat.getNumber();
 
-        List<List<SeatResponse>> hall = new ArrayList<>();
-        int seatIndex = 1;
+        List<List<SeatResponse>> seatObjectHall = new ArrayList<>();
+        List<Integer> reservedSeatIds = new ArrayList<>();
+
+        int seatIndex = 0;
         for (int i = 0; i < numberOfRows; i++) {
             List<SeatResponse> row = new ArrayList<>();
             for (int j = 0; j < seatsInARow; j++) {
-                SeatResponse seatResponse = seatMapper.toSeatResponse(seats.get(seatIndex));
+                seatIndex++;
+                SeatResponse seatResponse = new SeatResponse();
+                seatResponse.setId(seatIndex);
+                seatResponse.setAvailable(true);
                 for (ReservedSeat reservedSeat : reservedSeats) {
                     if (reservedSeat.getSeat().getId() == seatIndex) {
                         seatResponse.setAvailable(false);
+                        break;
                     }
                 }
                 row.add(seatResponse);
-                seatIndex++;
-            }
-            hall.add(row);
-        }
 
-        //TODO pakub algoritmi alusel vabad kohad
-        //TODO tagastab saali plaani massiivi(seats,rows) istekoha objektidena[seat_id, available(true/false)] + reserveeritud kohad
+            }
+            seatObjectHall.add(row);
+        }
+        List<Integer> offeredSeatsForReservation = SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall);
+
+
+        //TODO reserve offered seats through reservation
+
+        return setSeatReservationResponse(seatObjectHall, offeredSeatsForReservation);
     }
 
-    private static void validateNumberOfSeatsRequestedIsAvailable(Integer numberOfSeats, List<Seat> seats, List<ReservedSeat> reservedSeats) {
-        if (seats.size() - reservedSeats.size() < numberOfSeats) {
+    private static SeatReservationResponse setSeatReservationResponse(List<List<SeatResponse>> hall, List<Integer> offeredSeatsForReservation) {
+        SeatReservationResponse response = new SeatReservationResponse();
+        response.setHall(hall);
+        response.setSeatIds(offeredSeatsForReservation);
+        return response;
+    }
+
+    private static void validateNumberOfSeatsRequestedIsAvailable(Integer numberOfSeatsRequest, List<Seat> seats, List<ReservedSeat> reservedSeats) {
+        if (isThereNotEnoughSeatsAvailable(numberOfSeatsRequest, seats, reservedSeats)) {
             throw new BusinessException(Error.NOT_ENOUGH_AVAILABLE_SEATS.getMessage(), Error.NOT_ENOUGH_AVAILABLE_SEATS.getErrorCode());
         }
     }
+
+    private static boolean isThereNotEnoughSeatsAvailable(Integer numberOfSeatsRequest, List<Seat> seats, List<ReservedSeat> reservedSeats) {
+        return seats.size() - reservedSeats.size() < numberOfSeatsRequest;
+    }
+
+
 }
