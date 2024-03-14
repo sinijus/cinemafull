@@ -61,7 +61,9 @@ public class ReservationsService {
         reservation.setActive(true);
     }
 
-    public void validateAndAddReservedSeatsToReservation(Integer screeningId, Integer userId, Integer numberOfSeats) {
-
+    public void validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer userId, Integer numberOfSeats) {
+        //TODO valideerib kas valitud arv kohti on saadaval
+        //TODO pakub algoritmi alusel vabad kohad
+        //TODO tagastab saali plaani massiivi(seats,rows) istekoha objektidena[seat_id, available(true/false)] + reserveeritud kohad
     }
 }
