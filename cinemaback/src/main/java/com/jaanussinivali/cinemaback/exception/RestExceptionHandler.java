@@ -15,4 +15,11 @@ public class RestExceptionHandler {
         apiError.setErrorCode(exception.getErrorCode());
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler
+    public ResponseEntity<ApiError> handleBusinessException(BusinessException exception) {
+        ApiError apiError = new ApiError();
+        apiError.setMessage(exception.getMessage());
+        apiError.setErrorCode(exception.getErrorCode());
+        return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
+    }
 }

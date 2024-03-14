@@ -33,8 +33,12 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Istekohtade lisamine ei õnnestunud",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId, @RequestParam Integer userId, @RequestParam Integer numberOfSeats) {
-        reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, userId, numberOfSeats);
+    public void validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
+                                                         @RequestParam Integer userId,
+                                                         @RequestParam Integer reservationId,
+                                                         @RequestParam Integer hallId,
+                                                         @RequestParam Integer numberOfSeatsRequest) {
+        reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, userId, reservationId,hallId, numberOfSeatsRequest);
     }
 
 //    @PutMapping("reservation-seats")
