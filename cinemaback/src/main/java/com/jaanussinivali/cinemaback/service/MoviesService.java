@@ -65,15 +65,15 @@ public class MoviesService {
     }
 
     public void recommendMovies(List<String> movieGenres) {
-        List<String> filteredMovieGenres = validateMovieGenres(movieGenres);
+        validateMovieGenres(movieGenres);
         if (movieGenres.size() == 0) {
             //TODO recommend three random movies
         } else {
-            HashMap<String, Integer> genreWordWeights = MovieGenreRecommender.genreWordWeights(filteredMovieGenres);
+            HashMap<String, Integer> genreWordWeights = MovieGenreRecommender.genreWordWeights(movieGenres);
         }
     }
 
-    private List<String> validateMovieGenres(List<String> movieGenres) {
+    private void validateMovieGenres(List<String> movieGenres) {
         List<GenreResponse> genres = findAllGenres();
         for (int i = 0; i < movieGenres.size(); i++) {
             boolean removeItem = true;
@@ -87,6 +87,5 @@ public class MoviesService {
                 movieGenres.remove(i);
             }
         }
-        return movieGenres;
     }
 }

@@ -2,6 +2,7 @@ package com.jaanussinivali.cinemaback.util;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MovieGenreRecommender {
     public static HashMap<String, Integer> genreWordWeights(List<String> genres) {
@@ -9,17 +10,15 @@ public class MovieGenreRecommender {
         HashMap<String, Integer> genresFrequency = new HashMap<>();
         //TODO for tsüklid omavahel vahetada ümbber pöörata
         for (String genre : genres) {
-            HashMap<String, Integer> genreFrequency = new HashMap<>();
+//            HashMap<String, Integer> genreFrequency = new HashMap<>();
             Integer count = 0;
-            for (int i = 0; i < genres.size(); i++) {
-                if (genre == genres.get(i)) {
+            for (String s : genres) {
+                if (Objects.equals(genre, s)) {
                     count++;
                 }
             }
-            genreFrequency.put(genre, count);
+            genresFrequency.put(genre, count);
         }
-
-
 
 //        genres.sort();
 //        genres.reverse();
