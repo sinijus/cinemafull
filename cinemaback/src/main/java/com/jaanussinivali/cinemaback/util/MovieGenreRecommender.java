@@ -7,6 +7,7 @@ public class MovieGenreRecommender {
     public static HashMap<String, Integer> genreWordWeights(List<String> genres) {
         int[] frequency;
         HashMap<String, Integer> genresFrequency = new HashMap<>();
+        //TODO for tsüklid omavahel vahetada ümbber pöörata
         for (String genre : genres) {
             HashMap<String, Integer> genreFrequency = new HashMap<>();
             Integer count = 0;
