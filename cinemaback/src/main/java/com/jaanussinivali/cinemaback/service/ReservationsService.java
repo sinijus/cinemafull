@@ -1,6 +1,6 @@
 package com.jaanussinivali.cinemaback.service;
 
-import com.jaanussinivali.cinemaback.ReservedSeat;
+import com.jaanussinivali.cinemaback.model.ReservedSeat;
 import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
 import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.exception.BusinessException;

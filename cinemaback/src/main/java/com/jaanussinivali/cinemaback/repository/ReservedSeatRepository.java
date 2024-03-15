@@ -1,6 +1,6 @@
 package com.jaanussinivali.cinemaback.repository;
 
-import com.jaanussinivali.cinemaback.ReservedSeat;
+import com.jaanussinivali.cinemaback.model.ReservedSeat;
 import com.jaanussinivali.cinemaback.model.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

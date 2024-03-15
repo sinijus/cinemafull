@@ -1,4 +1,4 @@
-package com.jaanussinivali.cinemaback;
+package com.jaanussinivali.cinemaback.model;
 
 import com.jaanussinivali.cinemaback.model.Reservation;
 import com.jaanussinivali.cinemaback.model.Screening;

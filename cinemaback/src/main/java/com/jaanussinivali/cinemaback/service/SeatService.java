@@ -1,6 +1,6 @@
 package com.jaanussinivali.cinemaback.service;
 
-import com.jaanussinivali.cinemaback.ReservedSeat;
+import com.jaanussinivali.cinemaback.model.ReservedSeat;
 import com.jaanussinivali.cinemaback.model.Seat;
 import com.jaanussinivali.cinemaback.repository.ReservedSeatRepository;
 import com.jaanussinivali.cinemaback.repository.SeatRepository;
