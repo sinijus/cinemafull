@@ -164,7 +164,6 @@ CREATE TABLE cinema.reserved_seat
     screening_id     int     NOT NULL,
     seat_id          int     NOT NULL,
     reservation_id   int     NOT NULL,
-    reservation_paid boolean NOT NULL,
     CONSTRAINT reserved_seat_pk PRIMARY KEY (id)
 );
 

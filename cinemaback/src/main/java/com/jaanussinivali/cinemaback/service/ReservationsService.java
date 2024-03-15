@@ -1,5 +1,6 @@
 package com.jaanussinivali.cinemaback.service;
 
+import com.jaanussinivali.cinemaback.ReservedSeat;
 import com.jaanussinivali.cinemaback.dto.ReservationResponse;
 import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
 import com.jaanussinivali.cinemaback.dto.SeatResponse;
@@ -68,7 +69,13 @@ public class ReservationsService {
         reservation.setActive(true);
     }
 
-    public SeatReservationResponse validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer reservationId, Integer hallId, Integer numberOfSeatsRequest) {
+    public SeatReservationResponse validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer reservationId, Integer numberOfSeatsRequest) {
+        //TODO seats that user already has?
+
+        seatService.deletePreviouslyReservedSeatsByScreeningIdAndReservationIdFromActiveReservation(screeningId, reservationId);
+
+        Screening screening = screeningService.findScreening(screeningId);
+        Integer hallId = screening.getHall().getId();
         List<Seat> seats = seatService.findSeatsByHallId(hallId);
         List<ReservedSeat> reservedSeats = seatService.findReservedSeatsByScreeningId(screeningId);
         validateNumberOfSeatsRequestedIsAvailable(numberOfSeatsRequest, seats, reservedSeats);
@@ -95,22 +102,29 @@ public class ReservationsService {
                     }
                 }
                 row.add(seatResponse);
-
             }
             seatObjectHall.add(row);
         }
         List<Integer> offeredSeatsForReservation =
                 SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall, numberOfRows, seatsInARow);
-
-
-        //TODO reserve offered seats through reservation
-
+        setAndSaveOfferedReservedSeats(reservationId, offeredSeatsForReservation, seats, screening);
         return setSeatReservationResponse(seatObjectHall, offeredSeatsForReservation);
     }
 
-    private static SeatReservationResponse setSeatReservationResponse(List<List<SeatResponse>> hall, List<Integer> offeredSeatsForReservation) {
+    private void setAndSaveOfferedReservedSeats(Integer reservationId, List<Integer> offeredSeatsForReservation, List<Seat> seats, Screening screening) {
+        for (Integer offeredSeat : offeredSeatsForReservation) {
+            ReservedSeat reservedSeat = new ReservedSeat();
+            Reservation reservation = reservationService.findReservation(reservationId);
+            reservedSeat.setSeat(seats.get(offeredSeat - 1));
+            reservedSeat.setScreening(screening);
+            reservedSeat.setReservation(reservation);
+            seatService.saveReservedSeat(reservedSeat);
+        }
+    }
+
+    private static SeatReservationResponse setSeatReservationResponse(List<List<SeatResponse>> seatObjectHall, List<Integer> offeredSeatsForReservation) {
         SeatReservationResponse response = new SeatReservationResponse();
-        response.setHall(hall);
+        response.setSeatObjectHall(seatObjectHall);
         response.setSeatIds(offeredSeatsForReservation);
         return response;
     }
@@ -126,4 +140,9 @@ public class ReservationsService {
     }
 
 
+    public void confirmReservation(Integer reservationId) {
+        Reservation reservation = reservationService.findReservation(reservationId);
+        reservation.setActive(false);
+        reservationService.saveReservation(reservation);
+    }
 }

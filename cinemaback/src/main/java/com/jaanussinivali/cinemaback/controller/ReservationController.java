@@ -36,10 +36,13 @@ public class ReservationController {
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public SeatReservationResponse validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
                                                                             @RequestParam Integer reservationId,
-                                                                            @RequestParam Integer hallId,
                                                                             @RequestParam(defaultValue = "1") Integer numberOfSeatsRequest) {
-        return reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, reservationId, hallId, numberOfSeatsRequest);
+        return reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, reservationId, numberOfSeatsRequest);
     }
 
-//    @PutMapping("reservation-seats")
+    @PostMapping("/reservation-confirm")
+    @Operation(summary = "kinnitab reserveeringu")
+    public void confirmReservation(@RequestParam Integer reservationId) {
+        reservationsService.confirmReservation(reservationId);
+    }
 }

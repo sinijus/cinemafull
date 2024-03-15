@@ -1,9 +1,13 @@
 package com.jaanussinivali.cinemaback.service;
 
+import com.jaanussinivali.cinemaback.exception.DataNotFoundException;
+import com.jaanussinivali.cinemaback.exception.Error;
 import com.jaanussinivali.cinemaback.model.Reservation;
 import com.jaanussinivali.cinemaback.repository.ReservationRepository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -19,6 +23,18 @@ public class ReservationService {
     }
 
     public void saveNewReservation(Reservation reservation) {
+        reservationRepository.save(reservation);
+    }
+
+    public Reservation findReservation(Integer reservationId) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new DataNotFoundException(Error.RESERVATION_NOT_FOUND.getMessage(), Error.RESERVATION_NOT_FOUND.getErrorCode());
+        }
+        return reservationOptional.get();
+    }
+
+    public void saveReservation(Reservation reservation) {
         reservationRepository.save(reservation);
     }
 }

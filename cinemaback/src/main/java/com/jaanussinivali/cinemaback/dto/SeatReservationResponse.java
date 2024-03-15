@@ -16,5 +16,5 @@ import java.util.List;
 @NoArgsConstructor
 public class SeatReservationResponse implements Serializable {
     private List<Integer> seatIds;
-    private List<List<SeatResponse>> hall;
+    private List<List<SeatResponse>> seatObjectHall;
 }

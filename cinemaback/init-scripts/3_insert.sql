@@ -201,17 +201,17 @@ INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-12', '12:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-12', '16:00');
 
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (1, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (2, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (3, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (4, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (5, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (6, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (7, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (8, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (9, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (10, 2, false, true);
-INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (11, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (1, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (2, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (3, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (4, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (5, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (6, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (7, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (8, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (9, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (10, 2, false, true);
+-- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (11, 2, false, true);
 
 
 

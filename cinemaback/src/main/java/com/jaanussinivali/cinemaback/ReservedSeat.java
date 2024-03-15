@@ -1,5 +1,8 @@
-package com.jaanussinivali.cinemaback.model;
+package com.jaanussinivali.cinemaback;
 
+import com.jaanussinivali.cinemaback.model.Reservation;
+import com.jaanussinivali.cinemaback.model.Screening;
+import com.jaanussinivali.cinemaback.model.Seat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,11 +29,8 @@ public class ReservedSeat {
     private Seat seat;
 
     @NotNull
-    @Column(name = "reservation_id", nullable = false)
-    private Integer reservationId;
-
-    @NotNull
-    @Column(name = "reservation_paid", nullable = false)
-    private Boolean reservationPaid = false;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
 
 }
