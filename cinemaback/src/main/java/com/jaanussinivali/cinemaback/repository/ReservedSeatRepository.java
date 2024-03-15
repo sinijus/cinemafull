@@ -1,7 +1,7 @@
 package com.jaanussinivali.cinemaback.repository;
 
 import com.jaanussinivali.cinemaback.ReservedSeat;
-import com.jaanussinivali.cinemaback.model.Reservation;
+import com.jaanussinivali.cinemaback.model.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,4 +18,7 @@ public interface ReservedSeatRepository extends JpaRepository<ReservedSeat, Inte
             select r from ReservedSeat r
             where r.screening.id = ?1 and (r.reservation.id != ?2 or r.reservation.active = false)""")
     List<ReservedSeat> findReservedSeatsByScreeningIdExcludingActiveReservedSeatsByReservationId(Integer screeningId, Integer reservationId);
+
+    @Query("select r.seat from ReservedSeat r where r.reservation.id = ?1")
+    List<Seat> findReservedSeatsByReservationId(Integer reservationId);
 }

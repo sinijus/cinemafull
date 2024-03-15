@@ -1,12 +1,12 @@
 package com.jaanussinivali.cinemaback.service;
 
 import com.jaanussinivali.cinemaback.ReservedSeat;
-import com.jaanussinivali.cinemaback.dto.ReservationResponse;
 import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
-import com.jaanussinivali.cinemaback.dto.SeatResponse;
+import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.exception.BusinessException;
 import com.jaanussinivali.cinemaback.exception.Error;
 import com.jaanussinivali.cinemaback.mapper.ReservationMapper;
+import com.jaanussinivali.cinemaback.mapper.SeatMapper;
 import com.jaanussinivali.cinemaback.model.*;
 import com.jaanussinivali.cinemaback.util.SeatSelectionGenerator;
 import jakarta.annotation.Resource;
@@ -19,25 +19,23 @@ import java.util.List;
 public class ReservationsService {
 
     @Resource
+    private ScreeningsService screeningsService;
+    @Resource
     private ReservationService reservationService;
-
     @Resource
     private ScreeningService screeningService;
-
     @Resource
     private CinemaUserService cinemaUserService;
-
     @Resource
     private MovieService movieService;
-
     @Resource
     private HallService hallService;
-
     @Resource
     private SeatService seatService;
-
     @Resource
     private ReservationMapper reservationMapper;
+    @Resource
+    private SeatMapper seatMapper;
 
     public ReservationResponse findOrCreateScreeningReservation(Integer screeningId, Integer userId) {
         boolean reservationExists = reservationService.activeReservationWithUserIdAndScreeningIdExists(userId, screeningId);
@@ -144,5 +142,25 @@ public class ReservationsService {
         Reservation reservation = reservationService.findReservation(reservationId);
         reservation.setActive(false);
         reservationService.saveReservation(reservation);
+    }
+
+    public List<ReservationsResponse> findCompletedReservations(Integer userId) {
+        List<ReservationsResponse> reservationsResponse = new ArrayList<>();
+        List<Reservation> reservations = reservationService.findCompletedReservationsByUserId(userId);
+        if (reservations.isEmpty()) {
+            return reservationsResponse;
+        } else {
+            for (Reservation reservation : reservations) {
+                ReservationsResponse response = new ReservationsResponse();
+                ScreeningInfoResponse screeningInfoResponse = screeningsService.findMovieScreening(reservation.getScreening().getId());
+                screeningInfoResponse.setMovieDescription("");
+                List<Seat> seats = seatService.findReservedSeatsByReservationId(reservation.getId());
+                List<SeatInfoResponse> seatsReservationResponse = seatMapper.toSeatsReservationResponse(seats);
+                response.setReservedSeats(seatsReservationResponse);
+                response.setScreeningInfo(screeningInfoResponse);
+                reservationsResponse.add(response);
+            }
+        }
+        return reservationsResponse;
     }
 }

@@ -1,5 +1,6 @@
 package com.jaanussinivali.cinemaback.controller;
 
+import com.jaanussinivali.cinemaback.dto.ReservationsResponse;
 import com.jaanussinivali.cinemaback.dto.SeatReservationResponse;
 import com.jaanussinivali.cinemaback.exception.ApiError;
 import com.jaanussinivali.cinemaback.dto.ReservationResponse;
@@ -13,11 +14,19 @@ import jakarta.annotation.Resource;
 import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ReservationController {
 
     @Resource
     private ReservationsService reservationsService;
+
+    @GetMapping("/reservations")
+    @Operation(summary = "Leiab kõik kasutaja kinnitatud broneeringud koos seanssi, filmi ja istekohtade infoga")
+    public List<ReservationsResponse> findCompletedReservations(@RequestParam @Min(0) Integer userId) {
+        return reservationsService.findCompletedReservations(userId);
+    }
 
     @GetMapping("/reservation")
     @Operation(summary = "Leiab olemasoleva või loob uue broneeringu, kasutaja ja seanssi id-de alusel, tagastab  broneeringu id")

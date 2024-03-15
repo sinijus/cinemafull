@@ -34,8 +34,7 @@ public class SeatService {
 
     public void deletePreviouslyReservedSeatsByScreeningIdAndReservationIdFromActiveReservation(Integer screeningId, Integer reservationId) {
         List<ReservedSeat> reservedSeatList = reservedSeatRepository.findActiveReservedSeatsByScreeningIdAndReservationId(screeningId, reservationId, true);
-        if (reservedSeatList.isEmpty()) {
-        } else {
+        if (!reservedSeatList.isEmpty()) {
             for (ReservedSeat reservedSeat : reservedSeatList) {
                 reservedSeatRepository.deleteById(reservedSeat.getId());
             }
@@ -44,5 +43,9 @@ public class SeatService {
 
     public List<ReservedSeat> findReservedSeatsByScreeningIdExcludingActiveReservedSeatsByReservationId(Integer screeningId, Integer reservationId) {
         return reservedSeatRepository.findReservedSeatsByScreeningIdExcludingActiveReservedSeatsByReservationId(screeningId, reservationId);
+    }
+
+    public List<Seat> findReservedSeatsByReservationId(Integer reservationId) {
+        return reservedSeatRepository.findReservedSeatsByReservationId(reservationId);
     }
 }
