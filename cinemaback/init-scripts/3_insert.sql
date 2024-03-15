@@ -58,6 +58,8 @@ INSERT INTO cinema.director (name) VALUES ('Nikolaj Arcel');
 INSERT INTO cinema.director (name) VALUES ('John Carney');
 INSERT INTO cinema.director (name) VALUES ('Margus Paju');
 INSERT INTO cinema.director (name) VALUES ('Anna Hints');
+INSERT INTO cinema.director (name) VALUES ('Lana Wachowski');
+INSERT INTO cinema.director (name) VALUES ('Lilly Wachowski');
 
 INSERT INTO cinema.movie (title, description, length, release_year)
 VALUES ('Blue Velvet',
@@ -96,6 +98,10 @@ INSERT INTO cinema.movie (title, description, length, release_year)
 VALUES ('Savvusanna sõsarad',
         'Esimese Eesti dokumentaalfilmina maineka Sundance´i filmifestivali võistlusprogrammis esilinastunud „Savvusanna sõsarad“ on kaasaegne portreefilm naistest, kes suitsusauna kaitsvas pimeduses kokku tulevad, oma sügavamaid saladusi jagavad ning kehasse kogunenud häbi ja valu maha pesevad.',
             89, 2023);
+INSERT INTO cinema.movie (title, description, length, release_year)
+VALUES ('Matrix',
+        'Häkker Neo veedab pikki öid arvuti taga, et leida vastust küsimusele "Mis on Matrix." Ühel hetkel otsib vastus ta ise ülesse: Temaga võtab ühendust Morpheous. Morpheos annab Neole valiku võimalused: Jätkata oma vana elu ja unustada, et nad iial on kohtunud või teada saada, mis on Matrix. Neo otsusteb teise varjandi kasuks. Järsku avastab Neo ennast täiesti uuest maailmast... Tõelisest maailmast, kus on aasta üle 2200. On olnud sõda Inimeste ja Masinate vahel. Sõja võitsid masinad ja panid inimesed neile energiat tootma. Inimestele lõid nad virtuaalse maailma, Matrixi, kus elab nende aju. Ettekuulutuse järgi on Neo väljavalitu, kes peab inimonna sellest orjusest vabastama. Filmil on üli head võitlus stseenid ja eriefektid. Filmi stsenaarium on hoogne ja kohati raskesti jälgitav.',
+            136, 1999);
 
 INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (1, 7);
 INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (2, 2);
@@ -109,6 +115,7 @@ INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (5, 10);
 INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (6, 4);
 INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (7, 2);
 INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (8, 4);
+INSERT INTO cinema.movie_country (movie_id, country_id) VALUES (9, 7);
 
 INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (1, 5);
 INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (1, 13);
@@ -129,6 +136,8 @@ INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (7, 14);
 INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (7, 5);
 INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (7, 4);
 INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (8, 17);
+INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (9, 1);
+INSERT INTO cinema.movie_genre (movie_id, genre_id) VALUES (9, 7);
 
 INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (1, 1);
 INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (2, 2);
@@ -138,6 +147,8 @@ INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (5, 5);
 INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (6, 6);
 INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (7, 2);
 INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (8, 7);
+INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (9, 8);
+INSERT INTO cinema.movie_director (movie_id, director_id) VALUES (9, 9);
 
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (1, 7);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (2, 2);
@@ -151,6 +162,7 @@ INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (6, 4);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (7, 2);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (7, 7);
 INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (8, 4);
+INSERT INTO cinema.movie_language (movie_id, language_id) VALUES (9, 7);
 
 INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (1, 4);
 INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (1, 8);
@@ -167,6 +179,7 @@ INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (7, 4);
 INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (7, 7);
 INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 4);
 INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (8, 7);
+INSERT INTO cinema.movie_subtitles (movie_id, language_id) VALUES (9, 4);
 
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (1, 2);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (2, 2);
@@ -176,6 +189,7 @@ INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (4, 3);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (5, 4);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (7, 4);
 INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (8, 4);
+INSERT INTO cinema.movie_restriction (movie_id, restriction_id) VALUES (9, 4);
 
 --Järgmine INSERT on pärit stackoverflow-st, tõlge postgrSQL dialekti ChatGPT
 DO
@@ -200,6 +214,10 @@ INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (8, 1, '2024
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-11', '20:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-12', '12:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-12', '16:00');
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (9, 1, '2024-05-4', '19:00');
+
+INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (12, 1, true, false);
+INSERT INTO cinema.reserved_seat (screening_id, seat_id, reservation_id) VALUES (12, 59, 1);
 
 -- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (1, 2, false, true);
 -- INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (2, 2, false, true);
