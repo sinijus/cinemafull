@@ -17,7 +17,7 @@
         </v-window-item>
         <v-window-item v-if="isTimeToReserveSeats" :value="3">
           <v-container fluid>
-            Reserve seats
+            <SeatReservationFrame :reservationHallResponse="reservationHallResponse"/>
           </v-container>
         </v-window-item>
       </v-card>
@@ -27,15 +27,17 @@
 
 <script>
 import ScreeningDescriptionItem from "@/components/ScreeningDescriptionItem.vue";
+import SeatReservationFrame from "@/components/SeatReservationFrame.vue";
 
 export default {
   name: "ScreeningReservationView",
-  components: {ScreeningDescriptionItem},
+  components: {SeatReservationFrame, ScreeningDescriptionItem},
   props: {
     screeningId: 0
   },
   data() {
     return {
+      userId: 1,
       tab: 1,
       isMovieScreeningLoaded: false,
       movieScreening: {
@@ -87,6 +89,31 @@ export default {
       },
       isTimeToReserveSeats: false,
       numberOfReservedSeats: 1,
+      userReservationResponse: {
+        id: 0
+      },
+      userReservationError : {
+        message: '',
+        errorCode: 0
+      },
+      reservationHallResponse: {
+        seatIds: [
+          Number
+        ],
+        hall: [
+          [
+            {
+              id: Number,
+              available: Boolean
+            }
+          ]
+        ]
+
+      },
+      reservationHallError : {
+        message: '',
+        errorCode: 0
+      }
     }
   },
   methods: {
@@ -104,17 +131,34 @@ export default {
         // const errorResponseBody = error.response.data
       })
     },
+    getUserReservation() {
+      this.$http.get("/api/reservation", {
+          params: {
+            screeningId: this.screeningId,
+            userId: this.userId
+          }
+        }
+      ).then(response => {
+        this.userReservationResponse = response.data
+      }).catch(error => {
+        this.userReservationError = error.response.data
+        alert('message: ' + this.userReservationError.message + ' code: ' + this.userReservationError.errorCode)
+      })
+    },
     createScreeningReservation() {
-      this.$http.post("/api/reservation", null, {
+      this.$http.post("/api/reservation-seats", null, {
           params: {
             screeningId: this.movieScreening.id,
+            reservationId: this.movieScreening.id,
             numberOfSeats: this.numberOfReservedSeats
           }
         }
       ).then(response => {
-        const responseBody = response.data
+        this.reservationHallResponse = response.data
+        // go to reservation tab...
       }).catch(error => {
-        const errorResponseBody = error.response.data
+        this.reservationHallError = error.response.data
+        alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
       })
     },
     emitChangeView() {
@@ -131,6 +175,7 @@ export default {
   },
   beforeMount() {
     this.getMovieScreening()
+    this.getUserReservation()
   }
 
 }
