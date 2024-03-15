@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Uue reserveeringu tegemine ei õnnestunud",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public ReservationResponse findOrCreateScreeningReservation(@RequestParam Integer screeningId, @RequestParam Integer userId) {
+    public ReservationResponse findOrCreateScreeningReservation(@RequestParam @Min(1) Integer screeningId, @RequestParam @Min(1) Integer userId) {
         return reservationsService.findOrCreateScreeningReservation(screeningId, userId);
     }
 
@@ -34,15 +35,15 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Istekohtade lisamine ei õnnestunud",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public SeatReservationResponse validateAndAddReservedSeatsToReservation(@RequestParam Integer screeningId,
-                                                                            @RequestParam Integer reservationId,
-                                                                            @RequestParam(defaultValue = "1") Integer numberOfSeatsRequest) {
+    public SeatReservationResponse validateAndAddReservedSeatsToReservation(@RequestParam @Min(1) Integer screeningId,
+                                                                            @RequestParam @Min(1) Integer reservationId,
+                                                                            @RequestParam(defaultValue = "1") @Min(0) Integer numberOfSeatsRequest) {
         return reservationsService.validateAndAddReservedSeatsToReservationOffer(screeningId, reservationId, numberOfSeatsRequest);
     }
 
     @PostMapping("/reservation-confirm")
     @Operation(summary = "kinnitab reserveeringu")
-    public void confirmReservation(@RequestParam Integer reservationId) {
+    public void confirmReservation(@RequestParam @Min(1) Integer reservationId) {
         reservationsService.confirmReservation(reservationId);
     }
 }

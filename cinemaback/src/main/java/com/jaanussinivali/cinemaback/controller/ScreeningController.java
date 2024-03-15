@@ -6,6 +6,7 @@ import com.jaanussinivali.cinemaback.dto.ScreeningListResponse;
 import com.jaanussinivali.cinemaback.service.ScreeningsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.Min;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,21 +34,21 @@ public class ScreeningController {
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
             """)
     public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00:00")
-                                                          @DateTimeFormat(pattern = "HH:mm")
-                                                          LocalTime startTime,
+                                                              @DateTimeFormat(pattern = "HH:mm")
+                                                              LocalTime startTime,
                                                               @RequestParam(defaultValue = "23:59")
-                                                          @DateTimeFormat(pattern = "HH:mm")
-                                                          LocalTime endTime,
+                                                              @DateTimeFormat(pattern = "HH:mm")
+                                                              LocalTime endTime,
                                                               @RequestParam(defaultValue = "2024-05-06")
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                          LocalDate startDate,
+                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                              LocalDate startDate,
                                                               @RequestParam(defaultValue = "2024-05-12")
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                          LocalDate endDate,
-                                                              @RequestParam(defaultValue = "0") Integer directorId,
-                                                              @RequestParam(defaultValue = "0") Integer genreId,
-                                                              @RequestParam(defaultValue = "0") Integer languageId,
-                                                              @RequestParam(defaultValue = "0") Integer restrictionId
+                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                              LocalDate endDate,
+                                                              @RequestParam(defaultValue = "0") @Min(0) Integer directorId,
+                                                              @RequestParam(defaultValue = "0") @Min(0) Integer genreId,
+                                                              @RequestParam(defaultValue = "0") @Min(0) Integer languageId,
+                                                              @RequestParam(defaultValue = "0") @Min(0) Integer restrictionId
     ) {
         FilteredScreeningRequest request = FilteredScreeningRequest.builder()
                 .startTime(startTime)
@@ -65,7 +66,7 @@ public class ScreeningController {
 
     @GetMapping("/screening")
     @Operation(summary = "Leiab kogu seanssi puudutava info seanssi id alusel")
-    public ScreeningInfoResponse findMovieScreening(@RequestParam Integer screeningId) {
+    public ScreeningInfoResponse findMovieScreening(@RequestParam @Min(1) Integer screeningId) {
         return screeningsService.findMovieScreening(screeningId);
     }
 }
