@@ -19,18 +19,26 @@
             </template>
           </div>
           <div> Žanr:
-            <template v-for="genre in reservationScreening.screeningInfo.genres" :key="genre.id">
+            <template v-for="(genre, index) in reservationScreening.screeningInfo.genres" :key="genre.id">
               <span>{{ genre.name }}</span>
-              <span> - </span>
+              <span v-if="notLastElementInArray(index,reservationScreening.screeningInfo.genres.length)"> - </span>
             </template>
           </div>
           <div> Keel:
-            <template v-for="language in reservationScreening.screeningInfo.languages" :key="language.id">
+            <template v-for="(language, index) in reservationScreening.screeningInfo.languages" :key="language.id">
               <span> {{ language.name }} keel</span>
-              <span> - </span>
+              <span v-if="notLastElementInArray(index, reservationScreening.screeningInfo.languages.length)"> - </span>
             </template>
           </div>
-          <div v-if="restrictionIsApplied"> {{ reservationScreening.screeningInfo.restrictions[0].name }}</div>
+          <div> Subtiitrid:
+            <template v-for="(subtitle, index) in reservationScreening.screeningInfo.subtitles" :key="subtitle.id">
+              <span> {{ subtitle.name }} keel</span>
+              <span v-if="notLastElementInArray(index, reservationScreening.screeningInfo.subtitles.length)"> - </span>
+            </template>
+          </div>
+          <div>
+            {{ reservationScreening.screeningInfo.restrictions[0].name }}
+          </div>
         </v-card-subtitle>
       </v-col>
       <v-col cols="6">
@@ -52,11 +60,10 @@
 </template>
 
 <script>
-import {getDayName, reformatDate, reformatTime} from "@/assets/method";
+import {getDayName, notLastElementInArray, reformatDate, reformatTime} from "@/assets/method";
 
 export default {
   name: "RecentScreeningItem",
-  methods: {reformatTime, reformatDate, getDayName},
   props: {
     reservationScreening: {
       reservedSeats: [
@@ -113,7 +120,9 @@ export default {
         ]
       }
     }
-  }
+  },
+  methods: {notLastElementInArray, reformatTime, reformatDate, getDayName},
+
 }
 </script>
 

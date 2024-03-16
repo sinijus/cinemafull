@@ -1,12 +1,12 @@
 <template>
-  <v-card>
+  <v-card class="mx-auto" color="#212121" max-width="800">
     <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
       <v-tab :value="1" @click="emitChangeView">←</v-tab>
       <v-tab :value="2">Seanss</v-tab>
       <v-tab v-if="isTimeToReserveSeats" :value="3">Broneeri</v-tab>
     </v-tabs>
     <v-window v-if="isMovieScreeningLoaded" v-model="tab">
-      <v-card class="mx-auto" color="#212121" max-width="800">
+      <v-card >
         <v-window-item :value="2">
           <v-container fluid>
             <v-row dense>

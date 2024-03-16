@@ -27,7 +27,7 @@
             <span> - </span>
           </template>
         </div>
-        <div v-if="restrictionIsApplied"> {{screening.restrictions[0].name }}</div>
+        <div> {{screening.restrictions[0].name }}</div>
       </v-card-text>
     </section>
   </v-card>
@@ -87,11 +87,7 @@ export default {
   methods: {
     reformatTime,
     reformatDate,
-    getDayName,
-
-    verifyRestriction(restriction) {
-      this.restrictionIsApplied = restriction === notRestrictionAppliedText
-    },
+    getDayName
   }
 }
 </script>

@@ -10,7 +10,6 @@
   </v-app-bar>
 </template>
 
-
 <script>
 export default {
   name: "AppBar"

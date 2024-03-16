@@ -21,7 +21,7 @@
           <v-container>
             <v-row align="center" style="height: 120px;">
               <v-col>
-                <v-select clearable v-model="selectedLanguageId" :item-props="itemProps"  :items="languages"
+                <v-select clearable v-model="selectedLanguageId" :item-props="itemProps" :items="languages"
                           label="Language" variant="outlined" direction="horizontal"/>
               </v-col>
               <v-col>
@@ -75,7 +75,7 @@ export default {
         end: '2024-05-12'
       },
       time: {
-        start:'00:00',
+        start: '00:00',
         end: '24:00'
       },
       selectedLanguageId: null,

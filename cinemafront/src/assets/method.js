@@ -1,4 +1,4 @@
-import {weekdayPrefixes} from "@/assets/text";
+import {notRestrictionAppliedText, weekdayPrefixes} from "@/assets/text";
 
 export function reformatDate(dateString) {
   const [year, month, day] = dateString.split('-');
@@ -15,3 +15,7 @@ export function getDayName(dateString) {
   const weekdayIndex = date.getDay();
   return weekdayPrefixes[weekdayIndex];
 }
+export function notLastElementInArray(index, arrayLength) {
+  return index < arrayLength - 1
+}
+
