@@ -1,13 +1,12 @@
 <template>
     <v-container fluid>
-      <v-card variant="tonal">
+      <v-card>
         <v-card-title>
             Lõpetatud reserveeringute info:
         </v-card-title>
       </v-card>
       <v-row v-if="reservationScreeningsLoaded">
         <v-col v-for="reservationScreening in reservationScreenings" :key="reservationScreening" cols="12">
-          <v-divider :thickness="5"></v-divider>
           <RecentScreeningItem :reservation-screening="reservationScreening"/>
         </v-col>
       </v-row>

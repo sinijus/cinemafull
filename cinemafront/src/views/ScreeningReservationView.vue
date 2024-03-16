@@ -28,6 +28,7 @@
 <script>
 import ScreeningDescriptionItem from "@/components/ScreeningDescriptionItem.vue";
 import SeatReservationFrame from "@/components/SeatReservationFrame.vue";
+import {userId} from "@/assets/constant";
 
 export default {
   name: "ScreeningReservationView",
@@ -37,7 +38,7 @@ export default {
   },
   data() {
     return {
-      userId: 1,
+      userIdConst: userId,
       tab: 1,
       isMovieScreeningLoaded: false,
       movieScreening: {
@@ -135,7 +136,7 @@ export default {
       this.$http.get("/api/reservation", {
           params: {
             screeningId: this.screeningId,
-            userId: this.userId
+            userId: this.userIdConst
           }
         }
       ).then(response => {

@@ -21,13 +21,7 @@
           </v-container>
         </v-window-item>
         <v-window-item :value="3">
-          <v-container fluid>
-            <v-row dense>
-              <v-col cols="12">
-                <ScreeningListItem :screening="screenings[1]" @click="emitChangeView(screenings[1].id)"/>
-              </v-col>
-            </v-row>
-          </v-container>
+          <RecommendedScreeningsFrame :screenings="screenings"/>
         </v-window-item>
       </v-card>
     </v-window>
@@ -38,11 +32,12 @@
 import ScreeningListItem from "@/components/ScreeningListItem.vue";
 import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue";
 import FilterSearchField from "@/components/FilterSearchField.vue";
-import RecentScreeningsFrame from "@/views/RecentScreeningsFrame.vue";
+import RecentScreeningsFrame from "@/components/RecentScreeningsFrame.vue";
+import RecommendedScreeningsFrame from "@/components/RecommendedScreeningsFrame.vue";
 
 export default {
   name: "ProgramView",
-  components: {RecentScreeningsFrame, FilterSearchField, ScreeningListItem},
+  components: {RecommendedScreeningsFrame, RecentScreeningsFrame, FilterSearchField, ScreeningListItem},
 
   data() {
     return {
