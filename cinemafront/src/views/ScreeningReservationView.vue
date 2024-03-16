@@ -10,8 +10,7 @@
         <v-window-item :value="2">
           <v-container fluid>
             <v-row dense>
-              <ScreeningDescriptionItem :movieScreening="movieScreening"
-                                        @event-validate-and-make-reservation="validateAndMakeReservation"/>
+              <ScreeningDescriptionItem :movieScreening="movieScreening" @event-validate-and-make-reservation="validateAndMakeReservation"/>
             </v-row>
           </v-container>
         </v-window-item>

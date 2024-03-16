@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="800" variant="tonal" fluid>
+  <v-card variant="tonal" fluid>
     <v-row>
       <v-col cols="6">
         <v-card-subtitle>
