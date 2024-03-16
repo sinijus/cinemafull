@@ -171,7 +171,11 @@ public class ScreeningsService {
         List<Integer> genresFilteredMovieIds = movieGenreService.findFilteredGenresMovieIds(request.getGenreId());
         List<Integer> languagesFilteredMovieIds = movieLanguageService.findFilteredLanguagesMovieIds(request.getLanguageId());
         List<Integer> restrictionsFilteredMovieIds = movieRestrictionService.findFilteredRestrictionsMovieIds(request.getRestrictionId());
+        findAndSetCoincidingMatches(filteredScreenings, directorsFilteredMovieIds, genresFilteredMovieIds, languagesFilteredMovieIds, restrictionsFilteredMovieIds, filteredScreeningResults);
+        return filteredScreeningResults;
+    }
 
+    private void findAndSetCoincidingMatches(List<Screening> filteredScreenings, List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds, List<ScreeningListResponse> filteredScreeningResults) {
         for (Screening screening : filteredScreenings) {
             Integer movieId = screening.getMovie().getId();
             if (hasAnyOfIncludedSearchCriteriaReturnedEmptyList(directorsFilteredMovieIds,
@@ -184,7 +188,6 @@ public class ScreeningsService {
             getAndSetScreeningListResponse(movieId, screeningListResponse);
             filteredScreeningResults.add(screeningListResponse);
         }
-        return filteredScreeningResults;
     }
 
     private static boolean doesAnyOfSearchCriteriaNotIncludeMovieId(List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {

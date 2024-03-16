@@ -11,12 +11,12 @@ import java.util.List;
 public class MovieDirectorService {
     @Resource
     private MovieDirectorRepository movieDirectorRepository;
+
     public List<MovieDirector> findMovieDirectorsByMovieId(Integer movieId) {
         return movieDirectorRepository.findMovieDirectorsByMovieId(movieId);
     }
 
     public List<Integer> findMovieDirectorsMovieIds(Integer directorId) {
         return movieDirectorRepository.findMovieDirectorsMovieIdsByDirectorId(directorId);
-
     }
 }
