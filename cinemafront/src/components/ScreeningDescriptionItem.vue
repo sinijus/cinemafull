@@ -17,27 +17,27 @@
       </div>
       <v-card-text>
         <div> Maa:
-          <template v-for="country in movieScreening.countries" :key="country.id">
+          <template v-for="(country, index) in movieScreening.countries" :key="country.id">
             <span> {{ country.name }}</span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, movieScreening.countries.length)"> - </span>
           </template>
         </div>
         <div> Žanr:
-          <template v-for="genre in movieScreening.genres" :key="genre.id">
+          <template v-for="(genre, index) in movieScreening.genres" :key="genre.id">
             <span>{{ genre.name }}</span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, movieScreening.genres.length)"> - </span>
           </template>
         </div>
         <div> Keel:
-          <template v-for="language in movieScreening.languages" :key="language.id">
+          <template v-for="(language, index) in movieScreening.languages" :key="language.id">
             <span> {{ language.name }} </span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, movieScreening.languages.length)"> - </span>
           </template>
         </div>
         <div> Subtiitrid:
-          <template v-for="subtitle in movieScreening.subtitles" :key="subtitle.id">
+          <template v-for="(subtitle, index) in movieScreening.subtitles" :key="subtitle.id">
             <span> {{ subtitle.name }} </span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, movieScreening.subtitles.length)"> - </span>
           </template>
         </div>
         <div v-if="restrictionIsApplied"> {{ movieScreening.restrictions[0].name }}</div>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import {getDayName, reformatDate, reformatTime} from "@/assets/method";
+import {getDayName, notLastElementInArray, reformatDate, reformatTime} from "@/assets/method";
 
 export default {
   name: "ScreeningDescriptionItem",
@@ -88,6 +88,7 @@ export default {
     }
   },
   methods: {
+    notLastElementInArray,
     emitValidateAndMakeReservation(numberOfSeats) {
       this.$emit("event-validate-and-make-reservation", numberOfSeats)
     },

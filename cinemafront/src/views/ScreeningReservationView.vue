@@ -151,11 +151,13 @@ export default {
             screeningId: this.movieScreening.id,
             reservationId: this.movieScreening.id,
             numberOfSeats: this.numberOfReservedSeats
+            //update tabs
           }
         }
       ).then(response => {
         this.reservationHallResponse = response.data
-        // go to reservation tab...
+        this.isTimeToReserveSeats = true
+        this.tab = 2
       }).catch(error => {
         this.reservationHallError = error.response.data
         alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
@@ -165,12 +167,8 @@ export default {
       this.$emit("event-change-page")
     },
     validateAndMakeReservation(numberOfSeats) {
-
       this.numberOfReservedSeats = numberOfSeats
       this.createScreeningReservation()
-      // make reservation if there are enough seats available
-      // this.isTimeToReserveSeats = true
-      // this.tab = 2
     },
   },
   beforeMount() {
