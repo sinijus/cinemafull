@@ -177,7 +177,7 @@ public class ScreeningsService {
             if (hasAnyOfIncludedSearchCriteriasReturnedEmptyList(directorsFilteredMovieIds,
                     genresFilteredMovieIds, languagesFilteredMovieIds,
                     restrictionsFilteredMovieIds)) break;
-            if (doesAnyOfSearchCriteriasNotIncludeMovieId(directorsFilteredMovieIds,
+            if (doesAnyOfSearchCriteriaNotIncludeMovieId(directorsFilteredMovieIds,
                     movieId, genresFilteredMovieIds, languagesFilteredMovieIds,
                     restrictionsFilteredMovieIds)) continue;
             ScreeningListResponse screeningListResponse = screeningMapper.toScreeningListResponse(screening);
@@ -187,7 +187,7 @@ public class ScreeningsService {
         return filteredScreeningResults;
     }
 
-    private static boolean doesAnyOfSearchCriteriasNotIncludeMovieId(List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+    private static boolean doesAnyOfSearchCriteriaNotIncludeMovieId(List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
         return !directorsFilteredMovieIds.contains(movieId) || !genresFilteredMovieIds.contains(movieId) || !languagesFilteredMovieIds.contains(movieId) || !restrictionsFilteredMovieIds.contains(movieId);
     }
 
