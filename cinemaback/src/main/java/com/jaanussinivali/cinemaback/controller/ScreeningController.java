@@ -4,6 +4,7 @@ import com.jaanussinivali.cinemaback.dto.FilteredScreeningRequest;
 import com.jaanussinivali.cinemaback.dto.ScreeningInfoResponse;
 import com.jaanussinivali.cinemaback.dto.ScreeningListResponse;
 import com.jaanussinivali.cinemaback.service.ScreeningsService;
+import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.Min;
@@ -34,27 +35,23 @@ public class ScreeningController {
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
             """)
     public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00:00")
-                                                              @DateTimeFormat(pattern = "HH:mm")
-                                                              LocalTime startTime,
+                                                              String startTime,
                                                               @RequestParam(defaultValue = "23:59")
-                                                              @DateTimeFormat(pattern = "HH:mm")
-                                                              LocalTime endTime,
+                                                              String endTime,
                                                               @RequestParam(defaultValue = "2024-05-06")
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                              LocalDate startDate,
+                                                              String startDate,
                                                               @RequestParam(defaultValue = "2024-05-12")
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                              LocalDate endDate,
+                                                              String endDate,
                                                               @RequestParam(defaultValue = "0") @Min(0) Integer directorId,
                                                               @RequestParam(defaultValue = "0") @Min(0) Integer genreId,
                                                               @RequestParam(defaultValue = "0") @Min(0) Integer languageId,
                                                               @RequestParam(defaultValue = "0") @Min(0) Integer restrictionId
     ) {
         FilteredScreeningRequest request = FilteredScreeningRequest.builder()
-                .startTime(startTime)
-                .endTime(endTime)
-                .startDate(startDate)
-                .endDate(endDate)
+                .startTime(StringToDateTime.stringToLocalTime(startTime))
+                .endTime(StringToDateTime.stringToLocalTime(endTime))
+                .startDate(StringToDateTime.stringToLocalDate(startDate))
+                .endDate(StringToDateTime.stringToLocalDate(endDate))
                 .directorId(directorId)
                 .genreId(genreId)
                 .languageId(languageId)

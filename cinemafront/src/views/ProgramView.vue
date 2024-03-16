@@ -92,16 +92,23 @@ export default {
   },
   methods: {
     setAndGetFilteredMovieScreenings(time, date, directorId, genreId, languageId, restrictionId) {
-      // this.startTime = time.start
-      // alert(this.startTime)
-      // this.endTime = time.end
-      // alert(this.endTime)
+      // this.startTime = '' + time.start + ':00'
+      // this.endTime = time.end === 24 ? '23:59' : '' + time.end + ':00'
       // this.startDate = date.start
       // this.endDate = date.end
-      this.directorId = directorId
-      this.genreId = genreId
-      this.languageId = languageId
-      this.restrictionId = restrictionId
+      this.directorId = directorId === null ? 0 : directorId
+      this.genreId = genreId === null ? 0 : genreId
+      this.languageId = languageId === null ? 0 : languageId
+      this.restrictionId = restrictionId === null ? 0 : restrictionId
+      alert(this.startTime + '\n' +
+        this.endTime + '\n' +
+        this.startDate + '\n' +
+        this.endDate + '\n' +
+        this.directorId + '\n' +
+        this.genreId + '\n' +
+        this.languageId + '\n' +
+        this.restrictionId)
+
       this.getFilteredMovieScreenings()
     },
     getFilteredMovieScreenings() {

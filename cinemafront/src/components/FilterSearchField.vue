@@ -42,7 +42,7 @@
             <v-row align="center">
               <v-col>
 
-                <v-range-slider hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
+                <v-range-slider disabled hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
                                 thumb-label="always" class="align-center" hide-details/>
                 <div style="color: #919191;"> Kellaaja vahemik</div>
               </v-col>
