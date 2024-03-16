@@ -11,7 +11,9 @@
           <RecentScreeningsFrame cols="12"/>
         </v-window-item>
         <v-window-item :value="2">
+
           <FilterSearchField/>
+
           <v-container fluid>
             <v-row dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
@@ -40,6 +42,15 @@ export default {
 
   data() {
     return {
+      trip: {
+        name: '',
+        location: null,
+        start: null,
+        end: null,
+      },
+      locations: ['Australia', 'Barbados', 'Chile', 'Denmark', 'Ecuador', 'France'],
+
+
       tab: 2,
       screenings: [
         {
