@@ -92,10 +92,12 @@ export default {
   },
   methods: {
     setAndGetFilteredMovieScreenings(time, date, directorId, genreId, languageId, restrictionId) {
-      this.startTime = time.startTime
-      this.endTime = time.endTime
-      this.startDate = date.startDate
-      this.endDate = date.endDate
+      this.startTime = time.start
+      alert(this.startTime)
+      this.endTime = time.end
+      alert(this.endTime)
+      this.startDate = date.start
+      this.endDate = date.end
       this.directorId = directorId
       this.genreId = genreId
       this.languageId = languageId
@@ -105,10 +107,10 @@ export default {
     getFilteredMovieScreenings() {
       this.$http.get("/api/filtered-screenings", {
           params: {
-            // startTime: this.startTime,
-            // endTime: this.endTime,
-            // startDate: this.startDate,
-            // endDate: this.endDate,
+            startTime: this.startTime,
+            endTime: this.endTime,
+            startDate: this.startDate,
+            endDate: this.endDate,
             directorId: this.directorId,
             genreId: this.genreId,
             languageId: this.languageId,
@@ -118,20 +120,10 @@ export default {
       ).then(response => {
         this.screenings = response.data
         this.screeningsLoaded = true
-        alert("got response" + this.screenings[0].movieTitle)
       }).catch(error => {
-        alert("error block, no response")
-        // const errorResponseBody = error.response.data
+        alert("error block, no screening")
       })
     },
-    // getMovieScreenings: function () {
-    //   this.$http.get("/api/screenings"
-    //   ).then(response => {
-    //     this.screenings = response.data
-    //     this.screeningsLoaded = true
-    //   }).catch(() => {
-    //   })
-    // },
     emitChangeView(screeningId) {
       this.$emit("event-change-page", screeningId)
     },

@@ -43,7 +43,7 @@
               <v-col>
 
                 <v-range-slider hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
-                                thumb-label="always" class="align-center" @change="setStartEndTimes(range[0], range[1])" hide-details/>
+                                thumb-label="always" class="align-center" hide-details/>
                 <div style="color: #919191;"> Kellaaja vahemik</div>
               </v-col>
               <v-col>
@@ -152,11 +152,10 @@ export default {
         value: item.id
       }
     },
-    setStartEndTimes(max, min) {
-      this.time.start = '' + max +':00'
-      this.time.end = '' + min +':00'
-    },
     emitGetFilteredScreenings() {
+      this.time.start = this.range[0] + ':00'
+      this.time.end = this.range[1] + ':00'
+
       this.$emit('event-get-filtered-screenings',
         this.time,
         this.date,
