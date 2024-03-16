@@ -40,8 +40,10 @@
             </v-row>
             <v-row align="center">
               <v-col>
-                <v-range-slider title="Kellaaeg" v-model="range" :max="24" :min="0" :step="1" class="align-center"
-                                hide-details/>
+
+                <v-range-slider hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
+                                thumb-label="always" class="align-center" hide-details/>
+                <div style="color: #919191;"> Kellaaja vahemik</div>
               </v-col>
               <v-col>
                 <v-text-field disabled v-model="date.start" label="Start date" type="date" variant="outlined"/>
