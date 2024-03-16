@@ -21,17 +21,16 @@
           <v-container>
             <v-row align="center" style="height: 120px;">
               <v-col>
-                <v-select clearable :item-props="itemProps" :items="languages" label="Language" variant="outlined"
-                          direction="horizontal"/>
+                <v-select  clearable :v-model="selectedLanguageId" :item-props="itemProps" :items="languages"
+                          label="Language" variant="outlined" direction="horizontal"/>
               </v-col>
               <v-col>
-                <v-select clearable :item-props="itemProps" :items="genres" label="Genre" :v-model="selectedGenreId"
+                <v-select clearable :v-model="selectedGenreId" :item-props="itemProps" :items="genres" label="Genre"
                           variant="outlined"/>
               </v-col>
               <v-col>
-                <v-select clearable :item-props="itemProps" :items="directors" label="Director"
-                          :v-model="selectedDirectorId"
-                          variant="outlined"/>
+                <v-select clearable :v-model="selectedDirectorId" :item-props="itemProps" :items="directors"
+                          label="Director" variant="outlined"/>
               </v-col>
               <v-col>
                 <v-select clearable :item-props="itemProps" :items="restrictions" label="Restriction"
@@ -42,18 +41,18 @@
               <v-col>
 
                 <v-range-slider hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
-                                thumb-label="always" class="align-center" hide-details/>
+                                thumb-label="always" class="align-center" @change="setStartEndTimes(range[0], range[1])" hide-details/>
                 <div style="color: #919191;"> Kellaaja vahemik</div>
               </v-col>
               <v-col>
-                <v-text-field disabled v-model="date.start" label="Start date" type="date" variant="outlined"/>
+                <v-text-field disabled :v-model="date.start" label="Start date" type="date" variant="outlined"/>
               </v-col>
               <v-col>
-                <v-text-field disabled v-model="date.end" label="Start date" type="date" variant="outlined"/>
+                <v-text-field disabled :v-model="date.end" label="Start date" type="date" variant="outlined"/>
               </v-col>
               <v-col>
-                <v-btn variant="outlined" @click="handleReset">Clear</v-btn>
-                <v-btn variant="tonal" type="submit">Filter</v-btn>
+<!--                <v-btn variant="outlined" @click="handleReset">Clear</v-btn>-->
+                <v-btn variant="tonal" type="submit" @click="emitGetFilteredScreenings">Filter</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -73,28 +72,32 @@ export default {
         start: '2024-05-06',
         end: '2024-05-12'
       },
-      selectedLanguageId: 0,
+      time: {
+        start:'00:00',
+        end: '24:00'
+      },
+      selectedLanguageId: Number,
       languages: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedRestrictionId: 0,
+      selectedRestrictionId: Number,
       restrictions: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedDirectorId: 0,
+      selectedDirectorId: Number,
       directors: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedGenreId: 0,
+      selectedGenreId: Number,
       genres: [
         {
           id: 0,
@@ -146,11 +149,26 @@ export default {
         title: item.name
       }
     },
-    submit() {
+    setStartEndTimes(max, min) {
+      this.time.start = '' + max +':00'
+      this.time.end = '' + min +':00'
+    },
+    emitGetFilteredScreenings() {
 
+      this.$emit('get-filtered-screenings',
+        this.time,
+        this.date,
+        this.selectedDirectorId,
+        this.selectedGenreId,
+        this.selectedLanguageId,
+        this.selectedRestrictionId
+      )
     },
     handleReset() {
-
+      this.selectedLanguageId = 0
+      this.selectedGenreId = 0
+      this.selectedDirectorId = 0
+      this.selectedRestrictionId = 0
     },
   },
   beforeMount() {
