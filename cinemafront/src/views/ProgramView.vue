@@ -30,7 +30,6 @@
 
 <script>
 import ScreeningListItem from "@/components/ScreeningListItem.vue";
-import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue";
 import FilterSearchField from "@/components/FilterSearchField.vue";
 import RecentScreeningsFrame from "@/components/RecentScreeningsFrame.vue";
 import RecommendedScreeningsFrame from "@/components/RecommendedScreeningsFrame.vue";
