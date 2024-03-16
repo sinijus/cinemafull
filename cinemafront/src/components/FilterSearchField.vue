@@ -153,8 +153,8 @@ export default {
       }
     },
     emitGetFilteredScreenings() {
-      this.time.start = this.range[0] + ':00'
-      this.time.end = this.range[1] + ':00'
+      this.time.start = this.range[0]
+      this.time.end = this.range[1]
 
       this.$emit('event-get-filtered-screenings',
         this.time,
