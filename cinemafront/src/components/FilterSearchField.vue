@@ -21,20 +21,22 @@
           <v-container>
             <v-row align="center" style="height: 120px;">
               <v-col>
-                <v-select  clearable :v-model="selectedLanguageId" :item-props="itemProps" :items="languages"
+                <v-select clearable v-model="selectedLanguageId" :item-props="itemProps"  :items="languages"
                           label="Language" variant="outlined" direction="horizontal"/>
               </v-col>
               <v-col>
-                <v-select clearable :v-model="selectedGenreId" :item-props="itemProps" :items="genres" label="Genre"
-                          variant="outlined"/>
+                <v-select clearable v-model="selectedGenreId" :item-props="itemProps" :items="genres" label="Genre"
+                          variant="outlined">
+
+                </v-select>
               </v-col>
               <v-col>
-                <v-select clearable :v-model="selectedDirectorId" :item-props="itemProps" :items="directors"
+                <v-select clearable v-model="selectedDirectorId" :item-props="itemProps" :items="directors"
                           label="Director" variant="outlined"/>
               </v-col>
               <v-col>
                 <v-select clearable :item-props="itemProps" :items="restrictions" label="Restriction"
-                          :v-model="selectedRestrictionId" variant="outlined"/>
+                          v-model="selectedRestrictionId" variant="outlined"/>
               </v-col>
             </v-row>
             <v-row align="center">
@@ -48,10 +50,10 @@
                 <v-text-field disabled :v-model="date.start" label="Start date" type="date" variant="outlined"/>
               </v-col>
               <v-col>
-                <v-text-field disabled :v-model="date.end" label="Start date" type="date" variant="outlined"/>
+                <v-text-field disabled :v-model="date.end" label="End date" type="date" variant="outlined"/>
               </v-col>
               <v-col>
-<!--                <v-btn variant="outlined" @click="handleReset">Clear</v-btn>-->
+                <v-btn variant="outlined" @click="handleReset">Clear</v-btn>
                 <v-btn variant="tonal" type="submit" @click="emitGetFilteredScreenings">Filter</v-btn>
               </v-col>
             </v-row>
@@ -76,28 +78,28 @@ export default {
         start:'00:00',
         end: '24:00'
       },
-      selectedLanguageId: Number,
+      selectedLanguageId: null,
       languages: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedRestrictionId: Number,
+      selectedRestrictionId: null,
       restrictions: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedDirectorId: Number,
+      selectedDirectorId: null,
       directors: [
         {
           id: 0,
           name: ''
         }
       ],
-      selectedGenreId: Number,
+      selectedGenreId: null,
       genres: [
         {
           id: 0,
@@ -146,7 +148,8 @@ export default {
     },
     itemProps(item) {
       return {
-        title: item.name
+        title: item.name,
+        value: item.id
       }
     },
     setStartEndTimes(max, min) {
@@ -154,8 +157,7 @@ export default {
       this.time.end = '' + min +':00'
     },
     emitGetFilteredScreenings() {
-
-      this.$emit('get-filtered-screenings',
+      this.$emit('event-get-filtered-screenings',
         this.time,
         this.date,
         this.selectedDirectorId,
@@ -165,10 +167,10 @@ export default {
       )
     },
     handleReset() {
-      this.selectedLanguageId = 0
-      this.selectedGenreId = 0
-      this.selectedDirectorId = 0
-      this.selectedRestrictionId = 0
+      this.selectedLanguageId = null
+      this.selectedGenreId = null
+      this.selectedDirectorId = null
+      this.selectedRestrictionId = null
     },
   },
   beforeMount() {

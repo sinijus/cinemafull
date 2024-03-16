@@ -12,7 +12,7 @@
         </v-window-item>
         <v-window-item :value="2">
 
-          <FilterSearchField/>
+          <FilterSearchField @event-get-filtered-screenings="setAndGetFilteredMovieScreenings"/>
 
           <v-container fluid>
             <v-row dense>
@@ -42,15 +42,14 @@ export default {
 
   data() {
     return {
-      trip: {
-        name: '',
-        location: null,
-        start: null,
-        end: null,
-      },
-      locations: ['Australia', 'Barbados', 'Chile', 'Denmark', 'Ecuador', 'France'],
-
-
+      startTime: '',
+      endTime: '',
+      startDate: '',
+      endDate: '',
+      directorId: 0,
+      genreId: 0,
+      languageId: 0,
+      restrictionId: 0,
       tab: 2,
       screenings: [
         {
@@ -92,20 +91,53 @@ export default {
     }
   },
   methods: {
-    getMovieScreenings: function () {
-      this.$http.get("/api/screenings"
+    setAndGetFilteredMovieScreenings(time, date, directorId, genreId, languageId, restrictionId) {
+      this.startTime = time.startTime
+      this.endTime = time.endTime
+      this.startDate = date.startDate
+      this.endDate = date.endDate
+      this.directorId = directorId
+      this.genreId = genreId
+      this.languageId = languageId
+      this.restrictionId = restrictionId
+      this.getFilteredMovieScreenings()
+    },
+    getFilteredMovieScreenings() {
+      this.$http.get("/api/filtered-screenings", {
+          params: {
+            // startTime: this.startTime,
+            // endTime: this.endTime,
+            // startDate: this.startDate,
+            // endDate: this.endDate,
+            directorId: this.directorId,
+            genreId: this.genreId,
+            languageId: this.languageId,
+            restrictionId: this.restrictionId
+          }
+        }
       ).then(response => {
         this.screenings = response.data
         this.screeningsLoaded = true
-      }).catch(() => {
+        alert("got response" + this.screenings[0].movieTitle)
+      }).catch(error => {
+        alert("error block, no response")
+        // const errorResponseBody = error.response.data
       })
     },
+    // getMovieScreenings: function () {
+    //   this.$http.get("/api/screenings"
+    //   ).then(response => {
+    //     this.screenings = response.data
+    //     this.screeningsLoaded = true
+    //   }).catch(() => {
+    //   })
+    // },
     emitChangeView(screeningId) {
       this.$emit("event-change-page", screeningId)
     },
   },
   beforeMount() {
-    this.getMovieScreenings()
+    this.getFilteredMovieScreenings()
   }
 }
 </script>
