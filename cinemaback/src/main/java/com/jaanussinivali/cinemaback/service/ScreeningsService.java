@@ -174,7 +174,7 @@ public class ScreeningsService {
 
         for (Screening screening : filteredScreenings) {
             Integer movieId = screening.getMovie().getId();
-            if (hasAnyOfIncludedSearchCriteriasReturnedEmptyList(directorsFilteredMovieIds,
+            if (hasAnyOfIncludedSearchCriteriaReturnedEmptyList(directorsFilteredMovieIds,
                     genresFilteredMovieIds, languagesFilteredMovieIds,
                     restrictionsFilteredMovieIds)) break;
             if (doesAnyOfSearchCriteriaNotIncludeMovieId(directorsFilteredMovieIds,
@@ -191,7 +191,7 @@ public class ScreeningsService {
         return !directorsFilteredMovieIds.contains(movieId) || !genresFilteredMovieIds.contains(movieId) || !languagesFilteredMovieIds.contains(movieId) || !restrictionsFilteredMovieIds.contains(movieId);
     }
 
-    private static boolean hasAnyOfIncludedSearchCriteriasReturnedEmptyList(List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+    private static boolean hasAnyOfIncludedSearchCriteriaReturnedEmptyList(List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
         return directorsFilteredMovieIds.isEmpty() || genresFilteredMovieIds.isEmpty() ||
                 languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
     }
