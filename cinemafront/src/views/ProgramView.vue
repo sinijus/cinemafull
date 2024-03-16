@@ -5,21 +5,15 @@
       <v-tab :value="2">Programm</v-tab>
       <v-tab :value="3">Soovitused</v-tab>
     </v-tabs>
-    <FilterSearchField/>
     <v-window v-model="tab">
       <v-card v-if="screeningsLoaded" class="mx-auto" color="#212121" max-width="800">
         <v-window-item :value="1">
-          <v-container fluid>
-            <v-row dense>
-              <v-col v-for="recentScreening in recentScreenings" :key="recentScreening" cols="12">
-                <ScreeningReservationItem :recentScreening="recentScreening"/>
-              </v-col>
-            </v-row>
-          </v-container>
+          <RecentScreeningsFrame cols="12"/>
         </v-window-item>
         <v-window-item :value="2">
+          <FilterSearchField/>
           <v-container fluid>
-            <v-row  dense>
+            <v-row dense>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
                 <ScreeningListItem :screening="screening" @click="emitChangeView(screening.id)"/>
               </v-col>
@@ -28,7 +22,7 @@
         </v-window-item>
         <v-window-item :value="3">
           <v-container fluid>
-            <v-row  dense>
+            <v-row dense>
               <v-col cols="12">
                 <ScreeningListItem :screening="screenings[1]" @click="emitChangeView(screenings[1].id)"/>
               </v-col>
@@ -44,10 +38,11 @@
 import ScreeningListItem from "@/components/ScreeningListItem.vue";
 import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue";
 import FilterSearchField from "@/components/FilterSearchField.vue";
+import RecentScreeningsFrame from "@/views/RecentScreeningsFrame.vue";
 
 export default {
   name: "ProgramView",
-  components: {FilterSearchField, ScreeningReservationItem, ScreeningListItem},
+  components: {RecentScreeningsFrame, FilterSearchField, ScreeningListItem},
 
   data() {
     return {
