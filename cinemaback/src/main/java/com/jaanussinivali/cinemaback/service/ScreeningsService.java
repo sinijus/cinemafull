@@ -174,16 +174,25 @@ public class ScreeningsService {
 
         for (Screening screening : filteredScreenings) {
             Integer movieId = screening.getMovie().getId();
-            if (!directorsFilteredMovieIds.isEmpty() && !directorsFilteredMovieIds.contains(movieId)) continue;
-            else if (!genresFilteredMovieIds.isEmpty() && !genresFilteredMovieIds.contains(movieId)) continue;
-            else if (!languagesFilteredMovieIds.isEmpty() && !languagesFilteredMovieIds.contains(movieId)) continue;
-            else if (!restrictionsFilteredMovieIds.isEmpty() && !restrictionsFilteredMovieIds.contains(movieId))
-                continue;
-
+            if (hasAnyOfIncludedSearchCriteriasReturnedEmptyList(directorsFilteredMovieIds,
+                    genresFilteredMovieIds, languagesFilteredMovieIds,
+                    restrictionsFilteredMovieIds)) break;
+            if (doesAnyOfSearchCriteriasNotIncludeMovieId(directorsFilteredMovieIds,
+                    movieId, genresFilteredMovieIds, languagesFilteredMovieIds,
+                    restrictionsFilteredMovieIds)) continue;
             ScreeningListResponse screeningListResponse = screeningMapper.toScreeningListResponse(screening);
             getAndSetScreeningListResponse(movieId, screeningListResponse);
             filteredScreeningResults.add(screeningListResponse);
         }
         return filteredScreeningResults;
+    }
+
+    private static boolean doesAnyOfSearchCriteriasNotIncludeMovieId(List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+        return !directorsFilteredMovieIds.contains(movieId) || !genresFilteredMovieIds.contains(movieId) || !languagesFilteredMovieIds.contains(movieId) || !restrictionsFilteredMovieIds.contains(movieId);
+    }
+
+    private static boolean hasAnyOfIncludedSearchCriteriasReturnedEmptyList(List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+        return directorsFilteredMovieIds.isEmpty() || genresFilteredMovieIds.isEmpty() ||
+                languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
     }
 }
