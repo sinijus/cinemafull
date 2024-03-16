@@ -16,15 +16,15 @@
       </div>
       <v-card-text>
         <div> Žanr:
-          <template v-for="genre in screening.genres" :key="genre.id">
+          <template v-for="(genre, index) in screening.genres" :key="genre.id">
             <span>{{ genre.name }}</span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, screening.genres.length)"> - </span>
           </template>
         </div>
         <div> Keel:
-          <template v-for="language in screening.languages" :key="language.id">
+          <template v-for="(language, index) in screening.languages" :key="language.id">
             <span> {{ language.name }} keel</span>
-            <span> - </span>
+            <span v-if="notLastElementInArray(index, screening.languages.length)"> - </span>
           </template>
         </div>
         <div> {{screening.restrictions[0].name }}</div>
@@ -34,8 +34,7 @@
 </template>
 
 <script>
-import {notRestrictionAppliedText} from "@/assets/text";
-import {getDayName, reformatDate, reformatTime} from "@/assets/method";
+import {getDayName, notLastElementInArray, reformatDate, reformatTime} from "@/assets/method";
 
 export default {
   name: 'ScreeningListItem',
@@ -85,6 +84,7 @@ export default {
     }
   },
   methods: {
+    notLastElementInArray,
     reformatTime,
     reformatDate,
     getDayName

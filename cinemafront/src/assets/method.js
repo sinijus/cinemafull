@@ -1,4 +1,4 @@
-import {notRestrictionAppliedText, weekdayPrefixes} from "@/assets/text";
+import {weekdayPrefixes} from "@/assets/text";
 
 export function reformatDate(dateString) {
   const [year, month, day] = dateString.split('-');
