@@ -122,6 +122,7 @@ export default {
       else this.tab--
     },
   },
+
   methods: {
     getMovieScreening() {
       this.$http.get("/api/screening", {
@@ -161,8 +162,8 @@ export default {
         }
       ).then(response => {
         this.reservationHallResponse = response.data
+        // alert(this.reservationHallResponse.hall[0].occupied)
         this.isTimeToReserveSeats = true
-        // this.tab = 2
       }).catch(error => {
         this.reservationHallError = error.response.data
         alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
