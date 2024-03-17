@@ -42,7 +42,7 @@
             <v-row align="center">
               <v-col>
 
-                <v-range-slider disabled hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
+                <v-range-slider hint="Kellaaja vahemik" v-model="range" :max="24" :min="0" :step="1"
                                 thumb-label="always" class="align-center" hide-details/>
                 <div style="color: #919191;"> Kellaaja vahemik</div>
               </v-col>
@@ -75,8 +75,8 @@ export default {
         end: '2024-05-12'
       },
       time: {
-        start: '00:00',
-        end: '24:00'
+        start: String,
+        end: String
       },
       selectedLanguageId: null,
       languages: [
@@ -153,9 +153,8 @@ export default {
       }
     },
     emitGetFilteredScreenings() {
-      this.time.start = this.range[0]
-      this.time.end = this.range[1]
-
+      this.time.start = this.range[0] < 10 ? '0' + this.range[0] : '' + this.range[0]
+      this.time.end = '' + this.range[1]
       this.$emit('event-get-filtered-screenings',
         this.time,
         this.date,

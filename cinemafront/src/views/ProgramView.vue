@@ -93,10 +93,10 @@ export default {
   },
   methods: {
     setAndGetFilteredMovieScreenings(time, date, directorId, genreId, languageId, restrictionId) {
-      // this.startTime = '' + time.start + ':00'
-      // this.endTime = time.end === 24 ? '23:59' : '' + time.end + ':00'
-      // this.startDate = date.start
-      // this.endDate = date.end
+      this.startTime = time.start
+      this.endTime = time.end
+      this.startDate = date.start
+      this.endDate = date.end
       this.directorId = directorId === null ? 0 : directorId
       this.genreId = genreId === null ? 0 : genreId
       this.languageId = languageId === null ? 0 : languageId

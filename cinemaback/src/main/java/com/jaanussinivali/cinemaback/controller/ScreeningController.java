@@ -31,9 +31,9 @@ public class ScreeningController {
             Otsib seansse koos filmide infoga,
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
             """)
-    public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00:00")
+    public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00")
                                                               String startTime,
-                                                              @RequestParam(defaultValue = "23:59")
+                                                              @RequestParam(defaultValue = "24")
                                                               String endTime,
                                                               @RequestParam(defaultValue = "2024-05-06")
                                                               String startDate,
