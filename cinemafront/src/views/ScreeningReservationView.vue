@@ -16,7 +16,8 @@
         </v-window-item>
         <v-window-item v-if="isTimeToReserveSeats" :value="3">
           <v-container fluid>
-            <SeatReservationFrame :reservationHallResponse="reservationHallResponse"/>
+            <SeatReservationFrame :reservationHallResponse="reservationHallResponse"
+            @event-confirm-reservation="confirmReservation"/>
           </v-container>
         </v-window-item>
       </v-card>
@@ -167,6 +168,18 @@ export default {
       }).catch(error => {
         this.reservationHallError = error.response.data
         alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
+      })
+    },
+    confirmReservation() {
+      this.$http.post("/api/reservation-confirm", {
+          params: {
+            reservationId: this.userReservationResponse.id,
+          }
+        }
+      ).then(response => {
+        //TODO
+      }).catch(error => {
+        const errorResponseBody = error.response.data
       })
     },
     emitChangeView() {

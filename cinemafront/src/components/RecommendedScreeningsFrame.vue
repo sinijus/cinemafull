@@ -7,7 +7,7 @@
     </v-card>
     <v-row dense>
       <v-col v-for="screening in screenings" :key="screening" cols="12">
-        <ScreeningListItem :screening="screening"/>
+        <ScreeningListItem :screening="screening" @click="emitChangePage(screening.id)"/>
       </v-col>
     </v-row>
   </v-container>
@@ -21,6 +21,11 @@ export default {
   props: {
     emitChangeView: {},
     screenings: {}
+  },
+  methods:{
+    emitChangePage(id) {
+      this.$emit("event-change-page", id)
+    },
   }
 }
 </script>

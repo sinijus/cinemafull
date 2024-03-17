@@ -18,13 +18,13 @@
                 <v-card-title>Vasteid ei leitud</v-card-title>
               </v-col>
               <v-col v-for="screening in screenings" :key="screening" cols="12">
-                <ScreeningListItem :screening="screening" @click="emitChangeView(screening.id)"/>
+                <ScreeningListItem :screening="screening" @click="emitChangePage(screening.id)"/>
               </v-col>
             </v-row>
           </v-container>
         </v-window-item>
         <v-window-item :value="3">
-          <RecommendedScreeningsFrame :screenings="screenings"/>
+          <RecommendedScreeningsFrame :screenings="screenings" @event-change-page="emitChangePage"/>
         </v-window-item>
       </v-card>
     </v-window>
@@ -101,14 +101,6 @@ export default {
       this.genreId = genreId === null ? 0 : genreId
       this.languageId = languageId === null ? 0 : languageId
       this.restrictionId = restrictionId === null ? 0 : restrictionId
-      // alert(this.startTime + '\n' +
-      //   this.endTime + '\n' +
-      //   this.startDate + '\n' +
-      //   this.endDate + '\n' +
-      //   this.directorId + '\n' +
-      //   this.genreId + '\n' +
-      //   this.languageId + '\n' +
-      //   this.restrictionId)
       this.getFilteredMovieScreenings()
     },
     getFilteredMovieScreenings() {
@@ -131,7 +123,7 @@ export default {
       }).catch(error => {
       })
     },
-    emitChangeView(screeningId) {
+    emitChangePage(screeningId) {
       this.$emit("event-change-page", screeningId)
     },
     validateScreeningIsEmpty() {
