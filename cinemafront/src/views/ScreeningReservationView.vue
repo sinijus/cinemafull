@@ -116,6 +116,12 @@ export default {
       }
     }
   },
+  watch: {
+    isTimeToReserveSeats (isTime) {
+      if(isTime) this.tab++
+      else this.tab--
+    },
+  },
   methods: {
     getMovieScreening() {
       this.$http.get("/api/screening", {
@@ -149,15 +155,14 @@ export default {
       this.$http.post("/api/reservation-seats", null, {
           params: {
             screeningId: this.movieScreening.id,
-            reservationId: this.movieScreening.id,
+            reservationId: this.userReservationResponse.id,
             numberOfSeats: this.numberOfReservedSeats
-            //update tabs
           }
         }
       ).then(response => {
         this.reservationHallResponse = response.data
         this.isTimeToReserveSeats = true
-        this.tab = 2
+        // this.tab = 2
       }).catch(error => {
         this.reservationHallError = error.response.data
         alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
