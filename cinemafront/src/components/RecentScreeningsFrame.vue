@@ -11,8 +11,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-
 </template>
 <script>
 import ScreeningReservationItem from "@/components/ScreeningReservationItem.vue"

@@ -11,17 +11,18 @@
       <v-row v-for="(row, rowIndex) in reservationHallResponse.seatObjectHall" :key="rowIndex">
         <v-col>
           <v-btn-toggle disabled class="custom-button" variant="text">
-            <v-btn >
+            <v-btn>
               {{ rowIndex + 1 }}
             </v-btn>
           </v-btn-toggle>
         </v-col>
 
         <v-col v-for="(seat, seatIndex) in row" :key="seatIndex">
-          <v-btn-toggle disabled class="custom-button" v-model="seat.available" @change="toggleSeat(rowIndex, seatIndex)"
+          <v-btn-toggle disabled class="custom-button" v-model="seat.available"
+                        @change="toggleSeat(rowIndex, seatIndex)"
                         variant="tonal"
-                        :class="{ 'occupied-color': !seat.available, 'selected-color': seat.selected, 'available-color': seat.available }">
-            <v-btn  class="text-center"> <!-- Apply the text-center class here -->
+                        :class="{ 'occupied-color': !seat.available, 'available-color': seat.available, 'selected-color': isSeatSelected(seat.id) }">
+            <v-btn class="text-center">
               <span>{{ seatIndex + 1 }}</span>
             </v-btn>
           </v-btn-toggle>
@@ -30,7 +31,8 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="auto">
-          <v-btn size="x-large" variant="tonal" @Click="emitConfirmReservation">Kinnita kohad
+          <v-btn size="x-large" variant="tonal" @click="emitConfirmReservation">
+            Kinnita kohad
           </v-btn>
         </v-col>
       </v-row>
@@ -57,17 +59,19 @@ export default {
       ]
     }
   },
-  watch:{
+  watch: {
     reservationHallResponse(ids) {
 
     },
   },
   data() {
-    return {
-
-    }
+    return {}
   },
   methods: {
+    isSeatSelected(id) {
+      const seatIndex = (id - 1 < 0) ? 0 : id - 1
+      return this.reservationHallResponse.seatIds[seatIndex] === id
+    },
     toggleSeat(rowIndex, seatIndex) {
       this.reservationHallResponse.hall[rowIndex][seatIndex].available = !this.reservationHallResponse.hall[rowIndex][seatIndex].available;
     },

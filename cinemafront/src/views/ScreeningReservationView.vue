@@ -1,28 +1,40 @@
 <template>
   <v-card class="mx-auto" color="#212121" max-width="800">
     <v-tabs v-model="tab" align-tabs="center" color="#FFFFFF">
-      <v-tab :value="1" @click="emitChangeView">←</v-tab>
-      <v-tab :value="2">Seanss</v-tab>
+      <v-tab :value="1" @click="emitChangeView">Tagasi</v-tab>
+      <v-tab :value="2" @click="refreshTab">Seanss</v-tab>
       <v-tab v-if="isTimeToReserveSeats" :value="3">Broneeri</v-tab>
     </v-tabs>
     <v-window v-if="isMovieScreeningLoaded" v-model="tab">
-      <v-card >
+      <v-card>
         <v-window-item :value="2">
           <v-container fluid>
             <v-row dense>
-              <ScreeningDescriptionItem :movieScreening="movieScreening" @event-validate-and-make-reservation="validateAndMakeReservation"/>
+              <ScreeningDescriptionItem :movieScreening="movieScreening"
+                                        @event-validate-and-make-reservation="validateAndMakeReservation"/>
             </v-row>
           </v-container>
         </v-window-item>
         <v-window-item v-if="isTimeToReserveSeats" :value="3">
           <v-container fluid>
             <SeatReservationFrame :reservationHallResponse="reservationHallResponse"
-            @event-confirm-reservation="confirmReservation"/>
+                                  @event-confirm-reservation="confirmReservation"/>
           </v-container>
         </v-window-item>
       </v-card>
     </v-window>
   </v-card>
+
+  <div class="text-center pa-4">
+    <v-dialog persistent v-model="showConfirmationDialog" width="auto">
+      <v-card max-width="400" text="Oma lõpetatud reserveeringuid saab vaadata avalehe alamaknas HILJUTISED."
+              title="Kohtade broneerimine õnnestus!">
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Tagasi programmi vaatesse" @click="handleConfirmationDialogClose"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -38,6 +50,7 @@ export default {
   },
   data() {
     return {
+      showConfirmationDialog: false,
       userIdConst: userId,
       tab: 1,
       isMovieScreeningLoaded: false,
@@ -93,7 +106,7 @@ export default {
       userReservationResponse: {
         id: 0
       },
-      userReservationError : {
+      userReservationError: {
         message: '',
         errorCode: 0
       },
@@ -111,16 +124,19 @@ export default {
         ]
 
       },
-      reservationHallError : {
+      reservationHallError: {
         message: '',
         errorCode: 0
       }
     }
   },
   watch: {
-    isTimeToReserveSeats (isTime) {
-      if(isTime) this.tab++
-      else this.tab--
+    isTimeToReserveSeats(isTime) {
+      if (isTime) this.tab++
+      else this.tab = 2
+    },
+    showConfirmationDialog() {
+
     },
   },
 
@@ -169,13 +185,13 @@ export default {
       })
     },
     confirmReservation() {
-      this.$http.post("/api/reservation-confirm", {
+      this.$http.post("/api/reservation-confirm", null, {
           params: {
-            reservationId: this.userReservationResponse.id,
+            reservationId: this.userReservationResponse.id
           }
         }
       ).then(response => {
-        //TODO
+        this.openReservationConfirmationDialog()
       }).catch(error => {
         const errorResponseBody = error.response.data
       })
@@ -183,9 +199,19 @@ export default {
     emitChangeView() {
       this.$emit("event-change-page")
     },
+    refreshTab() {
+      this.isTimeToReserveSeats = false
+    },
     validateAndMakeReservation(numberOfSeats) {
       this.numberOfReservedSeats = numberOfSeats
       this.createScreeningReservation()
+    },
+    openReservationConfirmationDialog() {
+      this.showConfirmationDialog = true
+    },
+    handleConfirmationDialogClose() {
+      this.showConfirmationDialog = false
+      this.emitChangeView()
     },
   },
   beforeMount() {
