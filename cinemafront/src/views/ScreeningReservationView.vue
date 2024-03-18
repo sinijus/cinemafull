@@ -136,7 +136,6 @@ export default {
         this.isMovieScreeningLoaded = true
       }).catch(error => {
         alert("Otsitavat seanssi ei leitud")
-        // const errorResponseBody = error.response.data
       })
     },
     getUserReservation() {
@@ -163,7 +162,6 @@ export default {
         }
       ).then(response => {
         this.reservationHallResponse = response.data
-        // alert(this.reservationHallResponse.hall[0].occupied)
         this.isTimeToReserveSeats = true
       }).catch(error => {
         this.reservationHallError = error.response.data

@@ -169,6 +169,7 @@ export default {
       this.selectedGenreId = null
       this.selectedDirectorId = null
       this.selectedRestrictionId = null
+      this.range = [0, 24]
     },
   },
   beforeMount() {

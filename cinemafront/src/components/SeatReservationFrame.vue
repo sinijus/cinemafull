@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 export default {
   name: "SeatReservationFrame",
   props: {
@@ -56,8 +57,15 @@ export default {
       ]
     }
   },
+  watch:{
+    reservationHallResponse(ids) {
+
+    },
+  },
   data() {
-    return {}
+    return {
+
+    }
   },
   methods: {
     toggleSeat(rowIndex, seatIndex) {
