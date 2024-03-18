@@ -37,9 +37,11 @@ public class SeatSelectionGenerator {
         if (numberOfSeatsRequest > 10) {
             manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation);
         } else if (numberOfSeatsRequest <= 10 && numberOfSeatsRequest > 5) {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers,
+                    proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         } else if (numberOfSeatsRequest <= 5) {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers,
+                    proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         }
         return proposedSeatsForReservation;
     }
@@ -48,13 +50,15 @@ public class SeatSelectionGenerator {
         for (int j = numberOfRowsIndex - 1; j >= 0; j--) {
             for (int i = seatsInARowIndex; i >= 0; i--) {
                 if (hall.get(j).get(i).getAvailable()) {
+
                     proposedSeatsForReservation.add(((j) * 10) + i);
                 }
             }
         }
     }
 
-    private static void notManySeatsReservation(Integer numberOfSeatsRequest, List<Integer> reservedSeatIds, List<List<SeatResponse>> hall, Integer seatsInARow, int[] preferredRowNumbers, List<Integer> proposedSeatsForReservation, int numberOfRowsIndex, int seatsInARowIndex) {
+    private static void notManySeatsReservation(Integer numberOfSeatsRequest, List<Integer> reservedSeatIds, List<List<SeatResponse>> hall, Integer seatsInARow,
+                                                int[] preferredRowNumbers, List<Integer> proposedSeatsForReservation, int numberOfRowsIndex, int seatsInARowIndex) {
         do {
             int startSeat = 2;
             int endSeat = 7;
