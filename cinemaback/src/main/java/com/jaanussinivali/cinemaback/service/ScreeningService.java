@@ -27,4 +27,8 @@ public class ScreeningService {
             throw new DataNotFoundException(Error.SCREENING_NOT_FOUND.getMessage(), Error.SCREENING_NOT_FOUND.getErrorCode());
         else return screeningOptional.get();
     }
+
+    public List<Screening> findFilteredScreeningsByMovieId(Integer movieId) {
+        return screeningRepository.findScreeningsByMovieId(movieId);
+    }
 }

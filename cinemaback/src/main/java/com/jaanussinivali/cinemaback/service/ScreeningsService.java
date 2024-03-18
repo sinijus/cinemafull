@@ -3,11 +3,15 @@ package com.jaanussinivali.cinemaback.service;
 import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.mapper.*;
 import com.jaanussinivali.cinemaback.model.*;
+import com.jaanussinivali.cinemaback.util.GenreFrequency;
+import com.jaanussinivali.cinemaback.util.MovieGenreRecommender;
 import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.jaanussinivali.cinemaback.util.MovieGenreRecommender.createRandomUniqueNumbers;
 
 @Service
 public class ScreeningsService {
@@ -213,46 +217,73 @@ public class ScreeningsService {
                 languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
     }
 
-    public List<ScreeningListResponse> recommendMovies(List<String> movieGenres) {
-        List<ScreeningListResponse> screenings = new ArrayList<>();
+    public List<ScreeningListResponse> recommendMovies(List<String> movieGenres, Integer nrOfRecommendations) {
         List<ScreeningListResponse> recommendedMovieScreenings = new ArrayList<>();
 
         if (movieGenres.isEmpty()) {
-            FilteredScreeningRequest request = FilteredScreeningRequest.builder()
-                    .startTime(StringToDateTime.stringToLocalTime("00"))
-                    .endTime(StringToDateTime.stringToLocalTime("24"))
-                    .startDate(StringToDateTime.stringToLocalDate("2024-05-06"))
-                    .endDate(StringToDateTime.stringToLocalDate("2024-05-12"))
-                    .directorId(0)
-                    .genreId(0)
-                    .languageId(0)
-                    .restrictionId(0)
-                    .build();
-            screenings = findFilteredScreenings(request);
-            List<Integer> randomUniqueNumbers = createRandomUniqueNumbers(screenings.size(), 3);
-            for (Integer nr : randomUniqueNumbers) {
-                recommendedMovieScreenings.add(screenings.get(nr));
-            }
+            recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
         }
 
-//        validateMovieGenres(movieGenres);
-//        if (movieGenres.size() == 0) {
-//            //TODO recommend three random movies
-//        } else {
-//            HashMap<String, Integer> genreWordWeights = MovieGenreRecommender.genreWordWeights(movieGenres);
-//        }
+        if(!movieGenres.isEmpty()) {
+            validateMovieGenres(movieGenres);
+            ArrayList<GenreFrequency> orderedGenreFrequencies = MovieGenreRecommender.getSortedGenreWordFrequencies(movieGenres);
+            String genreOneName = "";
+            String genreTwoName = "";
+            String genreThreeName = "";
+            if (orderedGenreFrequencies.isEmpty()) {
+                recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
+            } else {
+                List<Integer> matchingMovieIds;
+                if (orderedGenreFrequencies.size() >= 3) {
+                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
+                    genreTwoName = orderedGenreFrequencies.get(1).getGenreName();
+                    genreThreeName = orderedGenreFrequencies.get(2).getGenreName();
+                } else if (orderedGenreFrequencies.size() == 2) {
+                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
+                    genreTwoName = orderedGenreFrequencies.get(1).getGenreName();
 
+                } else {
+                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
+                }
+                matchingMovieIds = movieGenreService.findScreeningsByCombinationOfGenreNames(genreOneName, genreTwoName, genreThreeName);
+                if (matchingMovieIds.isEmpty()) {
+                    recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
+                } else if (matchingMovieIds.size() < nrOfRecommendations) {
+                    recommendRandomMovieScreenings( nrOfRecommendations - matchingMovieIds.size(), recommendedMovieScreenings);
+                }
+                ScreeningListResponse screeningListResponse = new ScreeningListResponse();
+                for (Integer movieId : matchingMovieIds) {
+                    List<Screening> screenings = screeningService.findFilteredScreeningsByMovieId(movieId);
+                    for (Screening screening : screenings) {
+                        screeningListResponse = screeningMapper.toScreeningListResponse(screening);
+                        getAndSetScreeningListResponse(movieId, screeningListResponse);
+                    }
+                }
+                recommendedMovieScreenings.add(screeningListResponse);
+            }
+        }
         return recommendedMovieScreenings;
     }
 
-    private static List<Integer> createRandomUniqueNumbers(int screeningsSize, int nrOfRecommendations) {
-        List<Integer> uniqueNumbers = new ArrayList<>();
-        Random random = new Random();
-        while (uniqueNumbers.size() < nrOfRecommendations) {
-            uniqueNumbers.add(random.nextInt(screeningsSize));
+    private void recommendRandomMovieScreenings(Integer nrOfRecommendations, List<ScreeningListResponse> recommendedMovieScreenings) {
+        List<ScreeningListResponse> screenings;
+        FilteredScreeningRequest request = FilteredScreeningRequest.builder()
+                .startTime(StringToDateTime.stringToLocalTime("00"))
+                .endTime(StringToDateTime.stringToLocalTime("24"))
+                .startDate(StringToDateTime.stringToLocalDate("2024-05-06"))
+                .endDate(StringToDateTime.stringToLocalDate("2024-05-12"))
+                .directorId(0)
+                .genreId(0)
+                .languageId(0)
+                .restrictionId(0)
+                .build();
+        screenings = findFilteredScreenings(request);
+        List<Integer> randomUniqueNumbers = createRandomUniqueNumbers(screenings.size(), nrOfRecommendations);
+        for (Integer nr : randomUniqueNumbers) {
+            recommendedMovieScreenings.add(screenings.get(nr));
         }
-        return uniqueNumbers;
     }
+
 
     private void validateMovieGenres(List<String> movieGenres) {
         List<Genre> genres = genreService.findAllGenres();

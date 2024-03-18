@@ -18,4 +18,8 @@ public class MovieGenreService {
     public List<Integer> findFilteredGenresMovieIds(Integer genreId) {
         return movieGenreRepository.findMovieGenresMovieIdsByGenreId(genreId);
     }
+
+    public List<Integer> findScreeningsByCombinationOfGenreNames(String genreOneName, String genreTwoName, String genreThreeName) {
+        return movieGenreRepository.findScreeningsByCombinationOfGenreNames(genreOneName, genreTwoName, genreThreeName);
+    }
 }

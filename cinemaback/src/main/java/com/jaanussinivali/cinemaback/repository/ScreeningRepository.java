@@ -15,4 +15,7 @@ public interface ScreeningRepository extends JpaRepository<Screening, Integer> {
             "order by s.date, s.time")
     List<Screening> findDateAndTimeFilteredScreenings(LocalDate startDate, LocalDate endDate,
                                                       LocalTime startTime, LocalTime endTime);
+
+    @Query("select s from Screening s where s.movie.id = ?1")
+    List<Screening> findScreeningsByMovieId(Integer id);
 }
