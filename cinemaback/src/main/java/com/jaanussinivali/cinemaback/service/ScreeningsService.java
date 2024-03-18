@@ -3,11 +3,11 @@ package com.jaanussinivali.cinemaback.service;
 import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.mapper.*;
 import com.jaanussinivali.cinemaback.model.*;
+import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ScreeningsService {
@@ -34,6 +34,8 @@ public class ScreeningsService {
     private MovieSubtitleService movieSubtitleService;
     @Resource
     private MovieCountryService movieCountryService;
+    @Resource
+    private GenreService genreService;
 
     @Resource
     private ScreeningMapper screeningMapper;
@@ -209,5 +211,62 @@ public class ScreeningsService {
             List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
         return directorsFilteredMovieIds.isEmpty() || genresFilteredMovieIds.isEmpty() ||
                 languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
+    }
+
+    public List<ScreeningListResponse> recommendMovies(List<String> movieGenres) {
+        List<ScreeningListResponse> screenings = new ArrayList<>();
+        List<ScreeningListResponse> recommendedMovieScreenings = new ArrayList<>();
+
+        if (movieGenres.isEmpty()) {
+            FilteredScreeningRequest request = FilteredScreeningRequest.builder()
+                    .startTime(StringToDateTime.stringToLocalTime("00"))
+                    .endTime(StringToDateTime.stringToLocalTime("24"))
+                    .startDate(StringToDateTime.stringToLocalDate("2024-05-06"))
+                    .endDate(StringToDateTime.stringToLocalDate("2024-05-12"))
+                    .directorId(0)
+                    .genreId(0)
+                    .languageId(0)
+                    .restrictionId(0)
+                    .build();
+            screenings = findFilteredScreenings(request);
+            List<Integer> randomUniqueNumbers = createRandomUniqueNumbers(screenings.size(), 3);
+            for (Integer nr : randomUniqueNumbers) {
+                recommendedMovieScreenings.add(screenings.get(nr));
+            }
+        }
+
+//        validateMovieGenres(movieGenres);
+//        if (movieGenres.size() == 0) {
+//            //TODO recommend three random movies
+//        } else {
+//            HashMap<String, Integer> genreWordWeights = MovieGenreRecommender.genreWordWeights(movieGenres);
+//        }
+
+        return recommendedMovieScreenings;
+    }
+
+    private static List<Integer> createRandomUniqueNumbers(int screeningsSize, int nrOfRecommendations) {
+        List<Integer> uniqueNumbers = new ArrayList<>();
+        Random random = new Random();
+        while (uniqueNumbers.size() < nrOfRecommendations) {
+            uniqueNumbers.add(random.nextInt(screeningsSize));
+        }
+        return uniqueNumbers;
+    }
+
+    private void validateMovieGenres(List<String> movieGenres) {
+        List<Genre> genres = genreService.findAllGenres();
+        for (int i = 0; i < movieGenres.size(); i++) {
+            boolean removeItem = true;
+            for (Genre genre : genres) {
+                if (Objects.equals(movieGenres.get(i), genre.getName())) {
+                    removeItem = false;
+                    break;
+                }
+            }
+            if (removeItem) {
+                movieGenres.remove(i);
+            }
+        }
     }
 }

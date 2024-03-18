@@ -4,6 +4,7 @@ import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.service.MoviesService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,9 +47,5 @@ public class MovieController {
         return moviesService.findAllRestrictions();
     }
 
-    @GetMapping("/recommendations")
-    @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanri kaalude põhjal")
-    public void recommendMovies(@RequestParam List<String> movieGenres) {
-        moviesService.recommendMovies(movieGenres);
-    }
+
 }

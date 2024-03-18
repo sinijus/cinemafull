@@ -8,6 +8,7 @@ import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.Min;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,5 +58,10 @@ public class ScreeningController {
     @Operation(summary = "Leiab kogu seanssi puudutava info seanssi id alusel")
     public ScreeningInfoResponse findMovieScreening(@RequestParam @Min(1) Integer screeningId) {
         return screeningsService.findMovieScreening(screeningId);
+    }
+    @GetMapping("/recommendations")
+    @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanri kaalude põhjal")
+    public List<ScreeningListResponse> recommendMovies(@RequestParam(defaultValue = "") List<String> movieGenres) {
+        return screeningsService.recommendMovies(movieGenres);
     }
 }

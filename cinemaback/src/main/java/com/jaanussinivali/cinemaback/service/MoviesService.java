@@ -4,6 +4,7 @@ import com.jaanussinivali.cinemaback.dto.*;
 import com.jaanussinivali.cinemaback.mapper.*;
 import com.jaanussinivali.cinemaback.model.*;
 import com.jaanussinivali.cinemaback.util.MovieGenreRecommender;
+import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class MoviesService {
     private LanguageService languageService;
     @Resource
     private RestrictionService restrictionService;
+    @Resource
+    private ScreeningsService screeningsService;
 
     @Resource
     private CountryMapper countryMapper;
@@ -62,30 +65,5 @@ public class MoviesService {
     public List<RestrictionResponse> findAllRestrictions() {
         List<Restriction> restrictions = restrictionService.findAllRestrictions();
         return restrictionMapper.toRestrictionsResponse(restrictions);
-    }
-
-    public void recommendMovies(List<String> movieGenres) {
-        validateMovieGenres(movieGenres);
-        if (movieGenres.size() == 0) {
-            //TODO recommend three random movies
-        } else {
-            HashMap<String, Integer> genreWordWeights = MovieGenreRecommender.genreWordWeights(movieGenres);
-        }
-    }
-
-    private void validateMovieGenres(List<String> movieGenres) {
-        List<GenreResponse> genres = findAllGenres();
-        for (int i = 0; i < movieGenres.size(); i++) {
-            boolean removeItem = true;
-            for (GenreResponse genre : genres) {
-                if (Objects.equals(movieGenres.get(i), genre.getName())) {
-                    removeItem = false;
-                    break;
-                }
-            }
-            if (removeItem) {
-                movieGenres.remove(i);
-            }
-        }
     }
 }
