@@ -68,7 +68,7 @@ public class ReservationsService {
     }
 
     public SeatReservationResponse validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer reservationId, Integer numberOfSeatsRequest) {
-        //TODO seats that user already has?
+        //TODO paranda pakutavata istekohtade algoritmi
 
         seatService.deletePreviouslyReservedSeatsByScreeningIdAndReservationIdFromActiveReservation(screeningId, reservationId);
 
@@ -136,7 +136,6 @@ public class ReservationsService {
     private static boolean isThereNotEnoughSeatsAvailable(Integer numberOfSeatsRequest, List<Seat> seats, List<ReservedSeat> reservedSeats) {
         return seats.size() - reservedSeats.size() < numberOfSeatsRequest;
     }
-
 
     public void confirmReservation(Integer reservationId) {
         Reservation reservation = reservationService.findReservation(reservationId);

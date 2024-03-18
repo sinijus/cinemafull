@@ -53,32 +53,24 @@ public class ScreeningsService {
     @Resource
     private CountryMapper countryMapper;
 
-
-    public List<ScreeningListResponse> findAllMovieScreenings() {
-        List<ScreeningListResponse> screeningsResponse = new ArrayList<>();
-        List<Screening> screenings = screeningService.findAllScreenings();
-        for (Screening screening : screenings) {
-            ScreeningListResponse screeningListResponse = screeningMapper.toScreeningListResponse(screening);
-            Integer movieId = screening.getMovie().getId();
-            getAndSetScreeningListResponse(movieId, screeningListResponse);
-            screeningsResponse.add(screeningListResponse);
-        }
-        return screeningsResponse;
+    public ScreeningInfoResponse findMovieScreening(Integer screeningId) {
+        Screening screening = screeningService.findScreening(screeningId);
+        ScreeningInfoResponse screeningInfoResponse = screeningMapper.toScreeningInfoResponse(screening);
+        Integer movieId = screening.getMovie().getId();
+        getAndSetScreeningInfoResponse(movieId, screeningInfoResponse);
+        return screeningInfoResponse;
     }
 
-    private void getAndSetScreeningListResponse(Integer movieId, ScreeningListResponse screeningListResponse) {
+    private void getAndSetScreeningInfoResponse(Integer movieId, ScreeningInfoResponse screeningInfoResponse) {
         Movie movie = movieService.findMovie(movieId);
         List<DirectorResponse> directorsResponse = getAndSetDirectorsResponse(movieId);
         List<GenreResponse> genresResponse = getAndSetGenresResponse(movieId);
         List<LanguageResponse> languagesResponse = getAndSetLanguagesResponse(movieId);
         List<RestrictionResponse> restrictionsResponse = getAndSetRestrictionsResponse(movieId);
+        List<LanguageResponse> subtitlesResponse = getAndSetSubtitlesLanguageResponse(movieId);
+        List<CountryResponse> countriesResponse = getAndSetCountriesResponse(movieId);
 
-        screeningListResponse.setMovieTitle(movie.getTitle());
-        screeningListResponse.setMovieReleaseYear(movie.getReleaseYear());
-        screeningListResponse.setDirectors(directorsResponse);
-        screeningListResponse.setGenres(genresResponse);
-        screeningListResponse.setLanguages(languagesResponse);
-        screeningListResponse.setRestrictions(restrictionsResponse);
+        setScreeningInfoResponse(screeningInfoResponse, movie, directorsResponse, genresResponse, languagesResponse, restrictionsResponse, subtitlesResponse, countriesResponse);
     }
 
     private List<DirectorResponse> getAndSetDirectorsResponse(Integer movieId) {
@@ -117,35 +109,6 @@ public class ScreeningsService {
         return restrictionMapper.toRestrictionsResponse(restrictions);
     }
 
-    public ScreeningInfoResponse findMovieScreening(Integer screeningId) {
-        Screening screening = screeningService.findScreening(screeningId);
-        ScreeningInfoResponse screeningInfoResponse = screeningMapper.toScreeningInfoResponse(screening);
-        Integer movieId = screening.getMovie().getId();
-        getAndSetScreeningInfoResponse(movieId, screeningInfoResponse);
-        return screeningInfoResponse;
-    }
-
-    private void getAndSetScreeningInfoResponse(Integer movieId, ScreeningInfoResponse screeningInfoResponse) {
-        Movie movie = movieService.findMovie(movieId);
-        List<DirectorResponse> directorsResponse = getAndSetDirectorsResponse(movieId);
-        List<GenreResponse> genresResponse = getAndSetGenresResponse(movieId);
-        List<LanguageResponse> languagesResponse = getAndSetLanguagesResponse(movieId);
-        List<RestrictionResponse> restrictionsResponse = getAndSetRestrictionsResponse(movieId);
-        List<LanguageResponse> subtitlesResponse = getAndSetSubtitlesLanguageResponse(movieId);
-        List<CountryResponse> countriesResponse = getAndSetCountriesResponse(movieId);
-
-        screeningInfoResponse.setMovieTitle(movie.getTitle());
-        screeningInfoResponse.setMovieReleaseYear(movie.getReleaseYear());
-        screeningInfoResponse.setMovieDescription(movie.getDescription());
-        screeningInfoResponse.setMovieLength(movie.getLength());
-        screeningInfoResponse.setDirectors(directorsResponse);
-        screeningInfoResponse.setGenres(genresResponse);
-        screeningInfoResponse.setLanguages(languagesResponse);
-        screeningInfoResponse.setRestrictions(restrictionsResponse);
-        screeningInfoResponse.setSubtitles(subtitlesResponse);
-        screeningInfoResponse.setCountries(countriesResponse);
-    }
-
     private List<LanguageResponse> getAndSetSubtitlesLanguageResponse(Integer movieId) {
         List<MovieSubtitle> movieSubtitles = movieSubtitleService.findMovieSubtitlesByMovieId(movieId);
         List<Language> subtitles = new ArrayList<>();
@@ -164,6 +127,45 @@ public class ScreeningsService {
         return countryMapper.toCountriesResponse(countries);
     }
 
+    private static void setScreeningInfoResponse(
+            ScreeningInfoResponse screeningInfoResponse, Movie movie, List<DirectorResponse> directorsResponse,
+            List<GenreResponse> genresResponse, List<LanguageResponse> languagesResponse, List<RestrictionResponse> restrictionsResponse,
+            List<LanguageResponse> subtitlesResponse, List<CountryResponse> countriesResponse
+    ) {
+        screeningInfoResponse.setMovieTitle(movie.getTitle());
+        screeningInfoResponse.setMovieReleaseYear(movie.getReleaseYear());
+        screeningInfoResponse.setMovieDescription(movie.getDescription());
+        screeningInfoResponse.setMovieLength(movie.getLength());
+        screeningInfoResponse.setDirectors(directorsResponse);
+        screeningInfoResponse.setGenres(genresResponse);
+        screeningInfoResponse.setLanguages(languagesResponse);
+        screeningInfoResponse.setRestrictions(restrictionsResponse);
+        screeningInfoResponse.setSubtitles(subtitlesResponse);
+        screeningInfoResponse.setCountries(countriesResponse);
+    }
+
+    private void getAndSetScreeningListResponse(Integer movieId, ScreeningListResponse screeningListResponse) {
+        Movie movie = movieService.findMovie(movieId);
+        List<DirectorResponse> directorsResponse = getAndSetDirectorsResponse(movieId);
+        List<GenreResponse> genresResponse = getAndSetGenresResponse(movieId);
+        List<LanguageResponse> languagesResponse = getAndSetLanguagesResponse(movieId);
+        List<RestrictionResponse> restrictionsResponse = getAndSetRestrictionsResponse(movieId);
+
+        setScreeningListResponse(screeningListResponse, movie, directorsResponse, genresResponse, languagesResponse, restrictionsResponse);
+    }
+
+    private static void setScreeningListResponse(
+            ScreeningListResponse screeningListResponse, Movie movie, List<DirectorResponse> directorsResponse,
+            List<GenreResponse> genresResponse, List<LanguageResponse> languagesResponse, List<RestrictionResponse> restrictionsResponse
+    ) {
+        screeningListResponse.setMovieTitle(movie.getTitle());
+        screeningListResponse.setMovieReleaseYear(movie.getReleaseYear());
+        screeningListResponse.setDirectors(directorsResponse);
+        screeningListResponse.setGenres(genresResponse);
+        screeningListResponse.setLanguages(languagesResponse);
+        screeningListResponse.setRestrictions(restrictionsResponse);
+    }
+
     public List<ScreeningListResponse> findFilteredScreenings(FilteredScreeningRequest request) {
         List<ScreeningListResponse> filteredScreeningResults = new ArrayList<>();
         List<Screening> filteredScreenings = screeningService.findFilteredScreeningsMovieIds(request);
@@ -171,11 +173,17 @@ public class ScreeningsService {
         List<Integer> genresFilteredMovieIds = movieGenreService.findFilteredGenresMovieIds(request.getGenreId());
         List<Integer> languagesFilteredMovieIds = movieLanguageService.findFilteredLanguagesMovieIds(request.getLanguageId());
         List<Integer> restrictionsFilteredMovieIds = movieRestrictionService.findFilteredRestrictionsMovieIds(request.getRestrictionId());
-        findAndSetCoincidingMatches(filteredScreenings, directorsFilteredMovieIds, genresFilteredMovieIds, languagesFilteredMovieIds, restrictionsFilteredMovieIds, filteredScreeningResults);
+        findAndSetCoincidingMatches(
+                filteredScreenings, directorsFilteredMovieIds, genresFilteredMovieIds,
+                languagesFilteredMovieIds, restrictionsFilteredMovieIds, filteredScreeningResults
+        );
         return filteredScreeningResults;
     }
 
-    private void findAndSetCoincidingMatches(List<Screening> filteredScreenings, List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds, List<ScreeningListResponse> filteredScreeningResults) {
+    private void findAndSetCoincidingMatches(
+            List<Screening> filteredScreenings, List<Integer> directorsFilteredMovieIds,
+            List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds,
+            List<Integer> restrictionsFilteredMovieIds, List<ScreeningListResponse> filteredScreeningResults) {
         for (Screening screening : filteredScreenings) {
             Integer movieId = screening.getMovie().getId();
             if (hasAnyOfIncludedSearchCriteriaReturnedEmptyList(directorsFilteredMovieIds,
@@ -190,11 +198,15 @@ public class ScreeningsService {
         }
     }
 
-    private static boolean doesAnyOfSearchCriteriaNotIncludeMovieId(List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
-        return !directorsFilteredMovieIds.contains(movieId) || !genresFilteredMovieIds.contains(movieId) || !languagesFilteredMovieIds.contains(movieId) || !restrictionsFilteredMovieIds.contains(movieId);
+    private static boolean doesAnyOfSearchCriteriaNotIncludeMovieId(
+            List<Integer> directorsFilteredMovieIds, Integer movieId, List<Integer> genresFilteredMovieIds,
+            List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+        return !directorsFilteredMovieIds.contains(movieId) || !genresFilteredMovieIds.contains(movieId) ||
+                !languagesFilteredMovieIds.contains(movieId) || !restrictionsFilteredMovieIds.contains(movieId);
     }
 
-    private static boolean hasAnyOfIncludedSearchCriteriaReturnedEmptyList(List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
+    private static boolean hasAnyOfIncludedSearchCriteriaReturnedEmptyList(
+            List<Integer> directorsFilteredMovieIds, List<Integer> genresFilteredMovieIds, List<Integer> languagesFilteredMovieIds, List<Integer> restrictionsFilteredMovieIds) {
         return directorsFilteredMovieIds.isEmpty() || genresFilteredMovieIds.isEmpty() ||
                 languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
     }

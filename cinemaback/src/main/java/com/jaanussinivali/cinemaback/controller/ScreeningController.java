@@ -20,16 +20,11 @@ public class ScreeningController {
     @Resource
     private ScreeningsService screeningsService;
 
-    @GetMapping("/screenings")
-    @Operation(summary = "Otsib kõik seanssid koos filmide infoga")
-    public List<ScreeningListResponse> findAllMovieScreenings() {
-        return screeningsService.findAllMovieScreenings();
-    }
-
     @GetMapping("/filtered-screenings")
     @Operation(summary = """
             Otsib seansse koos filmide infoga,
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
+            Järjestab tulemused kuupäeva ning kellaaja järgi.
             """)
     public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00")
                                                               String startTime,

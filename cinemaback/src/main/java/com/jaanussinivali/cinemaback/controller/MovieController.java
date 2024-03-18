@@ -47,7 +47,7 @@ public class MovieController {
     }
 
     @GetMapping("/recommendations")
-    @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanrite kaalude põhjal")
+    @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanri kaalude põhjal")
     public void recommendMovies(@RequestParam List<String> movieGenres) {
         moviesService.recommendMovies(movieGenres);
     }

@@ -17,16 +17,11 @@ public class ScreeningService {
     @Resource
     private ScreeningRepository screeningRepository;
 
-    public List<Screening> findAllScreenings() {
-        return screeningRepository.findAll();
-    }
-
     public List<Screening> findFilteredScreeningsMovieIds(FilteredScreeningRequest request) {
         return screeningRepository.findDateAndTimeFilteredScreenings(request.getStartDate(), request.getEndDate(), request.getStartTime(), request.getEndTime());
     }
 
     public Screening findScreening(Integer screeningId) {
-
         Optional<Screening> screeningOptional = screeningRepository.findById(screeningId);
         if (screeningOptional.isEmpty())
             throw new DataNotFoundException(Error.SCREENING_NOT_FOUND.getMessage(), Error.SCREENING_NOT_FOUND.getErrorCode());

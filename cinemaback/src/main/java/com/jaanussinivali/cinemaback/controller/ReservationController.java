@@ -29,7 +29,7 @@ public class ReservationController {
     }
 
     @GetMapping("/reservation")
-    @Operation(summary = "Leiab olemasoleva või loob uue broneeringu, kasutaja ja seanssi id-de alusel, tagastab  broneeringu id")
+    @Operation(summary = "Tagastab olemasoleva broneeringu id või loob uue broneeringu ning tagastab uue broneeringu id. Teeb seda kasutaja id ja seanssi id alusel. ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Uue reserveeringu tegemine ei õnnestunud",
@@ -39,7 +39,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation-seats")
-    @Operation(summary = "Kontrollib kas valitud arv vabu kohti on saadaval, broneerib need ning tagastab saali plaani koos vabade kohtadega")
+    @Operation(summary = "Kontrollib kas valitud arv vabu kohti on saadaval, broneerib need ning tagastab saali plaani")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Istekohtade lisamine ei õnnestunud",
@@ -51,7 +51,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation-confirm")
-    @Operation(summary = "kinnitab reserveeringu")
+    @Operation(summary = "Kinnitab reserveeringu")
     public void confirmReservation(@RequestParam @Min(1) Integer reservationId) {
         reservationsService.confirmReservation(reservationId);
     }
