@@ -8,6 +8,7 @@ import com.jaanussinivali.cinemaback.exception.Error;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +31,9 @@ public class ScreeningService {
 
     public List<Screening> findFilteredScreeningsByMovieId(Integer movieId) {
         return screeningRepository.findScreeningsByMovieId(movieId);
+    }
+
+    public List<Screening> findScreeningsByMovieIdAndStartDate(Integer movieIdByGenres, LocalDate startDate) {
+        return screeningRepository.findScreeningsByMovieIdAndStartDateOrdered(movieIdByGenres, startDate);
     }
 }

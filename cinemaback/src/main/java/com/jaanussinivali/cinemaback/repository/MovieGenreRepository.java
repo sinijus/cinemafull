@@ -13,9 +13,14 @@ public interface MovieGenreRepository extends JpaRepository<MovieGenre, Integer>
     @Query("select m.movie.id from MovieGenre m where m.genre.id = ?1 or ?1 = 0")
     List<Integer> findMovieGenresMovieIdsByGenreId(Integer id);
 
+    @Query("select m.genre.name from MovieGenre m where m.movie.id = ?1")
+    List<String> findMovieGenreNamesByMovieId(Integer id);
+
     @Query("select m.movie.id from MovieGenre m where m.genre.name = ?1 and m.genre.name = ?2 and m.genre.name = ?3 " +
             "or m.genre.name = ?1 and m.genre.name = ?2 " +
             "or m.genre.name = ?2 and m.genre.name = ?3 " +
-            "or m.genre.name = ?1 or m.genre.name = ?2 or m.genre.name = ?3")
-    List<Integer> findScreeningsByCombinationOfGenreNames(String nameOne, String nameTwo, String nameThree);
+            "or m.genre.name = ?1 " +
+            "or m.genre.name = ?2 " +
+            "or m.genre.name = ?3 ")
+    List<Integer> findMovieIdsByCombinationOfGenreNames(String nameOne, String nameTwo, String nameThree);
 }

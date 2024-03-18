@@ -61,9 +61,13 @@ public class ScreeningController {
 
     @GetMapping("/recommendations")
     @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanri kaalude põhjal")
-    public List<ScreeningListResponse> recommendMovies(@RequestParam(defaultValue = "") List<String> movieGenres,
-                                                       @RequestParam(defaultValue = "3") Integer nrOfRecommendations
+    public List<ScreeningListResponse> recommendMovies(@RequestParam(defaultValue = "")
+                                                       List<Integer> watchedMovieIds,
+                                                       @RequestParam(defaultValue = "3")
+                                                       Integer nrOfRecommendations,
+                                                       @RequestParam(defaultValue = "2024-05-06")
+                                                       String startDate
     ) {
-        return screeningsService.recommendMovies(movieGenres, nrOfRecommendations);
+        return screeningsService.recommendMovies(watchedMovieIds, nrOfRecommendations, startDate);
     }
 }

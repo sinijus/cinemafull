@@ -14,12 +14,12 @@ public class MovieGenreRecommender {
     }
     public static ArrayList<GenreFrequency> getSortedGenreWordFrequencies(List<String> genres) {
         ArrayList<GenreFrequency> genresFrequency = new ArrayList<>();
-        setGenreWeights(genres, genresFrequency);
+        setGenreFrequencies(genres, genresFrequency);
         genresFrequency.sort(new GenreFrequencyComparator());
         return genresFrequency;
     }
 
-    private static void setGenreWeights(List<String> genres, ArrayList<GenreFrequency> genresFrequency) {
+    private static void setGenreFrequencies(List<String> genres, ArrayList<GenreFrequency> genresFrequency) {
         for (String genre : genres) {
             Integer count = 0;
             for (String s : genres) {
@@ -45,6 +45,7 @@ public class MovieGenreRecommender {
         }
     }
 }
+
 class GenreFrequencyComparator implements java.util.Comparator<GenreFrequency> {
     @Override
     public int compare(GenreFrequency a, GenreFrequency b) {

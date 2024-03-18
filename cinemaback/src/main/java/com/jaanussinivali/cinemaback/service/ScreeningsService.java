@@ -9,6 +9,7 @@ import com.jaanussinivali.cinemaback.util.StringToDateTime;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static com.jaanussinivali.cinemaback.util.MovieGenreRecommender.createRandomUniqueNumbers;
@@ -217,57 +218,95 @@ public class ScreeningsService {
                 languagesFilteredMovieIds.isEmpty() || restrictionsFilteredMovieIds.isEmpty();
     }
 
-    public List<ScreeningListResponse> recommendMovies(List<String> movieGenres, Integer nrOfRecommendations) {
+    public List<ScreeningListResponse> recommendMovies(List<Integer> movieIds, Integer nrOfRecommendations, String startDate) {
         List<ScreeningListResponse> recommendedMovieScreenings = new ArrayList<>();
+        List<Screening> screenings = new ArrayList<>();
 
-        if (movieGenres.isEmpty()) {
-            recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
+        LocalDate startLocalDate = StringToDateTime.stringToLocalDate(startDate);
+        int movieIdsSize = movieIds.size();
+        List<String> movieGenreNames = new ArrayList<>();
+        List<Integer> movieIdsByGenres = new ArrayList<>();
+//        ArrayList<GenreFrequency> orderedGenreFrequencies;
+
+
+
+        switch (movieIdsSize) {
+            case 0:
+                FilteredScreeningRequest request = setFilteredScreeningRequest();
+                List<ScreeningListResponse> filteredScreenings = findFilteredScreenings(request);
+                List<Integer> randomUniqueNumbers = createRandomUniqueNumbers(filteredScreenings.size(), nrOfRecommendations);
+                for (Integer nr : randomUniqueNumbers) {
+                    recommendedMovieScreenings.add(filteredScreenings.get(nr));
+                }
+                break;
+            case 1:
+
+                break;
+            default:
+                getAndAddGenreNamesToMovieGenreNames(movieIds, movieGenreNames);
+                getMovieIdsBasedOnGenreNameFrequencies(movieIds, movieGenreNames, movieIdsByGenres);
         }
 
-        if(!movieGenres.isEmpty()) {
-            validateMovieGenres(movieGenres);
-            ArrayList<GenreFrequency> orderedGenreFrequencies = MovieGenreRecommender.getSortedGenreWordFrequencies(movieGenres);
-            String genreOneName = "";
-            String genreTwoName = "";
-            String genreThreeName = "";
-            if (orderedGenreFrequencies.isEmpty()) {
-                recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
-            } else {
-                List<Integer> matchingMovieIds;
-                if (orderedGenreFrequencies.size() >= 3) {
-                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
-                    genreTwoName = orderedGenreFrequencies.get(1).getGenreName();
-                    genreThreeName = orderedGenreFrequencies.get(2).getGenreName();
-                } else if (orderedGenreFrequencies.size() == 2) {
-                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
-                    genreTwoName = orderedGenreFrequencies.get(1).getGenreName();
-
-                } else {
-                    genreOneName = orderedGenreFrequencies.get(0).getGenreName();
-                }
-                matchingMovieIds = movieGenreService.findScreeningsByCombinationOfGenreNames(genreOneName, genreTwoName, genreThreeName);
-                if (matchingMovieIds.isEmpty()) {
-                    recommendRandomMovieScreenings(nrOfRecommendations, recommendedMovieScreenings);
-                } else if (matchingMovieIds.size() < nrOfRecommendations) {
-                    recommendRandomMovieScreenings( nrOfRecommendations - matchingMovieIds.size(), recommendedMovieScreenings);
-                }
-                ScreeningListResponse screeningListResponse = new ScreeningListResponse();
-                for (Integer movieId : matchingMovieIds) {
-                    List<Screening> screenings = screeningService.findFilteredScreeningsByMovieId(movieId);
-                    for (Screening screening : screenings) {
-                        screeningListResponse = screeningMapper.toScreeningListResponse(screening);
-                        getAndSetScreeningListResponse(movieId, screeningListResponse);
-                    }
-                }
-                recommendedMovieScreenings.add(screeningListResponse);
-            }
+        for (Integer movieIdByGenres : movieIdsByGenres) {
+            List<Screening> recommendedScreenings = screeningService.findScreeningsByMovieIdAndStartDate(movieIdByGenres, startLocalDate);
+            screenings.addAll(recommendedScreenings);
         }
+
+
+
+//        ScreeningListResponse screeningListResponse = new ScreeningListResponse();
+//        for (Integer movieId : matchingMovieIds) {
+//            List<Screening> screenings = screeningService.findFilteredScreeningsByMovieId(movieId);
+//            for (Screening screening : screenings) {
+//                screeningListResponse = screeningMapper.toScreeningListResponse(screening);
+//                getAndSetScreeningListResponse(movieId, screeningListResponse);
+//            }
+//        }
+//        recommendedMovieScreenings.add(screeningListResponse);
+
+
         return recommendedMovieScreenings;
     }
 
-    private void recommendRandomMovieScreenings(Integer nrOfRecommendations, List<ScreeningListResponse> recommendedMovieScreenings) {
-        List<ScreeningListResponse> screenings;
-        FilteredScreeningRequest request = FilteredScreeningRequest.builder()
+
+    private void getAndAddGenreNamesToMovieGenreNames(List<Integer> movieIds, List<String> movieGenres) {
+        for (Integer movieId : movieIds) {
+            List<String> genres = movieGenreService.findMovieGenreNamesByMovieId(movieId);
+            movieGenres.addAll(genres);
+        }
+    }
+
+    private void getMovieIdsBasedOnGenreNameFrequencies(List<Integer> movieIds, List<String> movieGenreNames, List<Integer> movieIdsByGenres) {
+        ArrayList<GenreFrequency> orderedGenreFrequencies;
+        orderedGenreFrequencies = MovieGenreRecommender.getSortedGenreWordFrequencies(movieGenreNames);
+        String firstGenreName = "";
+        String secondGenreName = "";
+        String thirdGenreName = "";
+        switch (orderedGenreFrequencies.size()) {
+            case 1:
+                firstGenreName = orderedGenreFrequencies.get(0).getGenreName();
+            case 2:
+                secondGenreName = orderedGenreFrequencies.get(1).getGenreName();
+            case 3:
+                thirdGenreName = orderedGenreFrequencies.get(2).getGenreName();
+            default:
+        }
+        movieIdsByGenres = movieGenreService.findMovieIdsByCombinationOfGenreNames(firstGenreName, secondGenreName, thirdGenreName);
+        removeIdsThatEqualedRequestIds(movieIds, movieIdsByGenres);
+    }
+
+    private static void removeIdsThatEqualedRequestIds(List<Integer> movieIds, List<Integer> movieIdsByGenres) {
+        for (Integer movieId : movieIds) {
+            for (int j = 0; j < movieIdsByGenres.size(); j++) {
+                if (movieId.equals(movieIdsByGenres.get(j))) {
+                    movieIdsByGenres.remove(j);
+                }
+            }
+        }
+    }
+
+    private static FilteredScreeningRequest setFilteredScreeningRequest() {
+        return FilteredScreeningRequest.builder()
                 .startTime(StringToDateTime.stringToLocalTime("00"))
                 .endTime(StringToDateTime.stringToLocalTime("24"))
                 .startDate(StringToDateTime.stringToLocalDate("2024-05-06"))
@@ -277,27 +316,5 @@ public class ScreeningsService {
                 .languageId(0)
                 .restrictionId(0)
                 .build();
-        screenings = findFilteredScreenings(request);
-        List<Integer> randomUniqueNumbers = createRandomUniqueNumbers(screenings.size(), nrOfRecommendations);
-        for (Integer nr : randomUniqueNumbers) {
-            recommendedMovieScreenings.add(screenings.get(nr));
-        }
-    }
-
-
-    private void validateMovieGenres(List<String> movieGenres) {
-        List<Genre> genres = genreService.findAllGenres();
-        for (int i = 0; i < movieGenres.size(); i++) {
-            boolean removeItem = true;
-            for (Genre genre : genres) {
-                if (Objects.equals(movieGenres.get(i), genre.getName())) {
-                    removeItem = false;
-                    break;
-                }
-            }
-            if (removeItem) {
-                movieGenres.remove(i);
-            }
-        }
     }
 }

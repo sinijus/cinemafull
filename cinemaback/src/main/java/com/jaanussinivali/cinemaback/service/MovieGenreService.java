@@ -19,7 +19,12 @@ public class MovieGenreService {
         return movieGenreRepository.findMovieGenresMovieIdsByGenreId(genreId);
     }
 
-    public List<Integer> findScreeningsByCombinationOfGenreNames(String genreOneName, String genreTwoName, String genreThreeName) {
-        return movieGenreRepository.findScreeningsByCombinationOfGenreNames(genreOneName, genreTwoName, genreThreeName);
+    public List<Integer> findMovieIdsByCombinationOfGenreNames(String genreOneName, String genreTwoName, String genreThreeName) {
+        return movieGenreRepository.findMovieIdsByCombinationOfGenreNames(genreOneName, genreTwoName, genreThreeName);
+    }
+
+    public List<String> findMovieGenreNamesByMovieId(Integer movieId) {
+        return movieGenreRepository.findMovieGenreNamesByMovieId(movieId);
+
     }
 }
