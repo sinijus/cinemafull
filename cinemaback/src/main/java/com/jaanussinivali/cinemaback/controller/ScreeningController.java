@@ -26,18 +26,18 @@ public class ScreeningController {
             mis vastavad sisestatud rešissööri, žanri, keele, kellaaja ja/või vanusepiirangu väärtustele.
             Järjestab tulemused kuupäeva ning kellaaja järgi.
             """)
-    public List<ScreeningListResponse> findFilteredScreenings(@RequestParam(defaultValue = "00")
+    public List<ScreeningListResponse> findFilteredMovieScreenings(@RequestParam(defaultValue = "00")
                                                               String startTime,
-                                                              @RequestParam(defaultValue = "24")
+                                                                   @RequestParam(defaultValue = "24")
                                                               String endTime,
-                                                              @RequestParam(defaultValue = "2024-05-06")
+                                                                   @RequestParam(defaultValue = "2024-05-06")
                                                               String startDate,
-                                                              @RequestParam(defaultValue = "2024-05-12")
+                                                                   @RequestParam(defaultValue = "2024-05-12")
                                                               String endDate,
-                                                              @RequestParam(defaultValue = "0") @Min(0) Integer directorId,
-                                                              @RequestParam(defaultValue = "0") @Min(0) Integer genreId,
-                                                              @RequestParam(defaultValue = "0") @Min(0) Integer languageId,
-                                                              @RequestParam(defaultValue = "0") @Min(0) Integer restrictionId
+                                                                   @RequestParam(defaultValue = "0") @Min(0) Integer directorId,
+                                                                   @RequestParam(defaultValue = "0") @Min(0) Integer genreId,
+                                                                   @RequestParam(defaultValue = "0") @Min(0) Integer languageId,
+                                                                   @RequestParam(defaultValue = "0") @Min(0) Integer restrictionId
     ) {
         FilteredScreeningRequest request = FilteredScreeningRequest.builder()
                 .startTime(StringToDateTime.stringToLocalTime(startTime))
@@ -50,7 +50,7 @@ public class ScreeningController {
                 .restrictionId(restrictionId)
                 .build();
 
-        return screeningsService.findFilteredScreenings(request);
+        return screeningsService.findFilteredMovieScreenings(request);
     }
 
     @GetMapping("/screening")
@@ -64,10 +64,10 @@ public class ScreeningController {
     public List<ScreeningListResponse> recommendMovies(@RequestParam(defaultValue = "")
                                                        List<Integer> watchedMovieIds,
                                                        @RequestParam(defaultValue = "3")
-                                                       Integer nrOfRecommendations,
+                                                       Integer nrOfMovieRecommendations,
                                                        @RequestParam(defaultValue = "2024-05-06")
                                                        String startDate
     ) {
-        return screeningsService.recommendMovies(watchedMovieIds, nrOfRecommendations, startDate);
+        return screeningsService.recommendMovies(nrOfMovieRecommendations);
     }
 }

@@ -12,43 +12,4 @@ public class MovieGenreRecommender {
         }
         return uniqueNumbers;
     }
-    public static ArrayList<GenreFrequency> getSortedGenreWordFrequencies(List<String> genres) {
-        ArrayList<GenreFrequency> genresFrequency = new ArrayList<>();
-        setGenreFrequencies(genres, genresFrequency);
-        genresFrequency.sort(new GenreFrequencyComparator());
-        return genresFrequency;
-    }
-
-    private static void setGenreFrequencies(List<String> genres, ArrayList<GenreFrequency> genresFrequency) {
-        for (String genre : genres) {
-            Integer count = 0;
-            for (String s : genres) {
-                if (Objects.equals(genre, s)) {
-                    count++;
-                }
-            }
-            addGenreFrequencyToGenresFrequencyIfNoDuplicates(genresFrequency, genre, count);
-        }
-    }
-
-    private static void addGenreFrequencyToGenresFrequencyIfNoDuplicates(ArrayList<GenreFrequency> genresFrequency, String genre, Integer count) {
-        GenreFrequency genreFrequency = new GenreFrequency(count, genre);
-        boolean isGenreFrequencyNotContainedInGenresFrequency = true;
-        for (GenreFrequency genresFrequencyItem : genresFrequency) {
-            if (genreFrequency.equals(genresFrequencyItem)) {
-                isGenreFrequencyNotContainedInGenresFrequency = false;
-                break;
-            }
-        }
-        if (isGenreFrequencyNotContainedInGenresFrequency) {
-            genresFrequency.add(genreFrequency);
-        }
-    }
-}
-
-class GenreFrequencyComparator implements java.util.Comparator<GenreFrequency> {
-    @Override
-    public int compare(GenreFrequency a, GenreFrequency b) {
-        return b.getFrequency() - a.getFrequency();
-    }
 }
