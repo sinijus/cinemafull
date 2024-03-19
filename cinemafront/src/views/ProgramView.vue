@@ -24,7 +24,7 @@
           </v-container>
         </v-window-item>
         <v-window-item :value="3">
-          <RecommendedScreeningsFrame :screenings="screenings" @event-change-page="emitChangePage"/>
+          <RecommendedScreeningsFrame @event-change-page="emitChangePage"/>
         </v-window-item>
       </v-card>
     </v-window>
