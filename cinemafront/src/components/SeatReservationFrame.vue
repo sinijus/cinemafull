@@ -1,6 +1,6 @@
 <template>
   <v-card max-width="">
-    <div class="d-flex flex-column align-center ">
+    <div class="d-flex flex-column align-center">
       <v-card-subtitle>
         <div>Ekraan</div>
       </v-card-subtitle>
@@ -18,11 +18,10 @@
         </v-col>
 
         <v-col v-for="(seat, seatIndex) in row" :key="seatIndex">
-          <v-btn-toggle disabled class="custom-button" v-model="seat.available"
-                        @change="toggleSeat(rowIndex, seatIndex)"
-                        variant="tonal"
-                        :class="{ 'occupied-color': !seat.available, 'available-color': seat.available, 'selected-color': isSeatSelected(seat.id) }">
-            <v-btn class="text-center">
+          <v-btn-toggle :disabled="true" class="custom-button"
+                        :class="{ 'selected-color': isSeatSelected(seat.id), 'occupied-color': !seat.available }">
+            <v-btn class="text-center"
+                   :class="{ 'blue--text': isSeatSelected(seat.id), 'red--text': !seat.available }">
               <span>{{ seatIndex + 1 }}</span>
             </v-btn>
           </v-btn-toggle>
@@ -41,45 +40,23 @@
 </template>
 
 <script>
-
 export default {
   name: "SeatReservationFrame",
   props: {
     reservationHallResponse: {
-      seatIds: [
-        Number
-      ],
-      seatObjectHall: [
-        [
-          {
-            id: Number,
-            available: Boolean
-          }
-        ]
-      ]
+      seatIds: [0],
+      seatObjectHall: [[{ id: Number, available: Boolean }]]
     }
-  },
-  watch: {
-    reservationHallResponse(ids) {
-
-    },
-  },
-  data() {
-    return {}
   },
   methods: {
     isSeatSelected(id) {
-      const seatIndex = (id - 1 < 0) ? 0 : id - 1
-      return this.reservationHallResponse.seatIds[seatIndex] === id
-    },
-    toggleSeat(rowIndex, seatIndex) {
-      this.reservationHallResponse.hall[rowIndex][seatIndex].available = !this.reservationHallResponse.hall[rowIndex][seatIndex].available;
+      return this.reservationHallResponse.seatIds.includes(id);
     },
     emitConfirmReservation() {
-      this.$emit("event-confirm-reservation")
-    },
+      this.$emit("event-confirm-reservation");
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -91,16 +68,19 @@ export default {
   background-color: #1E88E5;
 }
 
-.available-color {
-  background-color: #696969;
+.blue--text {
+  color: #1E88E5 !important;
+}
+
+.red--text {
+  color: #B71C1C !important;
 }
 
 .custom-button {
-  width: 2.5rem; /* Adjust width as needed */
+  width: 2.5rem;
 }
 
 .custom-button v-btn {
-  font-size: 0.7rem; /* Adjust font-size as needed */
+  font-size: 0.7rem;
 }
 </style>
-

@@ -102,7 +102,7 @@ export default {
         ]
       },
       isTimeToReserveSeats: false,
-      numberOfReservedSeats: 1,
+      numberOfReservedSeats: Number,
       userReservationResponse: {
         id: 0
       },
@@ -173,7 +173,7 @@ export default {
           params: {
             screeningId: this.movieScreening.id,
             reservationId: this.userReservationResponse.id,
-            numberOfSeats: this.numberOfReservedSeats
+            numberOfSeatsRequest: this.numberOfReservedSeats
           }
         }
       ).then(response => {
@@ -204,6 +204,7 @@ export default {
     },
     validateAndMakeReservation(numberOfSeats) {
       this.numberOfReservedSeats = numberOfSeats
+      alert(this.numberOfReservedSeats)
       this.createScreeningReservation()
     },
     openReservationConfirmationDialog() {
@@ -218,6 +219,5 @@ export default {
     this.getMovieScreening()
     this.getUserReservation()
   }
-
 }
 </script>
