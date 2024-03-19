@@ -204,7 +204,6 @@ export default {
     },
     validateAndMakeReservation(numberOfSeats) {
       this.numberOfReservedSeats = numberOfSeats
-      alert(this.numberOfReservedSeats)
       this.createScreeningReservation()
     },
     openReservationConfirmationDialog() {

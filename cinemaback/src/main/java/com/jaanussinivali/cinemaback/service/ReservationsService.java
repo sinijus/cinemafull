@@ -68,8 +68,6 @@ public class ReservationsService {
     }
 
     public SeatReservationResponse validateAndAddReservedSeatsToReservationOffer(Integer screeningId, Integer reservationId, Integer numberOfSeatsRequest) {
-        //TODO paranda pakutavata istekohtade algoritmi
-
         seatService.deletePreviouslyReservedSeatsByScreeningIdAndReservationIdFromActiveReservation(screeningId, reservationId);
 
         Screening screening = screeningService.findScreening(screeningId);
@@ -78,13 +76,14 @@ public class ReservationsService {
         List<ReservedSeat> reservedSeats = seatService.findReservedSeatsByScreeningId(screeningId);
         validateNumberOfSeatsRequestedIsAvailable(numberOfSeatsRequest, seats, reservedSeats);
 
-        Seat lastSeat = seats.get(seats.size() - 1);
+        Seat lastSeat = seats.getLast();
         Integer numberOfRows = lastSeat.getRow();
         Integer numberOfSeatsInARow = lastSeat.getNumber();
 
         List<List<SeatResponse>> seatObjectHall = new ArrayList<>();
         List<Integer> reservedSeatIds = new ArrayList<>();
 
+        //set seatObjectHall
         int seatIndex = 0;
         for (int i = 0; i < numberOfRows; i++) {
             List<SeatResponse> row = new ArrayList<>();
@@ -103,11 +102,10 @@ public class ReservationsService {
             }
             seatObjectHall.add(row);
         }
+
         List<Integer> offeredSeatsForReservation =
                 SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall, numberOfRows, numberOfSeatsInARow);
-        for (Integer offeredSeat : offeredSeatsForReservation) {
 
-        }
         setAndSaveOfferedReservedSeats(reservationId, offeredSeatsForReservation, seats, screening);
         return setSeatReservationResponse(seatObjectHall, offeredSeatsForReservation);
     }
@@ -116,7 +114,7 @@ public class ReservationsService {
         for (Integer offeredSeat : offeredSeatsForReservation) {
             ReservedSeat reservedSeat = new ReservedSeat();
             Reservation reservation = reservationService.findReservation(reservationId);
-            reservedSeat.setSeat(seats.get(offeredSeat - 1));
+            reservedSeat.setSeat(seats.get(offeredSeat));
             reservedSeat.setScreening(screening);
             reservedSeat.setReservation(reservation);
             seatService.saveReservedSeat(reservedSeat);

@@ -12,7 +12,8 @@ public class SeatSelectionGenerator {
         //Current version of offerSeatIndexes works only with the next hall model
         //The generator has to be modified if new halls are added or if this hall is modified
 
-        //   1 2 3 4 5 6 7 8 9 10
+        //   0 1 2 3 4 5 6 7 8 9
+        //0  o o o o o o o o o o
         //1  o o o o o o o o o o
         //2  o o o o o o o o o o
         //3  o o o o o o o o o o
@@ -24,24 +25,19 @@ public class SeatSelectionGenerator {
         //9  o o o o o o o o o o
         //10 o o o o o o o o o o
         //11 o o o o o o o o o o
-        //12 o o o o o o o o o o
 
         List<Integer> proposedSeatsForReservation = new ArrayList<>();
-
-        int[] preferredRowNumbers = {5, 6, 7, 8, 9, 4, 10, 11, 3, 12, 2, 1};
-        int[] preferredSeatNumbers = {3, 4, 5, 6, 7, 8, 2, 9, 1, 10};
 
         int numberOfRowsIndex = numberOfRows - 1;
         int seatsInARowIndex = seatsInARow - 1;
 
         if (numberOfSeatsRequest > 10) {
             manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation);
-        } else if (numberOfSeatsRequest <= 10 && numberOfSeatsRequest > 5) {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers,
-                    proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
-        } else if (numberOfSeatsRequest <= 5) {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, preferredRowNumbers,
-                    proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            //spilt seatRequest into many smaller requests for not many seats request
+        } else if (numberOfSeatsRequest > 5) {
+            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+        } else {
+            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         }
         return proposedSeatsForReservation;
     }
@@ -58,10 +54,34 @@ public class SeatSelectionGenerator {
     }
 
     private static void notManySeatsReservation(Integer numberOfSeatsRequest, List<Integer> reservedSeatIds, List<List<SeatResponse>> hall, Integer seatsInARow,
-                                                int[] preferredRowNumbers, List<Integer> proposedSeatsForReservation, int numberOfRowsIndex, int seatsInARowIndex) {
-        do {
-            int startSeat = 2;
-            int endSeat = 7;
+                                                List<Integer> proposedSeatsForReservation, int numberOfRowsIndex, int seatsInARowIndex) {
+        int startSeat = 0;
+        int endSeat = 9;
+        switch (numberOfSeatsRequest) {
+            case 1:
+            case 2:
+                startSeat = 4;
+                endSeat = 5;
+                break;
+            case 3:
+            case 4:
+                startSeat = 3;
+                endSeat = 6;
+                break;
+            case 5:
+            case 6:
+                startSeat = 2;
+                endSeat = 7;
+                break;
+            case 7:
+            case 8:
+                startSeat = 1;
+                endSeat = 8;
+                break;
+        }
+        int[] preferredRowNumbers = {5, 6, 7, 8, 9, 4, 10, 11, 3, 12, 2, 1};
+
+        while (numberOfSeatsRequest > proposedSeatsForReservation.size()) {
             int check = 0;
             for (int j = 0; j < preferredRowNumbers.length; j++) {
                 for (int i = startSeat; i <= endSeat; i++) {
@@ -72,7 +92,7 @@ public class SeatSelectionGenerator {
                     }
                     if (check == numberOfSeatsRequest) {
                         for (int k = 0; k < numberOfSeatsRequest; k++) {
-                            proposedSeatsForReservation.add((preferredRowNumbers[j] * seatsInARow) + i - k);
+                            proposedSeatsForReservation.add(((preferredRowNumbers[j] - 1) * seatsInARow) + i + 1  - k);
                         }
                         break;
                     }
@@ -86,8 +106,8 @@ public class SeatSelectionGenerator {
                         break;
                     }
                 }
+            if (proposedSeatsForReservation.size() == numberOfSeatsRequest) break;
             }
-        } while (reservedSeatIds.size() == numberOfSeatsRequest);
+        }
     }
-
 }
