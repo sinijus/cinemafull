@@ -60,7 +60,7 @@ public class ScreeningController {
     }
 
     @GetMapping("/recommendations")
-    @Operation(summary = "Soovitab kolme filmi vaadatud filmide žanri kaalude põhjal")
+    @Operation(summary = "Soovitab kolme juhuslikult valitud filmi käesoleva nädala seanssidest")
     public List<ScreeningListResponse> recommendMovies(@RequestParam(defaultValue = "")
                                                        List<Integer> watchedMovieIds,
                                                        @RequestParam(defaultValue = "3")
