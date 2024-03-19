@@ -27,13 +27,13 @@ public class ScreeningController {
             Järjestab tulemused kuupäeva ning kellaaja järgi.
             """)
     public List<ScreeningListResponse> findFilteredMovieScreenings(@RequestParam(defaultValue = "00")
-                                                              String startTime,
+                                                                   String startTime,
                                                                    @RequestParam(defaultValue = "24")
-                                                              String endTime,
+                                                                   String endTime,
                                                                    @RequestParam(defaultValue = "2024-05-06")
-                                                              String startDate,
+                                                                   String startDate,
                                                                    @RequestParam(defaultValue = "2024-05-12")
-                                                              String endDate,
+                                                                   String endDate,
                                                                    @RequestParam(defaultValue = "0") @Min(0) Integer directorId,
                                                                    @RequestParam(defaultValue = "0") @Min(0) Integer genreId,
                                                                    @RequestParam(defaultValue = "0") @Min(0) Integer languageId,
