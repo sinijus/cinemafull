@@ -48,4 +48,8 @@ public class SeatService {
     public List<Seat> findReservedSeatsByReservationId(Integer reservationId) {
         return reservedSeatRepository.findReservedSeatsByReservationId(reservationId);
     }
+
+    public List<ReservedSeat> findReservedSeatsByScreeningIdAndReservationId(Integer screeningId, Integer reservationId) {
+        return reservedSeatRepository.findReservedSeatsByScreeningIdAndReservationId(screeningId, reservationId);
+    }
 }

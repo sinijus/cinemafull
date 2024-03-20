@@ -21,4 +21,7 @@ public interface ReservedSeatRepository extends JpaRepository<ReservedSeat, Inte
 
     @Query("select r.seat from ReservedSeat r where r.reservation.id = ?1")
     List<Seat> findReservedSeatsByReservationId(Integer reservationId);
+
+    @Query("select r from ReservedSeat r where r.screening.id = ?1 and r.reservation.id = ?2")
+    List<ReservedSeat> findReservedSeatsByScreeningIdAndReservationId(Integer screeningId, Integer reservationId);
 }

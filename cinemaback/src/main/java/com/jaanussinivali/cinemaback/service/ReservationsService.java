@@ -73,7 +73,7 @@ public class ReservationsService {
         Screening screening = screeningService.findScreening(screeningId);
         Integer hallId = screening.getHall().getId();
         List<Seat> seats = seatService.findSeatsByHallId(hallId);
-        List<ReservedSeat> reservedSeats = seatService.findReservedSeatsByScreeningId(screeningId);
+        List<ReservedSeat> reservedSeats = seatService.findReservedSeatsByScreeningIdAndReservationId(screeningId, reservationId);
         validateNumberOfSeatsRequestedIsAvailable(numberOfSeatsRequest, seats, reservedSeats);
 
         Seat lastSeat = seats.getLast();

@@ -32,7 +32,7 @@ public class SeatSelectionGenerator {
         int seatsInARowIndex = seatsInARow - 1;
 
         if (numberOfSeatsRequest > 10) {
-            manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation);
+            manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
             //spilt seatRequest into many smaller requests for not many seats request
         } else if (numberOfSeatsRequest > 5) {
             notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
@@ -42,14 +42,15 @@ public class SeatSelectionGenerator {
         return proposedSeatsForReservation;
     }
 
-    private static void manySeatsReservation(List<List<SeatResponse>> hall, int numberOfRowsIndex, int seatsInARowIndex, List<Integer> proposedSeatsForReservation) {
+    private static void manySeatsReservation(List<List<SeatResponse>> hall, int numberOfRowsIndex, int seatsInARowIndex, List<Integer> proposedSeatsForReservation, Integer numberOfSeatsRequest) {
         for (int j = numberOfRowsIndex - 1; j >= 0; j--) {
             for (int i = seatsInARowIndex; i >= 0; i--) {
                 if (hall.get(j).get(i).getAvailable()) {
-
                     proposedSeatsForReservation.add(((j) * 10) + i);
+                    if (proposedSeatsForReservation.size() == numberOfSeatsRequest) break;
                 }
             }
+            if (proposedSeatsForReservation.size() == numberOfSeatsRequest) break;
         }
     }
 
@@ -92,7 +93,7 @@ public class SeatSelectionGenerator {
                     }
                     if (check == numberOfSeatsRequest) {
                         for (int k = 0; k < numberOfSeatsRequest; k++) {
-                            proposedSeatsForReservation.add(((preferredRowNumbers[j] - 1) * seatsInARow) + i + 1  - k);
+                            proposedSeatsForReservation.add(((preferredRowNumbers[j] - 1) * seatsInARow) + i + 1 - k);
                         }
                         break;
                     }
@@ -102,11 +103,11 @@ public class SeatSelectionGenerator {
                         startSeat -= 1;
                         endSeat += 1;
                     } else {
-                        manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation);
+                        manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
                         break;
                     }
                 }
-            if (proposedSeatsForReservation.size() == numberOfSeatsRequest) break;
+                if (proposedSeatsForReservation.size() == numberOfSeatsRequest) break;
             }
         }
     }
