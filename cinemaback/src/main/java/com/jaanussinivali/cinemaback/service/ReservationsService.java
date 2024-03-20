@@ -117,7 +117,7 @@ public class ReservationsService {
         for (Integer offeredSeat : offeredSeatsForReservation) {
             ReservedSeat reservedSeat = new ReservedSeat();
             Reservation reservation = reservationService.findReservation(reservationId);
-            Seat seat = seats.get(offeredSeat);
+            Seat seat = seats.get(offeredSeat-1);
             reservedSeat.setSeat(seat);
             reservedSeat.setScreening(screening);
             reservedSeat.setReservation(reservation);
