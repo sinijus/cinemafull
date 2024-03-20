@@ -52,6 +52,8 @@ public class ReservationController {
 
     @PostMapping("/reservation-confirm")
     @Operation(summary = "Kinnitab reserveeringu")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")})
     public void confirmReservation(@RequestParam @Min(1) Integer reservationId) {
         reservationsService.confirmReservation(reservationId);
     }

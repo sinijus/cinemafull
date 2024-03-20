@@ -203,7 +203,6 @@ $$
     END
 $$;
 
-INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (9, 1, '2024-05-4', '19:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (2, 1, '2024-05-06', '19:00' );
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (7, 1, '2024-05-07', '19:00' );
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (5, 1, '2024-05-08', '19:00' );
@@ -215,6 +214,8 @@ INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (8, 1, '2024
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-11', '20:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (6, 1, '2024-05-12', '12:00');
 INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (4, 1, '2024-05-12', '16:00');
+INSERT INTO cinema.screening (movie_id, hall_id, date, time) VALUES (9, 1, '2024-05-4', '19:00');
+
 
 INSERT INTO cinema.reservation (screening_id, cinema_user_id, paid, active) VALUES (12, 1, true, false);
 INSERT INTO cinema.reserved_seat (screening_id, seat_id, reservation_id) VALUES (12, 59, 1);
