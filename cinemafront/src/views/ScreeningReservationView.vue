@@ -35,6 +35,16 @@
       </v-card>
     </v-dialog>
   </div>
+  <div class="text-center pa-4">
+    <v-dialog v-model="showTooManySeatsRequestedDialog" width="auto">
+      <v-card max-width="400" title="Toiming ebõnnestus"
+              text="Nii palju kohti ei ole saadaval, palun sisesta väiksem arv.">
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Sulge" @click="showTooManySeatsRequestedDialog = false"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -51,6 +61,7 @@ export default {
   data() {
     return {
       showConfirmationDialog: false,
+      showTooManySeatsRequestedDialog: false,
       userIdConst: userId,
       tab: 1,
       isMovieScreeningLoaded: false,
@@ -138,6 +149,9 @@ export default {
     showConfirmationDialog() {
 
     },
+    reservationHallError() {
+      this.showTooManySeatsRequestedDialog = true
+    },
   },
 
   methods: {
@@ -181,7 +195,6 @@ export default {
         this.isTimeToReserveSeats = true
       }).catch(error => {
         this.reservationHallError = error.response.data
-        alert('message: ' + this.reservationHallError.message + ' code: ' + this.reservationHallError.errorCode)
       })
     },
     confirmReservation() {

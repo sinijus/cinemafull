@@ -47,8 +47,8 @@
             Istekohad:
             <template v-for="(seat, index) in reservationScreening.reservedSeats" :key="seat">
               <v-card-subtitle>
-                <div> {{ index + 1 }}. -
-                  <span> rida: {{ seat.row }} ,koht: {{ seat.number }}</span>
+                <div> {{ index + 1 }} -
+                  <span> rida: {{ seat.row }} koht: {{ seat.number }}</span>
                 </div>
               </v-card-subtitle>
             </template>
