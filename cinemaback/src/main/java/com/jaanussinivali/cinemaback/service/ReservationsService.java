@@ -91,7 +91,6 @@ public class ReservationsService {
 
     private List<List<SeatResponse>> setSeatObjectHall(Integer numberOfRows, Integer numberOfSeatsInARow, List<ReservedSeat> reservedSeats) {
         List<List<SeatResponse>> seatObjectHall = new ArrayList<>();
-
         int seatIndex = 0;
         for (int i = 0; i < numberOfRows; i++) {
             List<SeatResponse> row = new ArrayList<>();

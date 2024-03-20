@@ -27,10 +27,8 @@ public class SeatSelectionGenerator {
         //11 o o o o o o o o o o
 
         List<Integer> proposedSeatsForReservation = new ArrayList<>();
-
         int numberOfRowsIndex = numberOfRows - 1;
         int seatsInARowIndex = seatsInARow - 1;
-
         if (numberOfSeatsRequest > 10) {
             manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
             //spilt seatRequest into many smaller requests for not many seats request
