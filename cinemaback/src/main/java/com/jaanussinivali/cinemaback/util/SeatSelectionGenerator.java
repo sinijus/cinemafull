@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SeatSelectionGenerator {
 
-    public static List<Integer> offerSeatIndexes(Integer numberOfSeatsRequest, List<Integer> reservedSeatIds, List<List<SeatResponse>> hall, Integer numberOfRows, Integer seatsInARow) {
+    public static List<Integer> offerSeatIndexes(Integer numberOfSeatsRequest, List<List<SeatResponse>> hall, Integer numberOfRows, Integer seatsInARow) {
 
         //Current version of offerSeatIndexes works only with the next hall model
         //The generator has to be modified if new halls are added or if this hall is modified
@@ -35,9 +35,9 @@ public class SeatSelectionGenerator {
             manySeatsReservation(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
             //spilt seatRequest into many smaller requests for not many seats request
         } else if (numberOfSeatsRequest > 5) {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            notManySeatsReservation(numberOfSeatsRequest, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         } else {
-            notManySeatsReservation(numberOfSeatsRequest, reservedSeatIds, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            notManySeatsReservation(numberOfSeatsRequest, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         }
         return proposedSeatsForReservation;
     }
@@ -54,8 +54,9 @@ public class SeatSelectionGenerator {
         }
     }
 
-    private static void notManySeatsReservation(Integer numberOfSeatsRequest, List<Integer> reservedSeatIds, List<List<SeatResponse>> hall, Integer seatsInARow,
+    private static void notManySeatsReservation(Integer numberOfSeatsRequest, List<List<SeatResponse>> hall, Integer seatsInARow,
                                                 List<Integer> proposedSeatsForReservation, int numberOfRowsIndex, int seatsInARowIndex) {
+
         int startSeat = 0;
         int endSeat = 9;
         switch (numberOfSeatsRequest) {
@@ -80,22 +81,22 @@ public class SeatSelectionGenerator {
                 endSeat = 8;
                 break;
         }
-        int[] preferredRowNumbers = {5, 6, 7, 8, 9, 4, 10, 11, 3, 12, 2, 1};
+        int[] preferredRowNumbers = {4, 5, 6, 7, 8, 3, 9, 10, 2, 11, 1, 0};
 
         while (numberOfSeatsRequest > proposedSeatsForReservation.size()) {
             int check = 0;
             for (int j = 0; j < preferredRowNumbers.length; j++) {
                 for (int i = startSeat; i <= endSeat; i++) {
-                    if (hall.get(j).get(i).getAvailable()) {
+                    if (hall.get(preferredRowNumbers[j]).get(i).getAvailable()) {
                         check++;
+                        if (check == numberOfSeatsRequest) {
+                            for (int k = 0; k < numberOfSeatsRequest; k++) {
+                                proposedSeatsForReservation.add((preferredRowNumbers[j] * seatsInARow) + i + 1 - k);
+                            }
+                            break;
+                        }
                     } else {
                         check = 0;
-                    }
-                    if (check == numberOfSeatsRequest) {
-                        for (int k = 0; k < numberOfSeatsRequest; k++) {
-                            proposedSeatsForReservation.add(((preferredRowNumbers[j] - 1) * seatsInARow) + i + 1 - k);
-                        }
-                        break;
                     }
                 }
                 if (j == preferredRowNumbers.length - 1) {

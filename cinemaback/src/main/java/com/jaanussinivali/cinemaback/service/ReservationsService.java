@@ -81,7 +81,6 @@ public class ReservationsService {
         Integer numberOfSeatsInARow = lastSeat.getNumber();
 
         List<List<SeatResponse>> seatObjectHall = new ArrayList<>();
-        List<Integer> reservedSeatIds = new ArrayList<>();
 
         //set seatObjectHall
         int seatIndex = 0;
@@ -104,7 +103,7 @@ public class ReservationsService {
         }
 
         List<Integer> offeredSeatsForReservation =
-                SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, reservedSeatIds, seatObjectHall, numberOfRows, numberOfSeatsInARow);
+                SeatSelectionGenerator.offerSeatIndexes(numberOfSeatsRequest, seatObjectHall, numberOfRows, numberOfSeatsInARow);
 
         setAndSaveOfferedReservedSeats(reservationId, offeredSeatsForReservation, seats, screening);
         return setSeatReservationResponse(seatObjectHall, offeredSeatsForReservation);

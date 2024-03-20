@@ -9,9 +9,8 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
 
-    @Query("""
-            select (count(r) > 0) from Reservation r
-            where r.cinemaUser.id = ?1 and r.screening.id = ?2 and r.active = ?3""")
+    @Query("select (count(r) > 0) from Reservation r " +
+            "where r.cinemaUser.id = ?1 and r.screening.id = ?2 and r.active = ?3 ")
     boolean reservationWithUserIdAndScreeningIdAndActiveStatusExists(Integer userId, Integer screeningId, Boolean active);
 
     @Query("select r from Reservation r where r.cinemaUser.id = ?1 and r.screening.id = ?2 and r.active = ?3")
