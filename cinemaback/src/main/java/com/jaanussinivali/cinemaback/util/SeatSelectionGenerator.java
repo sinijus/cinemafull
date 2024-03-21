@@ -32,9 +32,7 @@ public class SeatSelectionGenerator {
         if (numberOfSeatsRequest > 10)
             offerConsecutiveAvailableSeats(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
         else
-            offerConsecutiveAvailableSeats(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
-
-//            offerSeatsInARow(numberOfSeatsRequest, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
+            offerSeatsInARow(numberOfSeatsRequest, hall, seatsInARow, proposedSeatsForReservation, numberOfRowsIndex, seatsInARowIndex);
         return proposedSeatsForReservation;
     }
 
@@ -79,7 +77,7 @@ public class SeatSelectionGenerator {
         }
         int[] preferredRowNumbers = {4, 5, 6, 7, 8, 3, 9, 10, 2, 11, 1, 0};
 
-        while (numberOfSeatsRequest > proposedSeatsForReservation.size()) {
+        while (proposedSeatsForReservation.size() < numberOfSeatsRequest) {
             int checkNumberOfSeatsAvailableInARow = 0;
             for (int j = 0; j < preferredRowNumbers.length; j++) {
                 for (int i = startSeat; i <= endSeat; i++) {
@@ -96,7 +94,7 @@ public class SeatSelectionGenerator {
                     }
                 }
                 if (j == preferredRowNumbers.length - 1) {
-                    if (startSeat > 1 && endSeat < 8) {
+                    if (startSeat > 0 && endSeat < 9) {
                         startSeat -= 1;
                         endSeat += 1;
                     } else {
