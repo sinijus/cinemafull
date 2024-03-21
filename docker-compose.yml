@@ -1,0 +1,49 @@
+version: '3.4'
+
+volumes:
+  pg_data:
+
+services:
+  cinemaback:
+    image: cinemaback
+    build:
+      context: ./cinemaback
+    container_name: cinemaback
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=student123
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA=cinema
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: student123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./cinemaback/init-scripts:/docker-entrypoint-initdb.d  # Mount init-scripts directory
+    restart: always
+
+  cinemafront:
+    image: cinemafront
+    build:
+      context: ./cinemafront
+    container_name: cinemafront
+    ports:
+      - "8081:8081"
+    depends_on:
+      - cinemaback
+
+
+
+
+

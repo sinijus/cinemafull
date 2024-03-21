@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       items: [
-        {title: 'Lisa kõikidele seanssidele 8 broneeringut kohtadega 1-10'},
+        {title: 'Lisa kõikidele seanssidele 8 broneeringut kohtadega 1-10 (hetkel ei tööta)'},
       ],
       randomBookingUserIdConst: 2,
       showInsertRandomReservations: true,

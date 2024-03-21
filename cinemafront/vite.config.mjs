@@ -67,9 +67,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         //for development use
-        target: 'http://localhost:8080',
+        // target: 'http://localhost:8080',
         //for Docker use
-        // target: 'http://proovjsback:8080',
+        target: 'http://cinemaback:8080',
         changeOrigin: true,
         secure: false,
         ws: true,
