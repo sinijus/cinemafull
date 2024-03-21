@@ -93,6 +93,8 @@ public class SeatSelectionGenerator {
                         checkNumberOfSeatsAvailableInARow = 0;
                     }
                 }
+
+                checkNumberOfSeatsAvailableInARow = 0;
                 if (j == preferredRowNumbers.length - 1) {
                     if (startSeat > 0 && endSeat < 9) {
                         startSeat -= 1;
