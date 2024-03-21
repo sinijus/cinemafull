@@ -5,11 +5,10 @@
       <template v-slot:activator="{ props }">
         <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
       </template>
-      <v-list>
+      <v-list v-if="showInsertRandomReservations">
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
-          @click="addReservationsToAllScreenings"
         >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
@@ -45,14 +44,72 @@ export default {
   data() {
     return {
       items: [
-        {title: 'Lisa kõikidele seanssidele suvaline arv broneeringuid'},
+        {title: 'Lisa kõikidele seanssidele 8 broneeringut kohtadega 1-10'},
       ],
+      randomBookingUserIdConst: 2,
+      showInsertRandomReservations: true,
+      userReservationResponse: {
+        id: 0
+      },
+      screeningId: 1,
+      numberOfSeatsRequest: 1
     }
   },
-  methods:{
-    addReservationsToAllScreenings() {
-
-
+  methods: {
+    addEightRandomReservationsToAllScreenings() {
+      alert("clicked")
+      const nrOfAllScreenings = 11
+      for (let i = 1; i <= nrOfAllScreenings; i++) {
+        this.screeningId = i
+        for (let j = 0; j < 8; j++) {
+          this.numberOfSeatsRequest = 10
+            // this.getRandomNumber(1, 10)
+          // methods getUserReservation, createScreeningReservation, confirmReservation
+          // are calling one another in their response blocks
+          this.getUserReservation()
+        }
+      }
+      this.showInsertRandomReservations = false
+      alert("all done")
+    },
+    getRandomNumber(numberFrom, numberUntil) {
+      return Math.floor(Math.random() * (numberUntil - numberFrom)) + numberFrom;
+    },
+    getUserReservation() {
+      this.$http.get("/api/reservation", {
+          params: {
+            screeningId: this.screeningId,
+            userId: this.randomBookingUserIdConst
+          }
+        }
+      ).then(response => {
+        this.userReservationResponse = response.data
+        this.createScreeningReservation()
+      }).catch(error => {
+      })
+    },
+    createScreeningReservation() {
+      this.$http.post("/api/reservation-seats", null, {
+          params: {
+            screeningId: this.screeningId,
+            reservationId: this.userReservationResponse.id,
+            numberOfSeatsRequest: this.numberOfSeatsRequest
+          }
+        }
+      ).then(response => {
+        this.confirmReservation()
+      }).catch(error => {
+      })
+    },
+    confirmReservation() {
+      this.$http.post("/api/reservation-confirm", null, {
+          params: {
+            reservationId: this.userReservationResponse.id
+          }
+        }
+      ).then(response => {
+      }).catch(error => {
+      })
     },
   }
 }
