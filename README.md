@@ -14,6 +14,9 @@
             #spring.datasource.url=jdbc:postgresql://db:5432/postgres
     Intellij-s teha vajalikud andmebaasi, gradle-i ja/või muu vajaliku seadistused,
     jooksutada CinemabackApplication.
+    Backendi saab kasutada ka iseseisvalt kasutades swaggerit,kui app on jooksutatud:
+    http://localhost:8080/swagger-ui/index.html
+    
     
     cinemafront-is
        Kommenteerida sisse välja vite.config.mjs vajalikud read, et õige target oleks kasutuses:
