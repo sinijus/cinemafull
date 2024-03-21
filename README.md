@@ -5,20 +5,22 @@
         Liigu terminalis projekti kausta ning sisesta: docker compose up 
 
         
-    Kui Docker mingil põhjusel ei tööta:
-
+    Kui Docker mingil põhjusel ei tööta siis:
+    cinemaback-is
+        Kommenteerida sisse välja application.properties vajalikud read, et õige spring.datasource oleks kasutuses:
+            #for development
+            #spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+            #for docker-compose
+            #spring.datasource.url=jdbc:postgresql://db:5432/postgres
+    Intellij-s teha vajalikud andmebaasi, gradle-i ja/või muu vajaliku seadistused,
+    valida CinemabackApplication ning jooksutada see run sümboliga.
     
-    Vue-Vite config:
-    Kommenteerida sisse välja vite.config.mjs järgmised read vastavalt kasutusele:
-        //for development use
-        //target: 'http://localhost:8080',
-        //for Docker use
-        // target: 'http://proovjsback:8080',
-
-    Applications properties:
-    Kommenteerida sisse välja application.properties järgmised read vastavalt kasutusele:
-
-        #for development
-        spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
-        #for docker-compose
-        #spring.datasource.url=jdbc:postgresql://db:5432/postgres
+    cinemafront-is
+       Kommenteerida sisse välja vite.config.mjs vajalikud read, et õige target oleks kasutuses:
+            //for development use
+            //target: 'http://localhost:8080',
+            //for Docker use
+            //target: 'http://proovjsback:8080',
+    
+    Liikuda terminalis kausta cinemafront ning sisestada käsklused 
+    npm install ning npm run dev 
