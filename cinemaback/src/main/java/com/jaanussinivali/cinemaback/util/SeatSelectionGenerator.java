@@ -93,13 +93,15 @@ public class SeatSelectionGenerator {
                         checkNumberOfSeatsAvailableInARow = 0;
                     }
                 }
-
+                // reset checkNumberOfSeatsAvailableInARow as one row check is over
                 checkNumberOfSeatsAvailableInARow = 0;
+                // change startSeat and endSeat if all rows are checked with previous set of startSeat and endSeat
                 if (j == preferredRowNumbers.length - 1) {
                     if (startSeat > 0 && endSeat < 9) {
                         startSeat -= 1;
                         endSeat += 1;
                     } else {
+                        // If no available places for the request in one row
                         offerConsecutiveAvailableSeats(hall, numberOfRowsIndex, seatsInARowIndex, proposedSeatsForReservation, numberOfSeatsRequest);
                         break;
                     }
